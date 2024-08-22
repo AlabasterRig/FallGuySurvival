@@ -32,6 +32,10 @@ void UStatlineComponent::TickStamina(const float& DeltaTime)
 		}
 		return;
 	}
+	if (!bIsSprinting) // Stamina Regen
+	{
+		Stamina.TickStat(0 + (DeltaTime * SprintRegenerationPerSecond));
+	}
 
 	Stamina.TickStat(DeltaTime);
 }
