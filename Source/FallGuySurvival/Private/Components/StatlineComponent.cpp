@@ -7,7 +7,9 @@
 void UStatlineComponent::TickStats(const float& DeltaTime)
 {
 	TickStamina(DeltaTime);
-	if (TicKHunger(DeltaTime) || TickThirst(DeltaTime))
+	TickHunger(DeltaTime);
+	TickThirst(DeltaTime);
+	if (Thirst.GetCurrent() <= 0.0 || Hunger.GetCurrent() <= 0.0)
 	{
 		return;
 	}
@@ -32,36 +34,33 @@ void UStatlineComponent::TickStamina(const float& DeltaTime)
 		}
 		return;
 	}
+
 	if (!bIsSprinting) // Stamina Regen
 	{
 		Stamina.TickStat(0 + (DeltaTime * SprintRegenerationPerSecond));
 	}
-
-	Stamina.TickStat(DeltaTime);
 }
 
-bool UStatlineComponent::TicKHunger(const float& DeltaTime)
+void UStatlineComponent::TickHunger(const float& DeltaTime)
 {
 	if (Hunger.GetCurrent() <= 0.0)
 	{
 		Health.Adjust(0 - abs(StarvingHealthDamagePerSecond * DeltaTime));
-		return true;
+		return;
 	}
 
 	Hunger.TickStat(DeltaTime);
-	return false;
 }
 
-bool UStatlineComponent::TickThirst(const float& DeltaTime)
+void UStatlineComponent::TickThirst(const float& DeltaTime)
 {
 	if (Thirst.GetCurrent() <= 0.0)
 	{
 		Health.Adjust(0 - abs(DehydrationHealthDamagePerSecond * DeltaTime));
-		return true;
+		return;
 	}
 
 	Thirst.TickStat(DeltaTime);
-	return false;
 }
 
 bool UStatlineComponent::IsValidSpriting()
