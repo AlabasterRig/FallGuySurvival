@@ -14,12 +14,19 @@ void UStatlineComponent::TickStats(const float& DeltaTime)
 
 void UStatlineComponent::TickStamina(const float& DeltaTime)
 {
+	if (CurrentStaminaExhaustion > 0.0)
+	{
+		CurrentStaminaExhaustion -= DeltaTime;
+		return;
+	}
+
 	if (bIsSprinting && IsValidSpriting())
 	{
 		Stamina.TickStat(0 - (DeltaTime * SprintCostMultiplier));
 		if (Stamina.GetCurrent() <= 0)
 		{
 			SetSprinting(false);
+			CurrentStaminaExhaustion = SecondsForStaminaExhaustion;
 		}
 		return;
 	}

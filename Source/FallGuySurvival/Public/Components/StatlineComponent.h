@@ -86,6 +86,10 @@ private:
 	float WalkSpeed = 125;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float SprintSpeed = 500;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float SecondsForStaminaExhaustion = 2;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true")) 
+	float CurrentStaminaExhaustion = 0;
 
 	void TickStats(const float& DeltaTime);
 	void TickStamina(const float& DeltaTime);
