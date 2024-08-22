@@ -17,6 +17,10 @@ void UStatlineComponent::TickStamina(const float& DeltaTime)
 	if (bIsSprinting && IsValidSpriting())
 	{
 		Stamina.TickStat(0 - (DeltaTime * SprintCostMultiplier));
+		if (Stamina.GetCurrent() <= 0)
+		{
+			SetSprinting(false);
+		}
 		return;
 	}
 
@@ -44,7 +48,7 @@ void UStatlineComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	OwningCharacterMovementComp->MaxWalkSpeed = WalkSpeed;
 	
 }
 

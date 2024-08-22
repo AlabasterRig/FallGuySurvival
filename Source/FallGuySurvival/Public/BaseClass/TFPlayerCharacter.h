@@ -21,8 +21,6 @@ class FALLGUYSURVIVAL_API ATFPlayerCharacter : public ATFCharacter
 	GENERATED_BODY()
 	
 private:
-
-
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
