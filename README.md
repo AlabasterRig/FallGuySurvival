@@ -26,4 +26,12 @@ Project Started on August 19th, 2024.
 		 		 ATFCharacter::HasJumped();
 	  		}
   		}
-
+	- Fixed Code
+   		```cpp
+     		void ATFPlayerCharacter::Playerjump()
+		{
+			if (ATFCharacter::CanJump() && !GetMovementComponent()->IsFalling())
+			{
+				ATFCharacter::HasJumped();
+			}
+		}
