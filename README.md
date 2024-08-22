@@ -17,12 +17,13 @@ Project Started on August 19th, 2024.
 
 ### Fixed Bugs Code
 - Jumping while in the air or clicking the jump button again reduces stamina.
-  ```cpp
-  void ATFPlayerCharacter::Playerjump()
-  {
-	  if (ATFCharacter::CanJump() && !GetMovementComponent()->IsFalling())
-	  {
-		  ATFCharacter::HasJumped();
-	  }
-  }
+	- Original Code
+ 		```cpp
+  		void ATFPlayerCharacter::Playerjump()
+  		{
+	  		if (ATFCharacter::CanJump())
+	  		{
+		 		 ATFCharacter::HasJumped();
+	  		}
+  		}
 
