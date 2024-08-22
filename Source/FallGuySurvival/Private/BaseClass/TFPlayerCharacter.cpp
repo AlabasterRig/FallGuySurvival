@@ -39,7 +39,7 @@ void ATFPlayerCharacter::Look(const FInputActionValue& Value)
 
 void ATFPlayerCharacter::Playerjump()
 {
-	if (ATFCharacter::CanJump())
+	if (ATFCharacter::CanJump() && !GetMovementComponent()->IsFalling())
 	{
 		ATFCharacter::HasJumped();
 	}

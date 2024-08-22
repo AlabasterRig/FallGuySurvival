@@ -73,9 +73,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FCoreStat Stamina;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	FCoreStat Hunger = FCoreStat(100, 100, -0.125);
+	FCoreStat Hunger = FCoreStat(100, 100, -3.125);
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	FCoreStat Thirst = FCoreStat(100, 100, -0.25);
+	FCoreStat Thirst = FCoreStat(100, 100, -10.25);
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsSprinting = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -90,9 +90,15 @@ private:
 	float SecondsForStaminaExhaustion = 2;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true")) 
 	float CurrentStaminaExhaustion = 0;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float StarvingHealthDamagePerSecond = 1;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float DehydrationHealthDamagePerSecond = 1;
 
 	void TickStats(const float& DeltaTime);
 	void TickStamina(const float& DeltaTime);
+	bool TicKHunger(const float& DeltaTime);
+	bool TickThirst(const float& DeltaTime);
 	bool IsValidSpriting();
 
 	class UCharacterMovementComponent* OwningCharacterMovementComp;
