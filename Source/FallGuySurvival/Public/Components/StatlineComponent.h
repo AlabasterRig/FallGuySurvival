@@ -79,6 +79,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsSprinting = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bIsSneaking = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float SprintCostMultiplier = 2;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float SprintRegenerationPerSecond = 7;
@@ -88,6 +90,8 @@ private:
 	float WalkSpeed = 175;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float SprintSpeed = 500;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float SneakSpeed = 80;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float SecondsForStaminaExhaustion = 2;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true")) 
@@ -125,6 +129,8 @@ public:
 	bool CanJump();
 	UFUNCTION(BlueprintCallable)
 	void HasJumped();
+	UFUNCTION(BlueprintCallable)
+	void SetSneaking(const bool& IsSneaking);
 
 	void SetMovementCompReference(UCharacterMovementComponent* Comp);
 };

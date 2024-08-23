@@ -25,6 +25,7 @@ protected:
 	void HasJumped();
 	bool CanSprint() const;
 	void SetSprinting(const bool& IsSprinting);
+	void SetSneaking(const bool& IsSneaking);
 
 public:	
 	// Called every frame
