@@ -26,6 +26,7 @@ private:
 
 	void CreateSaveSlot();
 	void GatherActorDAta();
+	void LoadGame();
 
 public:
 	UFUNCTION(BlueprintCallable)
@@ -35,4 +36,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DEVSaveGame();
+	UFUNCTION(BlueprintCallable)
+	void DEVLoadGame();
 };

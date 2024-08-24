@@ -50,6 +50,62 @@ void UTFGameInstance::GatherActorDAta()
 	}
 }
 
+void UTFGameInstance::LoadGame()
+{
+	if (!UGameplayStatics::DoesSaveGameExist(SaveGameName, 0))
+	{
+		return;
+	}
+
+	SaveableActorData.Empty();
+	SaveGameObject = Cast<UTFSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveGameName, 0));
+	SaveableActorData = SaveGameObject->GetSaveActorData();
+
+	for (TTuple<FGuid, FSaveActorData> SaveAD : SaveableActorData)
+	{
+		if (SaveAD.Value.WasSpawned)
+		{
+			AActor* SpawnedActor = GetWorld()->SpawnActor(SaveAD.Value.ActorClass->StaticClass(), &SaveAD.Value.ActorTransform);
+			ISaveActorInterface* Inter = Cast<ISaveActorInterface>(SpawnedActor);
+
+			if (Inter == nullptr)
+			{
+				continue;
+			}
+		}
+	}
+
+	for (FActorIterator It(GetWorld()); It; ++It)
+	{
+		AActor* Actor = *It;
+		if (!IsValid(Actor) || !Actor->Implements<USaveActorInterface>())
+		{
+			continue;
+		}
+		ISaveActorInterface* Inter = Cast<ISaveActorInterface>(Actor);
+
+		if (Actor == nullptr)
+		{
+			continue;
+		}
+		FGuid SaveAI = Inter->GetActorSaveID_Implementation();
+		if (!SaveableActorData.Find(SaveAI))
+		{
+			continue;
+		}
+
+		FSaveActorData SaveAD = SaveableActorData[SaveAI];
+		Actor->SetActorTransform(SaveAD.ActorTransform);
+
+		FMemoryReader MemReader(SaveAD.ByteData);
+		FObjectAndNameAsStringProxyArchive Ar(MemReader, true);
+		Ar.ArIsSaveGame = true;
+		Actor->Serialize(Ar);
+
+		// More Data
+	}
+}
+
 void UTFGameInstance::AddActorData(const FGuid& ActorID, FSaveActorData ActorData)
 {
 	SaveableActorData.Add(ActorID, ActorData);
@@ -69,4 +125,9 @@ void UTFGameInstance::DEVSaveGame()
 	GatherActorDAta();
 	SaveGameObject->SetSaveActorData(SaveableActorData);
 	UGameplayStatics::SaveGameToSlot(SaveGameObject, SaveGameName, 0);
+}
+
+void UTFGameInstance::DEVLoadGame()
+{
+	LoadGame(); 
 }
