@@ -35,3 +35,9 @@ Project Started on August 19th, 2024.
 				ATFCharacter::HasJumped();
 			}
 		}
+
+## References
+The Save game Functionality is a copy of and even a slight variation of Tom Looman's Tutorials.  
+This is a link to [Tom Looman's Tutorial][1].
+
+[1]: https://www.tomlooman.com/unreal-engine-cpp-save-system/
