@@ -5,6 +5,7 @@
 #include "Game/TFSaveGame.h"
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
+#include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 
 UTFGameInstance::UTFGameInstance()
 {
@@ -31,15 +32,41 @@ void UTFGameInstance::GatherActorDAta()
 		{
 			continue;
 		}
+
+		FGuid SaveAI = Inter->GetActorSaveID_Implementation();
+		if (!SaveAI.IsValid())
+		{
+			continue;
+		}
+		FSaveActorData SaveAD = Inter->GetSaveData_Implementation();
+
+		FMemoryWriter MemWriter(SaveAD.ByteData);
+		FObjectAndNameAsStringProxyArchive Ar(MemWriter, true);
+		Ar.ArIsSaveGame = true;
+		Actor->Serialize(Ar);
+
+		SaveableActorData.Add(SaveAI, SaveAD);
+
 	}
 }
 
 void UTFGameInstance::AddActorData(const FGuid& ActorID, FSaveActorData ActorData)
 {
-	SaveableActorData[ActorID] = ActorData;
+	SaveableActorData.Add(ActorID, ActorData);
 }
 
 FSaveActorData UTFGameInstance::GetActorData(const FGuid& ActorID)
 {
 	return SaveableActorData[ActorID];
+}
+
+void UTFGameInstance::DEVSaveGame()
+{
+	if (SaveGameObject == nullptr)
+	{
+		CreateSaveSlot();
+	}
+	GatherActorDAta();
+	SaveGameObject->SetSaveActorData(SaveableActorData);
+	UGameplayStatics::SaveGameToSlot(SaveGameObject, SaveGameName, 0);
 }

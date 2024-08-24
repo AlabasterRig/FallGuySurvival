@@ -32,4 +32,7 @@ public:
 	void AddActorData(const FGuid& ActorID, FSaveActorData ActorData);
 	UFUNCTION(BlueprintCallable)
 	FSaveActorData GetActorData(const FGuid& ActorID);
+
+	UFUNCTION(BlueprintCallable)
+	void DEVSaveGame();
 };

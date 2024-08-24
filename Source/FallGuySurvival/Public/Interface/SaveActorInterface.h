@@ -38,4 +38,10 @@ class FALLGUYSURVIVAL_API ISaveActorInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	UFUNCTION(BlueprintNativeEvent)
+	FGuid GetActorSaveID();  // Blueprint Version
+	virtual FGuid GetActorSaveID_Implementation();
+	UFUNCTION(BlueprintNativeEvent)
+	FSaveActorData GetSaveData();
+	virtual FSaveActorData GetSaveData_Implementation();
 };
