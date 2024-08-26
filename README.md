@@ -1,4 +1,4 @@
-# FallGuySurvival
+# Fall Guy Survival
 
 A Survival Game created using Unreal Engine 5.  
 Project Started on August 19th, 2024.
