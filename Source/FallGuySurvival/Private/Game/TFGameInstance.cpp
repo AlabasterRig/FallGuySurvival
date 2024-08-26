@@ -45,8 +45,29 @@ void UTFGameInstance::GatherActorDAta()
 		Ar.ArIsSaveGame = true;
 		Actor->Serialize(Ar);
 
-		SaveableActorData.Add(SaveAI, SaveAD);
+		for (auto ActorComp : Actor->GetComponents())
+		{
+			if (!ActorComp->Implements<USaveActorInterface>())
+			{
+				continue;
+			}
 
+			ISaveActorInterface* CompInter = Cast<ISaveActorInterface>(ActorComp);
+
+			if (CompInter == nullptr)
+			{
+				continue;
+			}
+			FSaveComponentsData SaveCD = CompInter->GetComponentSaveData_Implementation();
+			FMemoryWriter CompMemWriter(SaveCD.ByteData);
+			FObjectAndNameAsStringProxyArchive CAr(CompMemWriter, true);
+			CAr.ArIsSaveGame = true;
+			ActorComp->Serialize(CAr);
+			SaveCD.ComponentClass = ActorComp->GetClass();
+			
+		}
+
+		SaveableActorData.Add(SaveAI, SaveAD);
 	}
 }
 

@@ -16,3 +16,8 @@ FSaveActorData ISaveActorInterface::GetSaveData_Implementation()
 {
     return FSaveActorData();
 }
+
+void ISaveActorInterface::SetComponentSaveData_Implementation()
+{
+
+}
