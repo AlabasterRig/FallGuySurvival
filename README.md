@@ -21,6 +21,7 @@ Project Started on August 19th, 2024.
 
 ### Fixed Bugs Code
 - Jumping while in the air or clicking the jump button again reduces stamina.
+  
 	- Original Code
  		```cpp
   		void ATFPlayerCharacter::Playerjump()
@@ -30,13 +31,58 @@ Project Started on August 19th, 2024.
 		 		 ATFCharacter::HasJumped();
 	  		}
   		}
+   
 	- Fixed Code
    		```cpp
-     		void ATFPlayerCharacter::Playerjump()
+     	void ATFPlayerCharacter::Playerjump()
 		{
 			if (ATFCharacter::CanJump() && !GetMovementComponent()->IsFalling())
 			{
 				ATFCharacter::HasJumped();
+			}
+		}
+- Hunger and Thirst Stats are not being saved or loaded. (Can be both) - It was Both.
+   
+	- Fixed Code
+   		```cpp
+     	FSaveComponentsData UStatlineComponent::GetComponentSaveData_Implementation()
+		{
+			FSaveComponentsData Ret;
+			Ret.ComponentClass = this->GetClass();
+			Ret.RawData.Add(Health.GetSaveString());
+			Ret.RawData.Add(Stamina.GetSaveString());
+			Ret.RawData.Add(Hunger.GetSaveString());
+			Ret.RawData.Add(Thirst.GetSaveString());
+			// Add Additional Data added here needs to be included in the SetComponentsSaveData_Implementation().
+		
+			return Ret;
+		}
+
+		void UStatlineComponent::SetComponentSaveData_Implementation(FSaveComponentsData Data)
+		{
+			TArray<FString> Parts;
+			for (int i = 0; i < Data.RawData.Num(); i++)
+			{
+				Parts.Empty();
+				Parts = StringChop(Data.RawData[i], '|');
+				switch (i)
+				{
+				case 0:
+					Health.UpdateFromSaveString(Parts);
+					break;
+				case 1:
+					Stamina.UpdateFromSaveString(Parts);
+					break;
+				case 2:
+					Hunger.UpdateFromSaveString(Parts);
+					break;
+				case 3:
+					Thirst.UpdateFromSaveString(Parts);
+					break;
+				default:
+					//Log Error
+					break;
+				}
 			}
 		}
 
