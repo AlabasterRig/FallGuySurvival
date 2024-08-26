@@ -64,9 +64,8 @@ void UTFGameInstance::GatherActorDAta()
 			CAr.ArIsSaveGame = true;
 			ActorComp->Serialize(CAr);
 			SaveCD.ComponentClass = ActorComp->GetClass();
-			
+			SaveAD.ComponentData.Add(SaveCD);
 		}
-
 		SaveableActorData.Add(SaveAI, SaveAD);
 	}
 }
@@ -123,7 +122,40 @@ void UTFGameInstance::LoadGame()
 		Ar.ArIsSaveGame = true;
 		Actor->Serialize(Ar);
 
-		// More Data
+		for (auto ActorComp : Actor->GetComponents())
+		{
+			if (!ActorComp->Implements<USaveActorInterface>())
+			{
+				continue;
+			}
+
+			ISaveActorInterface* CompInter = Cast<ISaveActorInterface>(ActorComp);
+			if (CompInter == nullptr)
+			{
+				continue;
+			}
+			for (auto SaveCD : SaveAD.ComponentData)
+			{
+				/* Not Safe if Actor has 2 of the same Components that are saved.
+				* As the First Component will get all the data.
+				   Option to fix is to maybe use FGuid */
+
+				if (SaveCD.ComponentClass != ActorComp->GetClass())
+				{
+					continue;
+				}
+				FMemoryReader CompMemReader(SaveCD.ByteData);
+				FObjectAndNameAsStringProxyArchive CAr(CompMemReader, true);
+				CAr.ArIsSaveGame = true;
+				ActorComp->Serialize(CAr);
+				if (SaveCD.RawData.IsEmpty())
+				{
+					break;
+				}
+				CompInter->SetComponentSaveData_Implementation(SaveCD);
+				break;
+			}
+		}
 	}
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Interface/SaveActorInterface.h"
 #include "StatlineComponent.generated.h"
 
 UENUM(BlueprintType)
@@ -84,7 +85,7 @@ public:
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class FALLGUYSURVIVAL_API UStatlineComponent : public UActorComponent
+class FALLGUYSURVIVAL_API UStatlineComponent : public UActorComponent, public ISaveActorInterface
 {
 	GENERATED_BODY()
 
@@ -155,4 +156,7 @@ public:
 	void SetSneaking(const bool& IsSneaking);
 
 	void SetMovementCompReference(UCharacterMovementComponent* Comp);
+
+	virtual FSaveComponentsData GetComponentSaveData_Implementation();
+	void SetComponentSaveData_Implementation(FSaveComponentsData Data);
 };

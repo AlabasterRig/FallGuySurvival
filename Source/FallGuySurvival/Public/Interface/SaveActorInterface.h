@@ -66,7 +66,7 @@ public:
 	FSaveComponentsData GetComponentSaveData();
 	virtual FSaveComponentsData GetComponentSaveData_Implementation();
 	UFUNCTION(BlueprintNativeEvent)
-	void SetComponentSaveData();
-	void SetComponentSaveData_Implementation();
+	void SetComponentSaveData(FSaveComponentsData Data);
+	virtual void SetComponentSaveData_Implementation(FSaveComponentsData Data);
 
 };

@@ -2,6 +2,7 @@
 
 
 #include "Components/StatlineComponent.h"
+#include "TF_Utils.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 void UStatlineComponent::TickStats(const float& DeltaTime)
@@ -159,5 +160,46 @@ void UStatlineComponent::SetSneaking(const bool& IsSneaking)
 void UStatlineComponent::SetMovementCompReference(UCharacterMovementComponent* Comp)
 {
 	OwningCharacterMovementComp = Comp;
+}
+
+FSaveComponentsData UStatlineComponent::GetComponentSaveData_Implementation()
+{
+	FSaveComponentsData Ret;
+	Ret.ComponentClass = this->GetClass();
+	Ret.RawData.Add(Health.GetSaveString());
+	Ret.RawData.Add(Stamina.GetSaveString());
+	Ret.RawData.Add(Hunger.GetSaveString());
+	Ret.RawData.Add(Thirst.GetSaveString());
+	// Add Additional Data added here needs to be included in the SetComponentsSaveData_Implementation().
+
+	return Ret;
+}
+
+void UStatlineComponent::SetComponentSaveData_Implementation(FSaveComponentsData Data)
+{
+	TArray<FString> Parts;
+	for (int i = 0; i < Data.RawData.Num(); i++)
+	{
+		Parts.Empty();
+		Parts = StringChop(Data.RawData[i], '|');
+		switch (i)
+		{
+		case 0:
+			Health.UpdateFromSaveString(Parts);
+			break;
+		case 1:
+			Stamina.UpdateFromSaveString(Parts);
+			break;
+		case 2:
+			Hunger.UpdateFromSaveString(Parts);
+			break;
+		case 3:
+			Thirst.UpdateFromSaveString(Parts);
+			break;
+		default:
+			//Log Error
+			break;
+		}
+	}
 }
 

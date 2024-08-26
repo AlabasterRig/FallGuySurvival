@@ -78,6 +78,6 @@ FSaveActorData ATFCharacter::GetSaveData_Implementation()
 	Ret.ActorClass = this->GetClass();
 	Ret.ActorTransform = this->GetTransform();
 	Ret.WasSpawned = this->WasSpawned;
-	return FSaveActorData();
+	return Ret;
 }
 
