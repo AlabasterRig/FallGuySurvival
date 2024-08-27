@@ -5,6 +5,7 @@
 #include "Game/TFSaveGame.h"
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
+#include "GameFramework/Character.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 
 UTFGameInstance::UTFGameInstance()
@@ -68,6 +69,7 @@ void UTFGameInstance::GatherActorDAta()
 		}
 		SaveableActorData.Add(SaveAI, SaveAD);
 	}
+	GatherPlayerData();
 }
 
 void UTFGameInstance::LoadGame()
@@ -80,6 +82,7 @@ void UTFGameInstance::LoadGame()
 	SaveableActorData.Empty();
 	SaveGameObject = Cast<UTFSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveGameName, 0));
 	SaveableActorData = SaveGameObject->GetSaveActorData();
+	PlayerData = SaveGameObject->GetPlayerData();
 
 	for (TTuple<FGuid, FSaveActorData> SaveAD : SaveableActorData)
 	{
@@ -92,6 +95,7 @@ void UTFGameInstance::LoadGame()
 			{
 				continue;
 			}
+			Inter->SetActorGuid(SaveAD.Key);
 		}
 	}
 
@@ -157,6 +161,98 @@ void UTFGameInstance::LoadGame()
 			}
 		}
 	}
+	SetPlayerData();
+}
+
+void UTFGameInstance::GatherPlayerData()
+{
+	ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	ISaveActorInterface* Inter = Cast<ISaveActorInterface>(PlayerCharacter);
+	if (Inter == nullptr)
+	{
+		// Log Error
+		return;
+	}
+	FSaveActorData SaveAD = Inter->GetSaveData_Implementation();
+	
+	FMemoryWriter MemWriter(SaveAD.ByteData);
+	FObjectAndNameAsStringProxyArchive Ar(MemWriter, true);
+	Ar.ArIsSaveGame = true;
+	PlayerCharacter->Serialize(Ar);
+
+	for (auto ActorComp : PlayerCharacter->GetComponents())
+	{
+		if (!ActorComp->Implements<USaveActorInterface>())
+		{
+			continue;
+		}
+
+		ISaveActorInterface* CompInter = Cast<ISaveActorInterface>(ActorComp);
+
+		if (CompInter == nullptr)
+		{
+			continue;
+		}
+		FSaveComponentsData SaveCD = CompInter->GetComponentSaveData_Implementation();
+		FMemoryWriter CompMemWriter(SaveCD.ByteData);
+		FObjectAndNameAsStringProxyArchive CAr(CompMemWriter, true);
+		CAr.ArIsSaveGame = true;
+		ActorComp->Serialize(CAr);
+		SaveCD.ComponentClass = ActorComp->GetClass();
+		SaveAD.ComponentData.Add(SaveCD);
+	}
+	PlayerData = SaveAD;
+}
+
+void UTFGameInstance::SetPlayerData()
+{
+	ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	ISaveActorInterface* Inter = Cast<ISaveActorInterface>(PlayerCharacter);
+	if (Inter == nullptr)
+	{
+		// Log Error
+		return;
+	}
+	PlayerCharacter->SetActorTransform(PlayerData.ActorTransform);
+	FMemoryReader PCMemReader(PlayerData.ByteData);
+	FObjectAndNameAsStringProxyArchive Ar(PCMemReader, true);
+	Ar.ArIsSaveGame = true;
+	PlayerCharacter->Serialize(Ar);
+
+	for (auto ActorComp : PlayerCharacter->GetComponents())
+	{
+		if (!ActorComp->Implements<USaveActorInterface>())
+		{
+			continue;
+		}
+
+		ISaveActorInterface* CompInter = Cast<ISaveActorInterface>(ActorComp);
+		if (CompInter == nullptr)
+		{
+			continue;
+		}
+		for (auto SaveCD : PlayerData.ComponentData)
+		{
+			/* Not Safe if Actor has 2 of the same Components that are saved.
+			* As the First Component will get all the data.
+			   Option to fix is to maybe use FGuid */
+
+			if (SaveCD.ComponentClass != ActorComp->GetClass())
+			{
+				continue;
+			}
+			FMemoryReader CompMemReader(SaveCD.ByteData);
+			FObjectAndNameAsStringProxyArchive CAr(CompMemReader, true);
+			CAr.ArIsSaveGame = true;
+			ActorComp->Serialize(CAr);
+			if (SaveCD.RawData.IsEmpty())
+			{
+				break;
+			}
+			CompInter->SetComponentSaveData_Implementation(SaveCD);
+			break;
+		}
+	}
 }
 
 void UTFGameInstance::AddActorData(const FGuid& ActorID, FSaveActorData ActorData)
@@ -177,6 +273,7 @@ void UTFGameInstance::DEVSaveGame()
 	}
 	GatherActorDAta();
 	SaveGameObject->SetSaveActorData(SaveableActorData);
+	SaveGameObject->SetPlayerData(PlayerData);
 	UGameplayStatics::SaveGameToSlot(SaveGameObject, SaveGameName, 0);
 }
 

@@ -14,17 +14,14 @@ class FALLGUYSURVIVAL_API ATFCharacter : public ACharacter, public ISaveActorInt
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta=(AllowPrivateAccess = "true"))
-	FGuid SaveActorID;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta=(AllowPrivateAccess = "true"))
-	class UStatlineComponent* Statline;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
-	bool WasSpawned = false;
-
-public:
-	// Sets default values for this character's properties
-	ATFCharacter();
+	class UStatlineComponent* Statline;	
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	bool WasSpawned = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	FGuid SaveActorID;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	bool CanJump() const;
@@ -34,6 +31,8 @@ protected:
 	void SetSneaking(const bool& IsSneaking);
 
 public:	
+	ATFCharacter();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -42,5 +41,5 @@ public:
 
 	FGuid GetActorSaveID_Implementation();
 	FSaveActorData GetSaveData_Implementation();
-
+	void SetActorGuid_Implementation(const FGuid& NewGuid);
 };

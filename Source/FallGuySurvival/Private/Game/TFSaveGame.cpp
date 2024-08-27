@@ -18,6 +18,16 @@ FName UTFSaveGame::GetCurrentLevel()
 	return CurrentlyLoadedLevel;
 }
 
+void UTFSaveGame::SetPlayerData(FSaveActorData Data)
+{
+	PlayerData = Data;
+}
+
+FSaveActorData UTFSaveGame::GetPlayerData()
+{
+	return PlayerData;
+}
+
 void UTFSaveGame::SetCurrentLevel(const FName Level)
 {
 	CurrentlyLoadedLevel = Level;
