@@ -36,7 +36,7 @@ void UStatlineComponent::TickStamina(const float& DeltaTime)
 		return;
 	}
 
-	if (!bIsSprinting) // Stamina Regen
+	if (!bIsSprinting && !OwningCharacterMovementComp->IsFalling()) // Stamina Regen
 	{
 		Stamina.TickStat(0 + (DeltaTime * SprintRegenerationPerSecond));
 	}
