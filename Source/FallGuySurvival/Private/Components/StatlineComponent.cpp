@@ -5,6 +5,7 @@
 #include "TF_Utils.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+
 void UStatlineComponent::TickStats(const float& DeltaTime)
 {
 	TickStamina(DeltaTime);
@@ -114,7 +115,7 @@ float UStatlineComponent::GetStatPercentile(const ECoreStat stat) const
 	case ECoreStat::CS_THIRST:
 		return Thirst.Percentile();
 	default:
-		//Invalid Log Stat
+		Logger::GetInstance()->AddMessage("GetStatPercentile() called with invalid stat type", ErrorLevel::EL_WARNING);
 		break;
 	}
 	return -1;
