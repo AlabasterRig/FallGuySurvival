@@ -10,6 +10,19 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Components/SphereComponent.h"
+#include "Interface/InteractionInterface.h"
+
+void ATFPlayerCharacter::TraceForInteraction()
+{
+	FCollisionQueryParams LineTraceP = FCollisionQueryParams(FName(TEXT("InteractionTrace")), true, this);
+	LineTraceP.bReturnPhysicalMaterial = false;
+	LineTraceP.bReturnFaceIndex = false;
+	
+	FHitResult LTHit(ForceInit);
+	FVector LTStart = FollowCamera->GetComponentLocation();
+	float SearchLength = (FollowCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
+}
 
 void ATFPlayerCharacter::Move(const FInputActionValue& Value)
 {
@@ -125,4 +138,41 @@ ATFPlayerCharacter::ATFPlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	InteractionTrigger = CreateDefaultSubobject<USphereComponent>(TEXT("Interaction Trigger Value"));
+	InteractionTrigger->SetupAttachment(RootComponent);
+	InteractionTrigger->SetRelativeScale3D(FVector(10));
+	InteractionTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATFPlayerCharacter::OnInteractionTriggerOverlapBegin);
+	InteractionTrigger->OnComponentEndOverlap.AddDynamic(this, &ATFPlayerCharacter::OnInteractionTriggerOverlapEnd);
+
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bTickEvenWhenPaused = false;
+}
+
+void ATFPlayerCharacter::Tick(float DeltaTime)
+{
+	if (bEnableRayTrace)
+	{
+		TraceForInteraction();
+	}
+}
+
+void ATFPlayerCharacter::OnInteractionTriggerOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (!OtherActor->Implements<UInteractionInterface>())
+	{
+		return;
+	}
+	InteractableActors.Add(OtherActor);
+	bEnableRayTrace = true;
+}
+
+void ATFPlayerCharacter::OnInteractionTriggerOverlapEnd(UPrimitiveComponent* OverlapComp, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
+{
+	if (!OtherActor->Implements<UInteractionInterface>())
+	{
+		return;
+	}
+	InteractableActors.Remove(OtherActor);
+	bEnableRayTrace = InteractableActors.Num() > 0;
 }
