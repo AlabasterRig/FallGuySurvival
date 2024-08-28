@@ -14,7 +14,8 @@ using namespace std;
 enum ErrorLevel
 {
 	EL_DEBUG = 0,
-	EL_WARNING = 2,
+	EL_WARNING = 1,
+	EL_ERROR = 2,
 	EL_CRITICAL = 3
 };
 
@@ -88,6 +89,8 @@ private:
 			return "[DEBUGGING] ";
 		case ErrorLevel::EL_WARNING:
 			return "[WARNING] ";
+		case ErrorLevel::EL_ERROR:
+			return "[ERROR] ";
 		case ErrorLevel::EL_CRITICAL:
 			return "[!! CRITICAL ERROR !!] ";
 		default:

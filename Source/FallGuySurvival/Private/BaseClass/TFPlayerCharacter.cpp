@@ -12,16 +12,28 @@
 #include "InputActionValue.h"
 #include "Components/SphereComponent.h"
 #include "Interface/InteractionInterface.h"
+#include "Logger.h"
 
 void ATFPlayerCharacter::TraceForInteraction()
 {
 	FCollisionQueryParams LineTraceP = FCollisionQueryParams(FName(TEXT("InteractionTrace")), true, this);
 	LineTraceP.bReturnPhysicalMaterial = false;
 	LineTraceP.bReturnFaceIndex = false;
-	
+	GetWorld()->DebugDrawTraceTag = TEXT("InteractionTrace"); // Debug
 	FHitResult LTHit(ForceInit);
 	FVector LTStart = FollowCamera->GetComponentLocation();
 	float SearchLength = (FollowCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
+	SearchLength += InteractionTraceLength;
+	FVector LTEnd = (FollowCamera->GetForwardVector() * SearchLength) + LTStart;
+
+	GetWorld()->LineTraceSingleByChannel(LTHit, LTStart, LTEnd, ECC_Visibility, LineTraceP);
+
+	if (!LTHit.bBlockingHit || !LTHit.GetActor()->Implements<UInteractionInterface>())
+	{
+		InteractionActor = nullptr;
+		return;
+	}
+	InteractionActor = LTHit.GetActor();
 }
 
 void ATFPlayerCharacter::Move(const FInputActionValue& Value)
@@ -78,6 +90,21 @@ void ATFPlayerCharacter::SneakOff()
 	SetSneaking(false);
 }
 
+void ATFPlayerCharacter::OnInteract()
+{
+	if (InteractionActor == nullptr)
+	{
+		return;
+	}
+	IInteractionInterface* Inter = Cast<IInteractionInterface>(InteractionActor);
+	if (Inter == nullptr)
+	{
+		Logger::GetInstance()->AddMessage("ATFPlayerCharacter::OnInteract - Failed to cast to InteractionInterface", ErrorLevel::EL_ERROR);
+		return;
+	}
+	Inter->Interact_Implementation(this);
+}
+
 
 
 void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -100,6 +127,7 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::SprintOff);
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Started, this, &ATFPlayerCharacter::SneakOn);
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::SneakOff);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::OnInteract);
 	}
 }
 
@@ -175,4 +203,9 @@ void ATFPlayerCharacter::OnInteractionTriggerOverlapEnd(UPrimitiveComponent* Ove
 	}
 	InteractableActors.Remove(OtherActor);
 	bEnableRayTrace = InteractableActors.Num() > 0;
+}
+
+void ATFPlayerCharacter::UpdateInteractionText_Implementation()
+{
+	UpdateInteractionText();
 }
