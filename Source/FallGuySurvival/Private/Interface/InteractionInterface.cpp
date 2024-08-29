@@ -12,6 +12,7 @@ FText IInteractionInterface::GetInteractionText_Implementation()
 
 void IInteractionInterface::Interact_Implementation(ATFCharacter* Caller)
 {
+	Interact(Caller);
 }
 
 bool IInteractionInterface::IsInteractable_Implementation() const
