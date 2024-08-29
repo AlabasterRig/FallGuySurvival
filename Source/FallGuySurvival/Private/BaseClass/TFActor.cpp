@@ -33,6 +33,7 @@ void ATFActor::Tick(float DeltaTime)
 FGuid ATFActor::GetActorSaveID_Implementation()
 {
 	return SaveID;
+}
 
 void ATFActor::SetActorGuid_Implementation(const FGuid& NewGuid)
 {
