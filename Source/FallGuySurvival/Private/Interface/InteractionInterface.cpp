@@ -18,4 +18,4 @@ void IInteractionInterface::Interact_Implementation(ATFCharacter* Caller)
 bool IInteractionInterface::IsInteractable_Implementation() const
 {
 	return true;
-}
+} 

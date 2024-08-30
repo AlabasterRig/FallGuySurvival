@@ -102,7 +102,8 @@ void ATFPlayerCharacter::OnInteract()
 		Logger::GetInstance()->AddMessage("ATFPlayerCharacter::OnInteract - Failed to cast to InteractionInterface", ErrorLevel::EL_ERROR);
 		return;
 	}
-	Inter->Interact_Implementation(this);
+	//Inter->Interact_Implementation(this);
+	Inter->Execute_Interact(InteractionActor, this);
 }
 
 

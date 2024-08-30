@@ -18,4 +18,13 @@ class FALLGUYSURVIVAL_API ATFDoorBase : public ATFActor, public IInteractionInte
 	
 private:
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, SaveGame, meta=(AllowPrivateAccess="true"))
+	bool bIsOpen = false;
+
+public:
+	ATFDoorBase();
+
+	FText GetInteractionText_Implementation();
+	void Interact_Implementation(class ATFCharacter* Caller);
+	bool IsInteractable_Implementation() const;
 };

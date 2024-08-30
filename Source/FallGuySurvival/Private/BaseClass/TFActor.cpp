@@ -19,7 +19,7 @@ void ATFActor::BeginPlay()
 	
 	if (!SaveID.IsValid())
 	{
-		return;
+		SaveID = FGuid::NewGuid();
 	}
 }
 
@@ -41,7 +41,7 @@ void ATFActor::SetActorGuid_Implementation(const FGuid& NewGuid)
 	{
 		SaveID.Invalidate();
 	}
-	SaveID = FGuid::NewGuid();
+	SaveID = NewGuid;
 }
 
 FSaveActorData ATFActor::GetSaveData_Implementation()
