@@ -4,36 +4,19 @@
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SphereComponent.h"  
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
-#include "Components/SphereComponent.h"
-#include "Interface/InteractionInterface.h"
 #include "Logger.h"
+
 
 void ATFPlayerCharacter::TraceForInteraction()
 {
-	FCollisionQueryParams LineTraceP = FCollisionQueryParams(FName(TEXT("InteractionTrace")), true, this);
-	LineTraceP.bReturnPhysicalMaterial = false;
-	LineTraceP.bReturnFaceIndex = false;
-	GetWorld()->DebugDrawTraceTag = TEXT("InteractionTrace"); // Debug Line
-	FHitResult LTHit(ForceInit);
-	FVector LTStart = FollowCamera->GetComponentLocation();
-	float SearchLength = (FollowCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
-	SearchLength += InteractionTraceLength;
-	FVector LTEnd = (FollowCamera->GetForwardVector() * SearchLength) + LTStart;
-
-	GetWorld()->LineTraceSingleByChannel(LTHit, LTStart, LTEnd, ECC_Visibility, LineTraceP);
-
-	if (!LTHit.bBlockingHit || !LTHit.GetActor()->Implements<UInteractionInterface>())
-	{
-		InteractionActor = nullptr;
-		return;
-	}
-	InteractionActor = LTHit.GetActor();
+	
 }
 
 void ATFPlayerCharacter::Move(const FInputActionValue& Value)
@@ -92,17 +75,7 @@ void ATFPlayerCharacter::SneakOff()
 
 void ATFPlayerCharacter::OnInteract()
 {
-	if (InteractionActor == nullptr)
-	{
-		return;
-	}
-	IInteractionInterface* Inter = Cast<IInteractionInterface>(InteractionActor);
-	if (Inter == nullptr)
-	{
-		Logger::GetInstance()->AddMessage("ATFPlayerCharacter::OnInteract - Failed to cast to InteractionInterface", ErrorLevel::EL_ERROR);
-		return;
-	}
-	Inter->Execute_Interact(InteractionActor, this);
+	
 }
 
 
@@ -136,11 +109,6 @@ void ATFPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	SaveActorID.Invalidate(); // Do not want Id to be a valid Guid
-
-	if (!InteractionTrigger)
-	{
-		UE_LOG(LogTemp, Error, TEXT("InteractionTrigger is null in BeginPlay"));
-	}
 }
 
 
@@ -172,47 +140,14 @@ ATFPlayerCharacter::ATFPlayerCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-	InteractionTrigger = CreateDefaultSubobject<USphereComponent>(TEXT("Interaction Trigger Volume"));
-	InteractionTrigger->SetupAttachment(RootComponent);
-	InteractionTrigger->SetRelativeScale3D(FVector(10));
-	InteractionTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATFPlayerCharacter::OnInteractionTriggerOverlapBegin);
-	InteractionTrigger->OnComponentEndOverlap.AddDynamic(this, &ATFPlayerCharacter::OnInteractionTriggerOverlapEnd);
-
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bTickEvenWhenPaused = false;
 }
 
 void ATFPlayerCharacter::Tick(float DeltaTime)
 {
-	if (bEnableRayTrace)
-	{
-		TraceForInteraction();
-	}
+	
 }
 
-void ATFPlayerCharacter::OnInteractionTriggerOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Overlap Begin with %s"), *OtherActor->GetName());
-	if (!OtherActor->Implements<UInteractionInterface>() )
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s does not implement UInteractionInterface"), *OtherActor->GetName());
-		return;
-	}
-	InteractableActors.Add(OtherActor);
-	bEnableRayTrace = true;
-}
 
-void ATFPlayerCharacter::OnInteractionTriggerOverlapEnd(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
-{
-	if (!OtherActor->Implements<UInteractionInterface>())
-	{
-		return;
-	}
-	InteractableActors.Remove(OtherActor);
-	bEnableRayTrace = InteractableActors.Num() > 0;
-}
 
-void ATFPlayerCharacter::UpdateInteractionText_Implementation()
-{
-	UpdateInteractionText();
-}
