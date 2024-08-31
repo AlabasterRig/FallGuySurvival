@@ -101,6 +101,10 @@ Project Started on August 19th, 2024.
 			return Ret;
 		}
 
+- Interaction Raytrace is triggered from beginning, instead of getting close to object.
+  	- Fix Explanation  
+There were no issues with the previously deleted code, the issue was that there was no Collision mesh set for the door, hence, the InteractableActors array was not populating with the objects that have InteractionInterface implemented. I was unaware that the meshes from Quixel Bridge did not have preset Collision, the reason why I did not add a Collision mesh using C++. (Currently removed all UE_LOG logging from previous commits to keep the code clean).
+
 ## References
 The Save game Functionality is a copy of and even a slight variation of Tom Looman's Tutorials.  
 This is a link to [Tom Looman's Tutorial][1].
