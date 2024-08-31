@@ -14,11 +14,6 @@
 #include "Logger.h"
 
 
-void ATFPlayerCharacter::TraceForInteraction()
-{
-	
-}
-
 void ATFPlayerCharacter::Move(const FInputActionValue& Value)
 {
 	FVector2D MovementVector = Value.Get<FVector2D>();
@@ -73,10 +68,7 @@ void ATFPlayerCharacter::SneakOff()
 	SetSneaking(false);
 }
 
-void ATFPlayerCharacter::OnInteract()
-{
-	
-}
+
 
 
 
@@ -100,7 +92,6 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::SprintOff);
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Started, this, &ATFPlayerCharacter::SneakOn);
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::SneakOff);
-		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::OnInteract);
 	}
 }
 
@@ -108,7 +99,6 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 void ATFPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	SaveActorID.Invalidate(); // Do not want Id to be a valid Guid
 }
 
 
@@ -146,7 +136,7 @@ ATFPlayerCharacter::ATFPlayerCharacter()
 
 void ATFPlayerCharacter::Tick(float DeltaTime)
 {
-	
+	Super::Tick(DeltaTime);
 }
 
 

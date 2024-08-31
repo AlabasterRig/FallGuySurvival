@@ -51,12 +51,9 @@ private:
 	UInputAction* SprintAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* SneakAction;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* InteractAction;
+
 
 #pragma endregion
-
-	void TraceForInteraction();
 
 protected:
 	/** Called for movement input */
@@ -69,7 +66,6 @@ protected:
 	void SprintOff();
 	void SneakOn();
 	void SneakOff();
-	void OnInteract();
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
