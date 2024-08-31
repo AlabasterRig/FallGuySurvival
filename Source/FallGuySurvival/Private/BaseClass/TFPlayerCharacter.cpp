@@ -25,9 +25,16 @@ void ATFPlayerCharacter::TraceForInteraction()
 	FVector LTStart = FollowCamera->GetComponentLocation();
 	float SearchLength = (FollowCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
 	SearchLength += InteractionTraceLength;
-	FVector LTEnd = (FollowCamera->GetForwardVector() * SearchLength) = LTStart;
+	FVector LTEnd = (FollowCamera->GetForwardVector() * SearchLength) + LTStart;
 
 	GetWorld()->LineTraceSingleByChannel(LTHit, LTStart, LTEnd, ECC_Visibility, LTParams);
+
+	if (!LTHit.bBlockingHit || !LTHit.GetActor()->Implements<UInteractionInterface>())
+	{
+		InteractionActor = nullptr;
+		return;
+	}
+	InteractionActor = LTHit.GetActor();
 }
 
 void ATFPlayerCharacter::Move(const FInputActionValue& Value)
@@ -84,9 +91,20 @@ void ATFPlayerCharacter::SneakOff()
 	SetSneaking(false);
 }
 
-
-
-
+void ATFPlayerCharacter::OnInteract()
+{
+	if (InteractionActor == nullptr)
+	{
+		return;
+	}
+	IInteractionInterface* Inter = Cast<IInteractionInterface>(InteractionActor);
+	if (Inter == nullptr)
+	{
+		Logger::GetInstance()->AddMessage("ATFPlayerCharacter::OnInteract - Failed to Cast to InteractionInterface", ErrorLevel::EL_ERROR);
+		return;
+	}
+	Inter->Execute_Interact(InteractionActor, this);
+}
 
 void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -108,6 +126,7 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::SprintOff);
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Started, this, &ATFPlayerCharacter::SneakOn);
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::SneakOff);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::OnInteract);
 	}
 }
 
@@ -136,22 +155,18 @@ ATFPlayerCharacter::ATFPlayerCharacter()
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
-
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 400.0f;	
 	CameraBoom->bUsePawnControlRotation = true;
-
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
-
 	InteractionTrigger = CreateDefaultSubobject<USphereComponent>(TEXT("Interaction Trigger Volume"));
 	InteractionTrigger->SetupAttachment(RootComponent);
 	InteractionTrigger->SetRelativeScale3D(FVector(10));
 	InteractionTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATFPlayerCharacter::OnInteractionTriggerOverlapBegin);
 	InteractionTrigger->OnComponentEndOverlap.AddDynamic(this, &ATFPlayerCharacter::OnInteractionTriggerOverlapEnd);
-
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bTickEvenWhenPaused = false;
 }
@@ -182,6 +197,11 @@ void ATFPlayerCharacter::OnInteractionTriggerOverlapEnd(UPrimitiveComponent* Ove
 	}
 	InteractableActors.Remove(OtherActor);
 	bEnableRayTrace = InteractableActors.Num() > 0;
+}
+
+void ATFPlayerCharacter::UpdateInteractionText_Implementation()
+{
+	UpdateInteractionText();
 }
 
 
