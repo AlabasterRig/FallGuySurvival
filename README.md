@@ -13,13 +13,13 @@ Project Started on August 19th, 2024.
 
 ## Current Bugs:
 - If Hunger reduces to 0 , then thirst will stop reducing.
-- Interaction Raytrace is triggered from beginning, instead of getting close to object.
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
 - Jumping while in the air or clicking the jump button again reduces stamina.
 - Hunger and Thirst Stats are not being saved or loaded. (Can be both) - It was Both.
 - Only 2 Stats are getting stored currently on the code level.
+- Interaction Raytrace is triggered from beginning, instead of getting close to object.
 
 ### Fixed Bugs Code
 - Jumping while in the air or clicking the jump button again reduces stamina.
