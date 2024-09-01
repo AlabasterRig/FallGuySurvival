@@ -13,13 +13,13 @@ Project Started on August 19th, 2024.
 
 ## Current Bugs:
 - If Hunger reduces to 0 , then thirst will stop reducing.
-- Interaction Raytrace is triggered from beginning, instead of getting close to object.
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
 - Jumping while in the air or clicking the jump button again reduces stamina.
 - Hunger and Thirst Stats are not being saved or loaded. (Can be both) - It was Both.
 - Only 2 Stats are getting stored currently on the code level.
+- Interaction Raytrace is triggered from beginning, instead of getting close to object.
 
 ### Fixed Bugs Code
 - Jumping while in the air or clicking the jump button again reduces stamina.
@@ -100,6 +100,10 @@ Project Started on August 19th, 2024.
 			
 			return Ret;
 		}
+
+- Interaction Raytrace is triggered from beginning, instead of getting close to object.
+  	- Fix Explanation  
+There were no issues with the previously deleted code, the issue was that there was no Collision mesh set for the door, hence, the InteractableActors array was not populating with the objects that have InteractionInterface implemented. I was unaware that the meshes from Quixel Bridge did not have preset Collision, the reason why I did not add a Collision mesh using C++. (Currently removed all UE_LOG logging from previous commits to keep the code clean).
 
 ## References
 The Save game Functionality is a copy of and even a slight variation of Tom Looman's Tutorials.  
