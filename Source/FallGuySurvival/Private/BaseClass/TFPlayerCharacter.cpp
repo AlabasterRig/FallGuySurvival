@@ -20,7 +20,10 @@ void ATFPlayerCharacter::TraceForInteraction()
 	FCollisionQueryParams LTParams = FCollisionQueryParams(FName(TEXT("InteractionTrace")), true, this);
 	LTParams.bReturnPhysicalMaterial = false;
 	LTParams.bReturnFaceIndex = false;
-	GetWorld()->DebugDrawTraceTag = TEXT("InteractionTrace");
+	if (DEBUG_SHOW_INTERACTION_TRACE)
+	{
+		GetWorld()->DebugDrawTraceTag = TEXT("InteractionTrace");
+	}
 	FHitResult LTHit(ForceInit);
 	FVector LTStart = FollowCamera->GetComponentLocation();
 	float SearchLength = (FollowCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
@@ -29,6 +32,7 @@ void ATFPlayerCharacter::TraceForInteraction()
 
 	GetWorld()->LineTraceSingleByChannel(LTHit, LTStart, LTEnd, ECC_Visibility, LTParams);
 
+	UpdateInteractionText_Implementation();
 	if (!LTHit.bBlockingHit || !LTHit.GetActor()->Implements<UInteractionInterface>())
 	{
 		InteractionActor = nullptr;
@@ -130,18 +134,14 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	}
 }
 
-
 void ATFPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-
 ATFPlayerCharacter::ATFPlayerCharacter()
-{
-	
+{	
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-
 	
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -203,6 +203,3 @@ void ATFPlayerCharacter::UpdateInteractionText_Implementation()
 {
 	UpdateInteractionText();
 }
-
-
-

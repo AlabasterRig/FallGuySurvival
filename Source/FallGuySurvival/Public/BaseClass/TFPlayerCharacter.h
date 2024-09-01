@@ -68,6 +68,8 @@ private:
 	TArray<AActor*> InteractableActors;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	float InteractionTraceLength = 200; 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = DEBUG, meta = (AllowPrivateAccess = "true"))
+	bool DEBUG_SHOW_INTERACTION_TRACE = false;
 
 	void TraceForInteraction();
 
