@@ -44,6 +44,10 @@ void ATFActor::SetActorGuid_Implementation(const FGuid& NewGuid)
 
 FSaveActorData ATFActor::GetSaveData_Implementation()
 {
-	return FSaveActorData();
+	FSaveActorData Ret;
+	Ret.ActorTransform = this->GetActorTransform();
+	Ret.ActorClass = this->GetClass();
+	Ret.WasSpawned = bWasSpawned;
+	return Ret;
 }
 

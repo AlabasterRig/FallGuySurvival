@@ -11,19 +11,20 @@ UCLASS()
 class FALLGUYSURVIVAL_API ATFActor : public AActor, public ISaveActorInterface
 {
 	GENERATED_BODY()
-	
-	FGuid SaveID;
 
-public:	
-	// Sets default values for this actor's properties
-	ATFActor();
+private:
 
 protected:
-	// Called when the game starts or when spawned
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FGuid SaveID;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool bWasSpawned = false;
+
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+	ATFActor();
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual FGuid GetActorSaveID_Implementation();
