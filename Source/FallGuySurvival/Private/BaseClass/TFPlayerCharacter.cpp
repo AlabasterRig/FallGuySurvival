@@ -20,10 +20,7 @@ void ATFPlayerCharacter::TraceForInteraction()
 	FCollisionQueryParams LTParams = FCollisionQueryParams(FName(TEXT("InteractionTrace")), true, this);
 	LTParams.bReturnPhysicalMaterial = false;
 	LTParams.bReturnFaceIndex = false;
-	if (DEBUG_SHOW_INTERACTION_TRACE)
-	{
-		GetWorld()->DebugDrawTraceTag = TEXT("InteractionTrace");
-	}
+	GetWorld()->DebugDrawTraceTag = DEBUG_SHOW_INTERACTION_TRACE ? TEXT("InteractionTrace") : TEXT("NONE");
 	FHitResult LTHit(ForceInit);
 	FVector LTStart = FollowCamera->GetComponentLocation();
 	float SearchLength = (FollowCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
