@@ -16,7 +16,7 @@ class FALLGUYSURVIVAL_API ATFDoorBase : public ATFActor, public IInteractionInte
 	GENERATED_BODY()
 	
 private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, SaveGame, meta = (AllowPrivateAccess = "true"))
 	bool bIsOpen = false;
 
 public:

@@ -51,3 +51,9 @@ FSaveActorData ATFActor::GetSaveData_Implementation()
 	return Ret;
 }
 
+void ATFActor::UpdateFromSave_Implementation()
+{
+	//UpdateFromSave();
+	Execute_UpdateFromSave(this);
+}
+
