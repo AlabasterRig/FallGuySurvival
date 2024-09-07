@@ -10,9 +10,11 @@ Project Started on August 19th, 2024.
 - Hunger and Thirst Stats are not being saved or loaded. (Can be both)
 - Only 2 Stats are getting stored currently on the code level.
 - Interaction Raytrace is triggered from beginning, instead of getting close to object.
+- Actor Transform not being Saved correctly.
 
 ## Current Bugs:
 - If Hunger reduces to 0 , then thirst will stop reducing.
+- Actor Transform not being Saved correctly.
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
