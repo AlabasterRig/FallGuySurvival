@@ -6,12 +6,14 @@
 
 ATFTreeBase::ATFTreeBase()
 {
-	MainTreeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Main Tree Mesh"));
-	MainTreeMesh->SetupAttachment(RootComponent);
 	TreeStumpMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Tree Stump Mesh"));
 	TreeStumpMesh->SetupAttachment(RootComponent);
 	TreeStumpMesh->bHiddenInGame = true; // Better performance, so that not many things are loaded in game.
 	TreeStumpMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	MainTreeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Main Tree Mesh"));
+	MainTreeMesh->SetupAttachment(TreeStumpMesh);
+	MainTreeMesh->bHiddenInGame = false;
+	MainTreeMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
 void ATFTreeBase::SetHarvestState()
@@ -23,9 +25,10 @@ void ATFTreeBase::SetHarvestState()
 	MainTreeMesh->DestroyComponent();
 	//MainTreeMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	//MainTreeMesh->bHiddenInGame = true;
-	//TreeStumpMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	//TreeStumpMesh->bHiddenInGame = false;
-	//TreeStumpMesh->SetVisibility(true, true);
+	TreeStumpMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	TreeStumpMesh->bHiddenInGame = false;
+	TreeStumpMesh->SetVisibility(true, true);
+	MarkComponentsRenderStateDirty();
 }
 
 void ATFTreeBase::Harvest()
