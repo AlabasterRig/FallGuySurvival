@@ -1,6 +1,7 @@
 # Ideas for future iterations  
 This markdown file is for future ideas to be implemmented - may or may not implement but will try. Mostly by seeing a video or something.
 - Add an Inventory System.
+- Add harvestable trees.
 - Save Actor transform and their states.
 - Add a Grass painting tool (Have to learn from scratch).
 - Day/Night Cycle. - (Do from blueprints maybe).
