@@ -110,7 +110,7 @@ void UTFGameInstance::LoadGame()
 		}
 		ISaveActorInterface* Inter = Cast<ISaveActorInterface>(Actor);
 
-		if (Actor == nullptr)
+		if (Inter == nullptr)
 		{
 			continue;
 		}

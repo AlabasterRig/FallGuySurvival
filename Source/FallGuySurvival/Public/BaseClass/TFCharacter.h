@@ -8,7 +8,7 @@
 #include "TFCharacter.generated.h"
 
 UCLASS()
-class FALLGUYSURVIVAL_API ATFCharacter : public ACharacter
+class FALLGUYSURVIVAL_API ATFCharacter : public ACharacter, public ISaveActorInterface
 {
 	GENERATED_BODY()
 
