@@ -30,5 +30,5 @@ public:
 	virtual FGuid GetActorSaveID_Implementation();
 	void SetActorGuid_Implementation(const FGuid& NewGuid);
 	virtual FSaveActorData GetSaveData_Implementation();
-	void UpdateFromSave_Implementation();
+	virtual void UpdateFromSave_Implementation();
 };
