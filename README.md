@@ -11,9 +11,11 @@ Project Started on August 19th, 2024.
 - Only 2 Stats are getting stored currently on the code level.
 - Interaction Raytrace is triggered from beginning, instead of getting close to object.
 - Actor Transform not being saved correctly.
+- Harvestable Tree code not working so implemented using blueprints which is correctly Destroying the MainTree mesh but not spawning the StumpTree mesh.
 
 ## Current Bugs:
 - If Hunger reduces to 0 , then thirst will stop reducing.
+- Harvestable Tree code not working so implemented using blueprints which is correctly Destroying the MainTree mesh but not spawning the StumpTree mesh.
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
