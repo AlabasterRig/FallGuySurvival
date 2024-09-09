@@ -15,7 +15,6 @@ Project Started on August 19th, 2024.
 
 ## Current Bugs:
 - If Hunger reduces to 0 , then thirst will stop reducing.
-- Harvestable Tree code not working so implemented using blueprints which is correctly Destroying the MainTree mesh but not spawning the StumpTree mesh.
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
@@ -24,11 +23,13 @@ Project Started on August 19th, 2024.
 - Only 2 Stats are getting stored currently on the code level.
 - Interaction Raytrace is triggered from beginning, instead of getting close to object.
 - Actor Transform not being saved correctly.
+- Harvestable Tree code not working so implemented using blueprints which is correctly Destroying the MainTree mesh but not spawning the StumpTree mesh.
+- If Hunger reduces to 0 , then thirst will stop reducing.
 
 ### Fixed Bugs Code
 - Jumping while in the air or clicking the jump button again reduces stamina.
   
-	- Fixed Code
+	- Fixed Code:  
    		```cpp
      	void ATFPlayerCharacter::Playerjump()
 		{
@@ -39,7 +40,7 @@ Project Started on August 19th, 2024.
 		}
 - Hunger and Thirst Stats are not being saved or loaded. (Can be both) - It was Both.
    
-	- Fixed Code
+	- Fixed Code:
    		```cpp
      	FSaveComponentsData UStatlineComponent::GetComponentSaveData_Implementation()
 		{
@@ -84,7 +85,7 @@ Project Started on August 19th, 2024.
 
 - Only 2 Stats are getting stored currently on the code level.
    
-	- Fixed Code
+	- Fixed Code:
    		```cpp
      	TArray<FString> StringChop(FString Source, char split)
 		{
@@ -106,12 +107,16 @@ Project Started on August 19th, 2024.
 		}
 
 - Interaction Raytrace is triggered from beginning, instead of getting close to object.
-  	- Fix Explanation  
+  	- Fix Explanation:  
 There were no issues with the previously deleted code, the issue was that there was no Collision mesh set for the door, hence, the InteractableActors array was not populating with the objects that have InteractionInterface implemented. I was unaware that the meshes from Quixel Bridge did not have preset Collision, the reason why I did not add a Collision mesh using C++. (Currently removed all UE_LOG logging from previous commits to keep the code clean).
 
 - Actor Transform not being saved correctly.
-	- Fix Explanation  
+	- Fix Explanation:  
 Added ISaveActorInterface to TFCharacter.h (I remember adding that when i created the SaveActorInterface class, idk what happened to it later).
+
+- Harvestable Tree code not working so implemented using blueprints which is correctly Destroying the MainTree mesh but not spawning the StumpTree mesh.
+ 	- Fix Explanation:  
+MarkComponentsRenderStateDirty() - This is meant to update new meshes at runtime.
 
 ## References
 The Save game Functionality is a copy of and even a slight variation of Tom Looman's Tutorials.  
