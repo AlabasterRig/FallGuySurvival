@@ -28,6 +28,7 @@ void ATFTreeBase::SetHarvestState()
 	TreeStumpMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	TreeStumpMesh->bHiddenInGame = false;
 	TreeStumpMesh->SetVisibility(true, true);
+	SpawnPickups();
 	MarkComponentsRenderStateDirty();
 }
 
@@ -37,6 +38,27 @@ void ATFTreeBase::Harvest()
 	// TODO: Add in PickUp Spwan logic here 
 	SetHarvestState();
 	OnHarvestedBP();
+}
+
+void ATFTreeBase::SpawnPickups()
+{
+	if (!IsValid(LogPickupActor))
+	{
+		return;
+	}
+
+	for (int i = 0; i < NumberOfLogsToSpawn; i++)
+	{
+		FVector TreeLoc = this->GetActorLocation();
+		FTransform SpawnTreeTrans = SpawnActorTransforms[i];
+		SpawnTreeTrans.SetLocation(SpawnTreeTrans.GetLocation() + TreeLoc);
+		ATFPickupActorBase* Log = GetWorld()->SpawnActor<ATFPickupActorBase>(LogPickupActor, SpawnTreeTrans);
+		if (IsValid(Log))
+		{
+			Log->SetActorTransform(SpawnTreeTrans);
+			OnHarvestedBP();
+		}
+	}
 }
 
 void ATFTreeBase::OnHarvestedBP_Implementation()

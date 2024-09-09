@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseClass/TFActor.h"
+#include "BaseClass/TFPickupActorBase.h"
 #include "TFTreeBase.generated.h"
 
 class UStaticMeshComponent;
@@ -25,14 +26,16 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* TreeStumpMesh;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class AActor* LogPickupActor; //TODO: Change to pickup actor once inventory is implemented
+	class TSubclassOf<ATFPickupActorBase> LogPickupActor;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int NumberOfLogsToSpawn = 2;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TArray<FTransform> SpawnActorTransforms;
 
 	ATFTreeBase();
 	void SetHarvestState();
 	void Harvest();
-
+	void SpawnPickups();
 
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
