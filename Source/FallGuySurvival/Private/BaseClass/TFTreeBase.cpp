@@ -28,14 +28,13 @@ void ATFTreeBase::SetHarvestState()
 	TreeStumpMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	TreeStumpMesh->bHiddenInGame = false;
 	TreeStumpMesh->SetVisibility(true, true);
-	SpawnPickups();
 	MarkComponentsRenderStateDirty();
 }
 
 void ATFTreeBase::Harvest()
 {
 	bIsHarvested = true;
-	// TODO: Add in PickUp Spwan logic here 
+	SpawnPickups();
 	SetHarvestState();
 	OnHarvestedBP();
 }
@@ -82,7 +81,7 @@ void ATFTreeBase::UpdateFromSave_Implementation()
 
 float ATFTreeBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	if (!DamageCauser->Tags.Contains("HarvestTree"))
+	if (bIsHarvested || !DamageCauser->Tags.Contains("HarvestTree"))
 	{
 		return 0.0f;
 	}
