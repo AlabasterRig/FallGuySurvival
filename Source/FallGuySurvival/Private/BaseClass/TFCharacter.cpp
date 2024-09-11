@@ -77,7 +77,7 @@ FSaveActorData ATFCharacter::GetSaveData_Implementation()
 	FSaveActorData Ret;
 	Ret.ActorClass = this->GetClass();
 	Ret.ActorTransform = this->GetTransform();
-	Ret.WasSpawned = this->WasSpawned;
+	Ret.WasSpawned = this->bWasSpawned;
 	return Ret;
 }
 
@@ -88,5 +88,10 @@ void ATFCharacter::SetActorGuid_Implementation(const FGuid& NewGuid)
 		SaveActorID.Invalidate();
 	}
 	SaveActorID = NewGuid;
+}
+
+void ATFCharacter::SetWasSpawned(const bool& IsSpawned)
+{
+	bWasSpawned = IsSpawned;
 }
 

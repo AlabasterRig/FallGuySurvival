@@ -18,7 +18,7 @@ private:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
-	bool WasSpawned = false;
+	bool bWasSpawned = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
 	FGuid SaveActorID;
 
@@ -42,4 +42,6 @@ public:
 	FGuid GetActorSaveID_Implementation();
 	FSaveActorData GetSaveData_Implementation();
 	void SetActorGuid_Implementation(const FGuid& NewGuid);
+	
+	void SetWasSpawned(const bool& IsSpawned);
 };

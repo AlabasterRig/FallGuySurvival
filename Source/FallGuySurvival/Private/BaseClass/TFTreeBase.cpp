@@ -23,8 +23,6 @@ void ATFTreeBase::SetHarvestState()
 		return;
 	}
 	MainTreeMesh->DestroyComponent();
-	//MainTreeMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	//MainTreeMesh->bHiddenInGame = true;
 	TreeStumpMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	TreeStumpMesh->bHiddenInGame = false;
 	TreeStumpMesh->SetVisibility(true, true);
@@ -55,7 +53,7 @@ void ATFTreeBase::SpawnPickups()
 		if (IsValid(Log))
 		{
 			Log->SetActorTransform(SpawnTreeTrans);
-			OnHarvestedBP();
+			Log->SetWasSpawned(true);
 		}
 	}
 }

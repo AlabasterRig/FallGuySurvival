@@ -57,3 +57,8 @@ void ATFActor::UpdateFromSave_Implementation()
 	Execute_UpdateFromSave(this);
 }
 
+void ATFActor::SetWasSpawned(const bool& IsSpawned)
+{
+	bWasSpawned = IsSpawned;
+}
+

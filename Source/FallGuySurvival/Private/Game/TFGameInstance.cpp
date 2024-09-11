@@ -4,6 +4,8 @@
 #include "Game/TFGameInstance.h"
 #include "Game/TFSaveGame.h"
 #include "Kismet/GameplayStatics.h"
+#include "BaseClass/TFActor.h"
+#include "BaseClass/TFCharacter.h"
 #include "EngineUtils.h"
 #include "GameFramework/Character.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
@@ -86,18 +88,52 @@ void UTFGameInstance::LoadGame()
 	SaveableActorData = SaveGameObject->GetSaveActorData();
 	PlayerData = SaveGameObject->GetPlayerData();
 
+	for (FActorIterator It(GetWorld()); It; ++It)
+	{
+		AActor* Actor = *It;
+		if (!IsValid(Actor) || !Actor->Implements<USaveActorInterface>())
+		{
+			continue;
+		}	
+		ISaveActorInterface* Inter = Cast<ISaveActorInterface>(Actor);
+		if (Inter == nullptr)
+		{
+			continue;
+		}
+		if (Inter->Execute_GetSaveData(Actor).WasSpawned)
+		{
+			Actor->Destroy();
+		}
+	}
+
 	for (TTuple<FGuid, FSaveActorData> SaveAD : SaveableActorData)
 	{
 		if (SaveAD.Value.WasSpawned)
 		{
-			AActor* SpawnedActor = GetWorld()->SpawnActor(SaveAD.Value.ActorClass->StaticClass(), &SaveAD.Value.ActorTransform);
-			ISaveActorInterface* Inter = Cast<ISaveActorInterface>(SpawnedActor);
-
-			if (Inter == nullptr)
+			UClass* ToSpawnClass = SaveAD.Value.ActorClass;
+			if (ToSpawnClass->IsChildOf(ATFCharacter::StaticClass()))
 			{
+				ATFCharacter* CSpawned = GetWorld()->SpawnActor<ATFCharacter>(ToSpawnClass, SaveAD.Value.ActorTransform);
+				ISaveActorInterface* Inter = Cast<ISaveActorInterface>(CSpawned);
+				if (Inter == nullptr)
+				{
+					CSpawned->Destroy();
+					continue;
+				}
+				Inter->Execute_SetActorGuid(CSpawned, SaveAD.Key);
+				CSpawned->SetWasSpawned(true);
 				continue;
 			}
-			Inter->SetActorGuid(SaveAD.Key);
+
+			ATFActor* Spawned = GetWorld()->SpawnActor<ATFActor>(ToSpawnClass, SaveAD.Value.ActorTransform);
+			ISaveActorInterface* Inter = Cast<ISaveActorInterface>(Spawned);
+			if (Inter == nullptr)
+			{
+				Spawned->Destroy();
+				continue;
+			}
+			Inter->Execute_SetActorGuid(Spawned, SaveAD.Key);
+			Spawned->SetWasSpawned(true);
 		}
 	}
 

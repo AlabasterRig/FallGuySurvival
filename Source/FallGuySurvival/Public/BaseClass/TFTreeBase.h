@@ -33,6 +33,7 @@ private:
 	TArray<FTransform> SpawnActorTransforms;
 
 	ATFTreeBase();
+	UFUNCTION(BlueprintCallable)
 	void SetHarvestState();
 	void Harvest();
 	void SpawnPickups();
