@@ -8,6 +8,10 @@ ATFRegrowingHarvestActorBase::ATFRegrowingHarvestActorBase()
 
 }
 
+void ATFRegrowingHarvestActorBase::ResetHarvest()
+{
+}
+
 void ATFRegrowingHarvestActorBase::BeginPlay()
 {
 	// TODO: Add Day-Change Delegate.
@@ -15,4 +19,10 @@ void ATFRegrowingHarvestActorBase::BeginPlay()
 
 void ATFRegrowingHarvestActorBase::OnDayChange()
 {
+	DaysSinceLastHarvest++;
+	if (DaysSinceLastHarvest < NumberOfDaysToRegrow)
+	{
+		return;
+	}
+	ResetHarvest();
 }

@@ -22,6 +22,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int DaysSinceLastHarvest = 0;
 
+	void ResetHarvest();
+
 protected:
 	virtual void BeginPlay();
 
