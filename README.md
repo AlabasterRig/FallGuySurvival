@@ -12,11 +12,10 @@ Project Started on August 19th, 2024.
 - Interaction Raytrace is triggered from the beginning, instead of getting close to the object.
 - Actor Transform not being saved correctly.
 - Harvestable Tree code not working, so implemented using Blueprints, which is correctly destroying the MainTree mesh but not spawning the StumpTree mesh.
-- Harvest State of Trees are not saved properly.
+- Harvest State of Trees are not saved properly. (It was actually not being loaded properly).
 
 ## Current Bugs
 - If Hunger reduces to 0, then thirst will stop reducing.
-- Harvest State of Trees are not saved properly.
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
@@ -77,7 +76,7 @@ Project Started on August 19th, 2024.
                 Hunger.UpdateFromSaveString(Parts);
                 break;
             case 3:
-                Thirst.UpdateFromSaveString(Parts);
+                Thirst UpdateFromSaveString(Parts);
                 break;
             default:
                 //Log Error
@@ -125,6 +124,10 @@ Project Started on August 19th, 2024.
 
   - Fix Explanation:  
     `MarkComponentsRenderStateDirty()` - This is meant to update new meshes at runtime.
+
+- Harvest State of Trees are not saved properly. (It was actually not being loaded properly).
+  - Fix Explanation:  
+    Changed the load game logic in `TFGameInstance`. At first the code finds the actors which were marked as **spawned** and destroys them, it then loops through the save actor data and respawns them and also restores their transform and their state. (This was very difficult to fix—almost gave up thrice fixing this! Took help from StackOverflow and also the Unreal Enigne forums. Also, I noticed a bug that the `TFDoorBase` is not saving its state correctly).
 
 ## References
 The Save Game Functionality is a copy of and even a slight variation of Tom Looman's Tutorials.  
