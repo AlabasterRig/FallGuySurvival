@@ -21,6 +21,8 @@ private:
 	int NumberOfDaysToRegrow = 1;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int DaysSinceLastHarvest = 0;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	int ItemRegrowthAmount = 1; 
 
 	void ResetHarvest();
 

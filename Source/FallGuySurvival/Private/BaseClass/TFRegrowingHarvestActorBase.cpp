@@ -10,6 +10,10 @@ ATFRegrowingHarvestActorBase::ATFRegrowingHarvestActorBase()
 
 void ATFRegrowingHarvestActorBase::ResetHarvest()
 {
+	bIsHarvested = false;
+	ItemCount = ItemRegrowthAmount;
+	HarvestMesh->bHiddenInGame = false;
+	MarkComponentsRenderStateDirty();
 }
 
 void ATFRegrowingHarvestActorBase::BeginPlay()
