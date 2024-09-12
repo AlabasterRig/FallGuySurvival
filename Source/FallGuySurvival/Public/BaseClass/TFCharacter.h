@@ -39,9 +39,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	FGuid GetActorSaveID_Implementation();
-	FSaveActorData GetSaveData_Implementation();
-	void SetActorGuid_Implementation(const FGuid& NewGuid);
+	FGuid GetActorSaveID_Implementation() override;
+	FSaveActorData GetSaveData_Implementation() override;
+	void SetActorGuid_Implementation(const FGuid& NewGuid) override;
 	
 	void SetWasSpawned(const bool& IsSpawned);
 };

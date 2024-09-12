@@ -32,9 +32,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int ItemCount = 1;
 
+	ATFHarvestActorBase();
+
+	void UpdateHarvestState();
+
 public:
+	// Interaction
 	UFUNCTION(BlueprintCallable)
-	FText GetInteractionText_Implementation();
-	void Interact_Implementation(class ATFCharacter* Caller);
-	bool IsInteractable_Implementation() const;
+	FText GetInteractionText_Implementation() override;
+	void Interact_Implementation(class ATFCharacter* Caller) override;
+	bool IsInteractable_Implementation() const override;
+	// Saving
+	virtual FSaveActorData GetSaveData_Implementation() override;
+	virtual void UpdateFromSave_Implementation() override;
 };

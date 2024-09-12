@@ -30,7 +30,7 @@ private:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	FText GetInteractionText_Implementation();
-	void Interact_Implementation(class ATFCharacter* Caller);
-	bool IsInteractable_Implementation() const;
+	FText GetInteractionText_Implementation() override;
+	void Interact_Implementation(class ATFCharacter* Caller) override;
+	bool IsInteractable_Implementation() const override;
 };

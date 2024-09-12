@@ -3,6 +3,21 @@
 
 #include "BaseClass/TFHarvestActorBase.h"
 
+ATFHarvestActorBase::ATFHarvestActorBase()
+{
+	PermanentMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Permanent Mesh"));
+	HarvestMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Harvest Mesh"));
+	PermanentMesh->SetupAttachment(RootComponent);
+	HarvestMesh->SetupAttachment(PermanentMesh);
+}
+
+void ATFHarvestActorBase::UpdateHarvestState()
+{
+	HarvestMesh->bHiddenInGame = true;
+	HarvestMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	MarkComponentsRenderStateDirty();
+}
+
 FText ATFHarvestActorBase::GetInteractionText_Implementation()
 {
 	return InteractionText;
@@ -16,7 +31,7 @@ void ATFHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 		if(rem = InvetComp->AddItem(InvetoryItem, ItemCount) == 0)
 		{
 	*/
-	HarvestMesh->bHiddenInGame = true;
+	UpdateHarvestState();
 	bIsHarvested = true;
 	/*
 			return;
@@ -28,5 +43,15 @@ void ATFHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 
 bool ATFHarvestActorBase::IsInteractable_Implementation() const
 {
-	return bIsHarvested ? false : true;
+	return !bIsHarvested;
+}
+
+FSaveActorData ATFHarvestActorBase::GetSaveData_Implementation()
+{
+	return FSaveActorData(GetActorTransform(), bWasSpawned, GetClass());
+}
+
+void ATFHarvestActorBase::UpdateFromSave_Implementation()
+{
+	UpdateHarvestState();
 }

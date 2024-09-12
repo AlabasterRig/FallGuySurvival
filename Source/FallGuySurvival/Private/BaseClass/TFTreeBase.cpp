@@ -65,11 +65,7 @@ void ATFTreeBase::OnHarvestedBP_Implementation()
 
 FSaveActorData ATFTreeBase::GetSaveData_Implementation()
 {
-	FSaveActorData Ret;
-	Ret.ActorTransform = this->GetActorTransform();
-	Ret.ActorClass = this->GetClass();
-	Ret.WasSpawned = bWasSpawned;
-	return Ret;
+	return FSaveActorData(GetActorTransform(), bWasSpawned, GetClass());
 }
 
 void ATFTreeBase::UpdateFromSave_Implementation()

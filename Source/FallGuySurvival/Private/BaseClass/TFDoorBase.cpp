@@ -15,7 +15,7 @@ FText ATFDoorBase::GetInteractionText_Implementation()
 
 void ATFDoorBase::Interact_Implementation(ATFCharacter* Caller)
 {
-	Interact(Caller);
+	Execute_Interact(this, Caller);
 }
 
 bool ATFDoorBase::IsInteractable_Implementation() const

@@ -29,13 +29,14 @@ void ATFPlayerCharacter::TraceForInteraction()
 
 	GetWorld()->LineTraceSingleByChannel(LTHit, LTStart, LTEnd, ECC_Visibility, LTParams);
 
-	UpdateInteractionText_Implementation();
 	if (!LTHit.bBlockingHit || !LTHit.GetActor()->Implements<UInteractionInterface>())
 	{
 		InteractionActor = nullptr;
+		UpdateInteractionText_Implementation();
 		return;
 	}
 	InteractionActor = LTHit.GetActor();
+	UpdateInteractionText_Implementation();
 }
 
 void ATFPlayerCharacter::Move(const FInputActionValue& Value)
@@ -194,6 +195,10 @@ void ATFPlayerCharacter::OnInteractionTriggerOverlapEnd(UPrimitiveComponent* Ove
 	}
 	InteractableActors.Remove(OtherActor);
 	bEnableRayTrace = InteractableActors.Num() > 0;
+	if (!bEnableRayTrace)
+	{
+		UpdateInteractionText_Implementation();
+	}
 }
 
 void ATFPlayerCharacter::UpdateInteractionText_Implementation()

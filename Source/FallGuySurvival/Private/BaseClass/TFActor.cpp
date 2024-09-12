@@ -53,8 +53,7 @@ FSaveActorData ATFActor::GetSaveData_Implementation()
 
 void ATFActor::UpdateFromSave_Implementation()
 {
-	//UpdateFromSave();
-	Execute_UpdateFromSave(this);
+	//Execute_UpdateFromSave(this);
 }
 
 void ATFActor::SetWasSpawned(const bool& IsSpawned)

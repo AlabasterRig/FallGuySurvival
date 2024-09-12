@@ -38,6 +38,18 @@ public:
 	bool WasSpawned = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UClass* ActorClass;
+
+	FSaveActorData()
+	{
+
+	};
+
+	FSaveActorData(const FTransform actorTrans, const bool& wasSpawned, UClass* actorClass)
+	{
+		ActorTransform = actorTrans;
+		WasSpawned = wasSpawned;
+		ActorClass = actorClass;
+	}
 };
 
 // This class does not need to be modified.
@@ -61,18 +73,17 @@ public:
 	virtual FGuid GetActorSaveID_Implementation();
 	UFUNCTION(BlueprintNativeEvent)
 	void SetActorGuid(const FGuid& NewGuid);
-	void SetActorGuid_Implementation(const FGuid& NewGuid);
+	virtual void SetActorGuid_Implementation(const FGuid& NewGuid);
 	UFUNCTION(BlueprintNativeEvent)
 	FSaveActorData GetSaveData();
 	virtual FSaveActorData GetSaveData_Implementation();
 	UFUNCTION(BlueprintNativeEvent)
 	void UpdateFromSave();
-	void UpdateFromSave_Implementation();
+	virtual void UpdateFromSave_Implementation();
 	UFUNCTION(BlueprintNativeEvent)
 	FSaveComponentsData GetComponentSaveData();
 	virtual FSaveComponentsData GetComponentSaveData_Implementation();
 	UFUNCTION(BlueprintNativeEvent)
 	void SetComponentSaveData(FSaveComponentsData Data);
 	virtual void SetComponentSaveData_Implementation(FSaveComponentsData Data);
-
 };
