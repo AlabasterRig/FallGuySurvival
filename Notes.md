@@ -15,7 +15,8 @@ This markdown file is for future ideas to be implemented - may or may not implem
 # Explanation to how things are made to work and reason why bugs are not being fixed
 Might explain the additions or changes done in the project (or might not lol), will be using mostly for issues.
 - Harvest state of trees is not saved properly.  
-    Some logic issue in the save and loading code, I really cannot figure out what exactly. I'll not fix it now as it is highly time-consuming and I cannot move forward to other things.
+    Some logic issue in the save and loading code, I really cannot figure out what exactly. I'll not fix it now as it is highly time-consuming and I cannot move forward to other things.  
+    Update: 12/09/2024 - Fixed the load logic of the trees and its log spawning.
 
 # FYI
 I realize my mistake of committing too many times unnecessarily in a single day, and what I mean by that is I change `.md` files on GitHub instead of the editor I'm using. The reason being is that I am not confident to add stuff to `.md` files without previewing it first, hence the bloated number of commits. So, if you do see a high number of commits, please do check their content and the changes done to them.
