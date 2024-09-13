@@ -1,22 +1,26 @@
 # Ideas for future iterations
 This markdown file is for future ideas to be implemented - may or may not implement but will try. Mostly by seeing a video or something.
-- Add an Inventory System.
-- Add harvestable trees.
-- Save Actor transform and their states.
+- Add an Inventory System. ✔️/✅
+- Add harvestable trees. ✅
+- Save Actor transform and their states. ✅
 - Add a Grass painting tool (Have to learn from scratch).
 - Day/Night Cycle. - (Do from blueprints maybe).
 - Weather Effects (Sunny, Rainy, etc) - (Have to learn this as well lol).
 - Basic Weather Effects on character (heat, cold) - (Even this I gotta learn).
 - Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current).
+- Camera Adjustments
   
 .  
 .  
 
 # Explanation to how things are made to work and reason why bugs are not being fixed
 Might explain the additions or changes done in the project (or might not lol), will be using mostly for issues.
-- Harvest state of trees is not saved properly.  
-    Some logic issue in the save and loading code, I really cannot figure out what exactly. I'll not fix it now as it is highly time-consuming and I cannot move forward to other things.  
-    Update: 12/09/2024 - Fixed the load logic of the trees and its log spawning.
+- Harvest state of trees is not saved properly. (BUG)  
+    Some logic issue in the save and loading code in the `TFGameInstance` source file, I really cannot figure out what exactly. I'll not fix it now as it is highly time-consuming and I cannot move forward to other things.  
+    - Update: 12/09/2024 - Fixed the load logic of the trees and its log spawning function. (Main Code change in `LoadGame` function in `TFGameInstance`.)
+
+- Stat Adjustment in `ConsumablesItemBase` is added as TMap instead of as a struct.  
+    Adding it as an struct would have taken me a longer time to add items to inventory (Though it takes mere nano seconds, but still it adds up). So hence, using TMap to store the enum `ECoreStat` and float `Amount` for Stat Adjustment.
 
 # FYI
 I realize my mistake of committing too many times unnecessarily in a single day, and what I mean by that is I change `.md` files on GitHub instead of the editor I'm using. The reason being is that I am not confident to add stuff to `.md` files without previewing it first, hence the bloated number of commits. So, if you do see a high number of commits, please do check their content and the changes done to them.
