@@ -43,4 +43,8 @@ protected:
 	UStaticMesh* WorldMesh;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", ClampMin = "0.0"))
 	float ItemWeight = 1.0;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	virtual void OnUse(class ATFCharacter* Caller);
 };

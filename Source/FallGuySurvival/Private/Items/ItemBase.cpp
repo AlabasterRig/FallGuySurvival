@@ -3,3 +3,6 @@
 
 #include "Items/ItemBase.h"
 
+void UItemBase::OnUse(ATFCharacter* Caller)
+{
+}
