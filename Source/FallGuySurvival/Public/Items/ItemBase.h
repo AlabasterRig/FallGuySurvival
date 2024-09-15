@@ -20,6 +20,32 @@ public:
 	TSubclassOf<class UJunkItemBase> Item;
 };
 
+USTRUCT(BlueprintType)
+struct FItemUIData
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FText ItemName;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FText ItemDescription;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UTexture2D* ItemIcon;
+
+	FItemUIData()
+	{
+
+	}
+
+	FItemUIData(const FText& name, const FText& description, UTexture2D* icon)
+	{
+		ItemName = name;
+		ItemDescription = description;
+		this->ItemIcon = icon;
+	};
+};
+
 /**
  * 
  */
@@ -47,4 +73,12 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable)
 	virtual void OnUse(class ATFCharacter* Caller);
+	UFUNCTION(BlueprintCallable)
+	float GetStackWeight(const int Amount) const;
+	UFUNCTION(BlueprintCallable)
+	float GetItemWeight() const;
+	UFUNCTION(BlueprintCallable)
+	FItemUIData GetUIData() const;
+	UFUNCTION(BlueprintCallable)
+	TArray<FSalvageItem> GetSalvageData() const;
 };
