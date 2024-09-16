@@ -7,7 +7,7 @@
 #include "Components/StatlineComponent.h"
 #include "ConsumableItemBase.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class FALLGUYSURVIVAL_API UConsumableItemBase : public UItemBase
 {
 	GENERATED_BODY()

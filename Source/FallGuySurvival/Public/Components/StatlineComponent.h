@@ -146,6 +146,9 @@ public:
 	UStatlineComponent();
 
 	UFUNCTION(BlueprintCallable)
+	void SetMovementCompReference(UCharacterMovementComponent* Comp);
+
+	UFUNCTION(BlueprintCallable)
 	float GetStatPercentile(const ECoreStat stat) const;
 	UFUNCTION(BlueprintCallable)
 	bool CanSprint() const;
@@ -158,8 +161,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetSneaking(const bool& IsSneaking);
 
-	void SetMovementCompReference(UCharacterMovementComponent* Comp);
-
 	virtual FSaveComponentsData GetComponentSaveData_Implementation();
 	void SetComponentSaveData_Implementation(FSaveComponentsData Data);
+
+	UFUNCTION(BlueprintCallable)
+	void AdjustStat(const ECoreStat& Stat, const float& Amount);
 };

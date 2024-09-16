@@ -42,6 +42,8 @@ public:
 	FGuid GetActorSaveID_Implementation() override;
 	FSaveActorData GetSaveData_Implementation() override;
 	void SetActorGuid_Implementation(const FGuid& NewGuid) override;
-	
 	void SetWasSpawned(const bool& IsSpawned);
+
+	UFUNCTION(BlueprintCallable)
+	UStatlineComponent* GetStatline() const { return Statline; }
 };

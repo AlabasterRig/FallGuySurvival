@@ -204,3 +204,7 @@ void UStatlineComponent::SetComponentSaveData_Implementation(FSaveComponentsData
 	}
 }
 
+void UStatlineComponent::AdjustStat(const ECoreStat& Stat, const float& Amount)
+{
+}
+

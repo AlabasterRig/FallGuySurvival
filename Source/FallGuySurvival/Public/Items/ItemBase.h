@@ -72,13 +72,18 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	virtual void OnUse(class ATFCharacter* Caller);
+	virtual void OnUse(class ATFCharacter* Caller) { };
+
 	UFUNCTION(BlueprintCallable)
-	float GetStackWeight(const int Amount) const;
+	float GetStackWeight(const int Amount) const { return ItemWeight * Amount; }
 	UFUNCTION(BlueprintCallable)
-	float GetItemWeight() const;
+	float GetItemWeight() const { return ItemWeight; }
 	UFUNCTION(BlueprintCallable)
-	FItemUIData GetUIData() const;
+	FItemUIData GetUIData() const { return FItemUIData(ItemName, ItemDescription, ItemIcon); }
 	UFUNCTION(BlueprintCallable)
-	TArray<FSalvageItem> GetSalvageData() const;
+	TArray<FSalvageItem> GetSalvageData() const { return ResourceTags; }
+	UFUNCTION(BlueprintCallable)
+	UStaticMesh* GetWorldPickupMesh() const { return WorldMesh; }
+	UFUNCTION(BlueprintCallable)
+	int GetMaxStackSize() const { return MaxStackSize; }
 };
