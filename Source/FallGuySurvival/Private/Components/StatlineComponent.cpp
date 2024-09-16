@@ -115,7 +115,7 @@ float UStatlineComponent::GetStatPercentile(const ECoreStat stat) const
 	case ECoreStat::CS_THIRST:
 		return Thirst.Percentile();
 	default:
-		Logger::GetInstance()->AddMessage("GetStatPercentile() called with invalid stat type", ErrorLevel::EL_WARNING);
+		Logger::GetInstance()->AddMessage("UStatlineComponent::GetStatPercentile called with invalid stat type", ErrorLevel::EL_WARNING);
 		break;
 	}
 	return -1;
@@ -206,5 +206,20 @@ void UStatlineComponent::SetComponentSaveData_Implementation(FSaveComponentsData
 
 void UStatlineComponent::AdjustStat(const ECoreStat& Stat, const float& Amount)
 {
+	switch (Stat)
+	{
+	case ECoreStat::CS_HEALTH:
+		Health.Adjust(Amount);
+	case ECoreStat::CS_STAMINA:
+		Stamina.Adjust(Amount);
+	case ECoreStat::CS_HUNGER:
+		Hunger.Adjust(Amount);
+	case ECoreStat::CS_THIRST:
+		Thirst.Adjust(Amount);
+	default:
+		Logger::GetInstance()->AddMessage("UStatlineComponent::AdjustStat called with invalid stat type", ErrorLevel::EL_WARNING);
+		break;
+	}
+	return;
 }
 
