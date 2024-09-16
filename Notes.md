@@ -9,6 +9,7 @@ This markdown file is for future ideas to be implemented - may or may not implem
 - Basic Weather Effects on character (heat, cold) - (Even this I gotta learn).
 - Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current).
 - Camera Adjustments
+- Will create new header file/files to add all the structs and enums which are required multiple times in different files.
   
 .  
 .  
