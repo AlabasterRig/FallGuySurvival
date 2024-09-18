@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "Interface/SaveActorInterface.h"
+#include "Data/FSaveActorData.h"
 #include "TFGameInstance.generated.h"
 
 /**

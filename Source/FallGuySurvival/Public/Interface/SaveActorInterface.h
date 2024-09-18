@@ -4,53 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "Data/FSaveActorData.h"
 #include "SaveActorInterface.generated.h"
-
-USTRUCT(BlueprintType)
-struct FSaveComponentsData
-{
-	GENERATED_USTRUCT_BODY()
-
-public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	TArray<uint8> ByteData;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	UClass* ComponentClass;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	TArray<FString> RawData;
-
-};
-
-
-USTRUCT(BlueprintType)
-struct FSaveActorData
-{
-	GENERATED_USTRUCT_BODY()
-
-public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	FTransform ActorTransform;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	TArray<uint8> ByteData;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	TArray<FSaveComponentsData> ComponentData;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	bool WasSpawned = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	UClass* ActorClass;
-
-	FSaveActorData()
-	{
-
-	};
-
-	FSaveActorData(const FTransform actorTrans, const bool& wasSpawned, UClass* actorClass)
-	{
-		ActorTransform = actorTrans;
-		WasSpawned = wasSpawned;
-		ActorClass = actorClass;
-	}
-};
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)

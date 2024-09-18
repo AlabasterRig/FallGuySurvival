@@ -6,86 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "Interface/SaveActorInterface.h"
 #include "Logger.h"
+#include "Data/FCoreStat.h"
+#include "Data/ECoreStat.h"
 #include "StatlineComponent.generated.h"
-
-
-UENUM(BlueprintType)
-enum class ECoreStat : uint8
-{
-	CS_HEALTH UMETA(DisplayName="Health"),
-	CS_STAMINA UMETA(DisplayName = "Stamina"),
-	CS_HUNGER UMETA(DisplayName = "Hunger"),
-	CS_THIRST UMETA(DisplayName = "Thirst")
-};
-
-USTRUCT(BlueprintType)
-struct FCoreStat
-{
-	GENERATED_USTRUCT_BODY();
-
-private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
-	float Current = 100;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
-	float Max = 100;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
-	float PerSecondTick = 1;
-
-public:
-	FCoreStat()
-	{
-
-	}
-
-	FCoreStat(const float& current, const float& max, const float& tick)
-	{
-		Current = current;
-		Max = max;
-		PerSecondTick = tick;
-	}
-
-	void TickStat(const float& DeltaTime)
-	{
-		Current = FMath::Clamp(Current + (PerSecondTick * DeltaTime), 0, Max);
-	}
-
-	void Adjust(const float& Amount)
-	{
-		Current = FMath::Clamp(Current + Amount, 0, Max);
-	}
-
-	float Percentile() const
-	{
-		return Current / Max;
-	}
-
-	float GetCurrent() const
-	{
-		return Current;
-	}
-
-	FString GetSaveString()
-	{
-		FString Ret = FString::SanitizeFloat(Current);
-		Ret += "|";
-		Ret += FString::SanitizeFloat(Max);
-		Ret += "|";
-		Ret += FString::SanitizeFloat(PerSecondTick);
-		return Ret;
-	}
-
-	void UpdateFromSaveString(TArray<FString> Parts)
-	{
-		if (Parts.Num() != 3)
-		{
-			Logger::GetInstance()->AddMessage("FCoreStat::UpdateFromSaveString called with other than 3 parts", ErrorLevel::EL_WARNING);
-			return;
-		}
-		Current = FCString::Atof(*Parts[0]);
-		Max = FCString::Atof(*Parts[1]);
-		PerSecondTick = FCString::Atof(*Parts[2]);
-	}
-};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class FALLGUYSURVIVAL_API UStatlineComponent : public UActorComponent, public ISaveActorInterface

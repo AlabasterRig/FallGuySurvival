@@ -5,11 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
 #include "Interface/SaveActorInterface.h"
+#include "Data/FSaveActorData.h"
 #include "TFSaveGame.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class FALLGUYSURVIVAL_API UTFSaveGame : public USaveGame
 {
@@ -21,11 +19,11 @@ private:
 	UPROPERTY()
 	FName CurrentlyLoadedLevel = "NONE";
 	UPROPERTY()
-	FSaveActorData PlayerData;
+	struct FSaveActorData PlayerData;
 
 public:
-	void SetSaveActorData(TMap<FGuid, struct FSaveActorData> Data);
-	TMap<FGuid, struct FSaveActorData> GetSaveActorData();
+	void SetSaveActorData(TMap<FGuid, FSaveActorData> Data);
+	TMap<FGuid, FSaveActorData> GetSaveActorData();
 	void SetCurrentLevel(const FName Level);
 	FName GetCurrentLevel();
 	void SetPlayerData(FSaveActorData Data);

@@ -4,47 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Data/FSalvageItem.h"
+#include "Data/FItemUIData.h"
 #include "ItemBase.generated.h"
-
-USTRUCT(BlueprintType)
-struct FSalvageItem
-{
-	GENERATED_USTRUCT_BODY()
-	
-public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	int Quantity = 1;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FText Tag;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<class UJunkItemBase> Item;
-};
-
-USTRUCT(BlueprintType)
-struct FItemUIData
-{
-	GENERATED_USTRUCT_BODY()
-
-public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	FText ItemName;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	FText ItemDescription;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UTexture2D* ItemIcon;
-
-	FItemUIData()
-	{
-
-	}
-
-	FItemUIData(const FText& name, const FText& description, UTexture2D* icon)
-	{
-		ItemName = name;
-		ItemDescription = description;
-		this->ItemIcon = icon;
-	};
-};
 
 /**
  * 
