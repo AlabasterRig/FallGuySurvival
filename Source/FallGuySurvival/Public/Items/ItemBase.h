@@ -26,6 +26,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int MaxStackSize = 1;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	int CurrentStackSize = 1;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<FSalvageItem> ResourceTags;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UStaticMesh* WorldMesh;
@@ -37,7 +39,7 @@ public:
 	virtual void OnUse(class ATFCharacter* Caller) { };
 
 	UFUNCTION(BlueprintCallable)
-	float GetStackWeight(const int Amount) const { return ItemWeight * Amount; }
+	float GetStackWeight() const { return ItemWeight * CurrentStackSize; }
 	UFUNCTION(BlueprintCallable)
 	float GetItemWeight() const { return ItemWeight; }
 	UFUNCTION(BlueprintCallable)
@@ -47,5 +49,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UStaticMesh* GetWorldPickupMesh() const { return WorldMesh; }
 	UFUNCTION(BlueprintCallable)
-	int GetMaxStackSize() const { return MaxStackSize; }
+	int GetMaxStack() const { return MaxStackSize; }
+	UFUNCTION(BlueprintCallable)
+	int GetCurrentStack() const { return CurrentStackSize; }
+	UFUNCTION(BlueprintCallable)
+	int AddToStack(const int& Amount);
+	UFUNCTION(BlueprintCallable)
+	int RemoveFromStack(const int& Amount);
 };
