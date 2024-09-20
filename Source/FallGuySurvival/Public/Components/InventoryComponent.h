@@ -20,7 +20,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<TSubclassOf<class UItemBase>> InventoryContents;
 
-	bool IsOverCarryWeight(TSubclassOf<class UItemBase> Item);
+	// Helper Function
+	UFUNCTION(BlueprintCallable)
+	bool IsOverCarryWeight(const float& ItemWeight) const;
 
 protected:
 	// Called when the game starts
@@ -33,7 +35,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool AddItemToTop(TSubclassOf<class UItemBase> Item);
 	UFUNCTION(BlueprintCallable)
-	bool AddItemAtIndex(TSubclassOf<class UItemBase> Item, const int& Index);
+	bool AddItemAtIndex(TSubclassOf<class UItemBase> Item, int& Index);
 	UFUNCTION(BlueprintCallable)
 	bool AddItemToStackAtIndex(TSubclassOf<class UItemBase> Item, const int& Index);
 };

@@ -15,9 +15,13 @@ UInventoryComponent::UInventoryComponent()
 }
 
 
-bool UInventoryComponent::IsOverCarryWeight(TSubclassOf<class UItemBase> Item)
+bool UInventoryComponent::IsOverCarryWeight(const float& ItemWeight) const
 {
-	return false;
+	if (CurrentWeight + ItemWeight > MaxWeight)
+	{
+		return false;
+	}
+	return true;
 }
 
 // Called when the game starts
@@ -41,7 +45,7 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 bool UInventoryComponent::AddItemToTop(TSubclassOf<UItemBase> Item)
 {
 	float ItemWeight = Item.GetDefaultObject()->GetStackWeight();
-	if (CurrentWeight + ItemWeight > MaxWeight)
+	if (IsOverCarryWeight(ItemWeight))
 	{
 		return false;
 	}
@@ -50,18 +54,42 @@ bool UInventoryComponent::AddItemToTop(TSubclassOf<UItemBase> Item)
 	return true;
 }
 
-bool UInventoryComponent::AddItemAtIndex(TSubclassOf<class UItemBase> Item, const int& Index)
+bool UInventoryComponent::AddItemAtIndex(TSubclassOf<UItemBase> Item, int& Index)
 {
 	float ItemWeight = Item.GetDefaultObject()->GetStackWeight();
-	if (CurrentWeight + ItemWeight > MaxWeight)
+	if (IsOverCarryWeight(ItemWeight))
 	{
 		return false;
 	}
-	return true;
+	if (Index > InventoryContents.Num())
+	{
+		Index = InventoryContents.Num();
+	}
+	InventoryContents.Insert(Item, Index);
+	CurrentWeight += ItemWeight;
+	return false;
 }
 
-bool UInventoryComponent::AddItemToStackAtIndex(TSubclassOf<class UItemBase> Item, const int& Index)
+bool UInventoryComponent::AddItemToStackAtIndex(TSubclassOf<UItemBase> Item, const int& Index)
 {
-	return false;
+	float ItemWeight = Item.GetDefaultObject()->GetStackWeight();
+	if (IsOverCarryWeight(ItemWeight))
+	{
+		return false;
+	}
+	if (Index > InventoryContents.Num())
+	{
+		// TODO: Add Error logging
+		return false;
+	}
+	UItemBase* TargetItem = Cast<UItemBase>(InventoryContents[Index]);
+	int Remain = TargetItem->AddToStack(Item.GetDefaultObject()->GetCurrentStack());
+	if (Remain > 0)
+	{
+		Item.GetDefaultObject()->SetStackSize(Remain);
+		InventoryContents.Insert(Item, 0);
+	}
+	CurrentWeight += ItemWeight;
+	return true;
 }
 

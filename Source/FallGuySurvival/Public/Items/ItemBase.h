@@ -56,4 +56,6 @@ public:
 	int AddToStack(const int& Amount);
 	UFUNCTION(BlueprintCallable)
 	int RemoveFromStack(const int& Amount);
+	UFUNCTION(BlueprintCallable)
+	void SetStackSize(const int& Amount) { CurrentStackSize = Amount; }
 };
