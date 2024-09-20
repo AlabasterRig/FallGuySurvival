@@ -123,9 +123,3 @@
 - Harvest State of Trees are not saved properly. (It was actually not being loaded properly).
   - Fix Explanation:  
     Changed the load game logic in `TFGameInstance`. At first the code finds the actors which were marked as **spawned** and destroys them, it then loops through the save actor data and respawns them and also restores their transform and their state. (This was very difficult to fix—almost gave up thrice fixing this! Took help from StackOverflow and also the Unreal Enigne forums. Also, I noticed a bug that the `TFDoorBase` is not saving its state correctly).
-
-## References
-The Save Game Functionality is a copy of and even a slight variation of Tom Looman's Tutorials.  
-This is a link to [Tom Looman's Tutorial][1].
-
-[1]: https://www.tomlooman.com/unreal-engine-cpp-save-system/
