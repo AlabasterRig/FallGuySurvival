@@ -42,3 +42,11 @@ I don't know for sure, but cloning this repository might not provide anyone with
 I am not aware of any other way of providing insight into the development of this project and the constant iterations I do in it. I don't even know where else to store this project, to be honest, as it has a huge file size.
 
 **<mark>My main focus is to show the coding aspect of the game along with its logic.</mark>**
+
+
+# References
+1) The Save Game Functionality is a copy of and even a slight variation of Tom Looman's Tutorials.  
+   This is a link to [Tom Looman's Tutorial](https://www.tomlooman.com/unreal-engine-cpp-save-system/).
+
+2) The BP_IconGenerator is a copy of Unreal University tutorial.  
+   This is the link to [Unreal University's Tutorial](https://www.youtube.com/watch?v=EpthBJJ9S-o).
