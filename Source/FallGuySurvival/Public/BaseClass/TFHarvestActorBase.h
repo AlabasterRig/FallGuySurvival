@@ -19,7 +19,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* PermanentMesh;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class TSubclassOf<class AActor> InventoryItem;
+	class TSubclassOf<class UItemBase> InventoryItem;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FText InteractionText = FText::FromString("DEFAULT");
 

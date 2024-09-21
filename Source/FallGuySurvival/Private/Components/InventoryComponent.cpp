@@ -19,9 +19,9 @@ bool UInventoryComponent::IsOverCarryWeight(const float& ItemWeight) const
 {
 	if (CurrentWeight + ItemWeight > MaxWeight)
 	{
-		return false;
+		return true;
 	}
-	return true;
+	return false;
 }
 
 // Called when the game starts
@@ -44,6 +44,11 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 bool UInventoryComponent::AddItemToTop(TSubclassOf<UItemBase> Item)
 {
+	if (!IsValid(Item))
+	{
+		// TODO: Add Error Logging 
+		return false;
+	}
 	float ItemWeight = Item.GetDefaultObject()->GetStackWeight();
 	if (IsOverCarryWeight(ItemWeight))
 	{

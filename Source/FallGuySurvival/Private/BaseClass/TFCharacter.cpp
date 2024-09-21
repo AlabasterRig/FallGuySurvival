@@ -3,6 +3,7 @@
 
 #include "BaseClass/TFCharacter.h"
 #include "Components/StatlineComponent.h"
+#include "Components/InventoryComponent.h"
 
 // Sets default values
 ATFCharacter::ATFCharacter()
@@ -12,7 +13,7 @@ ATFCharacter::ATFCharacter()
 
 	Statline = CreateDefaultSubobject<UStatlineComponent>(TEXT("Statline"));
 	Statline->SetMovementCompReference(GetCharacterMovement());
-
+	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
 	SaveActorID = FGuid::NewGuid();
 }
 

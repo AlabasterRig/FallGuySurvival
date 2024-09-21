@@ -2,6 +2,9 @@
 
 
 #include "BaseClass/TFHarvestActorBase.h"
+#include "Components/InventoryComponent.h"
+#include "BaseClass/TFCharacter.h"
+#include "Items/ItemBase.h"
 
 ATFHarvestActorBase::ATFHarvestActorBase()
 {
@@ -25,14 +28,29 @@ FText ATFHarvestActorBase::GetInteractionText_Implementation()
 
 void ATFHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 {
+	UInventoryComponent* Inventory = Caller->GetInventory();
+	int Remain = ItemCount;
+	while (Remain > 0 && Inventory->AddItemToTop(InventoryItem))
+	{
+		Remain--;
+	}
+	if (Remain == 0)
+	{
+		UpdateHarvestState();
+		bIsHarvested = true;
+		return;
+	}
+	ItemCount = Remain;
+	return;
+	
 	/*
 		UInventoryComponent* InvetComp = Caller->GetInventory();
 		int rem = -1;
 		if(rem = InvetComp->AddItem(InvetoryItem, ItemCount) == 0)
 		{
 	*/
-	UpdateHarvestState();
-	bIsHarvested = true;
+	//UpdateHarvestState();
+	//bIsHarvested = true;
 	/*
 			return;
 		}

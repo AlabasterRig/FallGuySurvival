@@ -15,6 +15,8 @@ class FALLGUYSURVIVAL_API ATFCharacter : public ACharacter, public ISaveActorInt
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta=(AllowPrivateAccess = "true"))
 	class UStatlineComponent* Statline;	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent* Inventory;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
@@ -46,4 +48,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UStatlineComponent* GetStatline() const { return Statline; }
+	UFUNCTION(BlueprintCallable)
+	UInventoryComponent* GetInventory() const { return Inventory; }
 };
