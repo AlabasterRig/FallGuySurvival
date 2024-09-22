@@ -4,20 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Interface/SaveActorInterface.h"
 #include "InventoryComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class FALLGUYSURVIVAL_API UInventoryComponent : public UActorComponent
+class FALLGUYSURVIVAL_API UInventoryComponent : public UActorComponent, public ISaveActorInterface
 {
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
 	float MaxWeight = 100;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
 	float CurrentWeight = 0;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true")) // TODO: Change back to EditDefaultsOnly
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true")) // TODO: Change back to EditDefaultsOnly
 	TArray<TSubclassOf<class UItemBase>> InventoryContents;
 
 	// Helper Function
