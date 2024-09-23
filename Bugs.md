@@ -8,9 +8,11 @@
 - Actor Transform not being saved correctly.
 - Harvestable Tree code not working, so implemented using Blueprints, which is correctly destroying the MainTree mesh but not spawning the StumpTree mesh.
 - Harvest State of Trees are not saved properly. (It was actually not being loaded properly).
+- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 
 ## Current Bugs
 - If Hunger reduces to 0, then thirst will stop reducing.
+- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
