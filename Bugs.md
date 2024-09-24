@@ -1,3 +1,6 @@
+# Bugs  
+This `.md` file states the bugs encountered during debugging and playtesting. There might be more bugs deep in the code that I haven't seen yet. Will update accordingly.
+
 ## All Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
 - Jumping while in the air or clicking the jump button again reduces stamina.
@@ -8,9 +11,10 @@
 - Actor Transform not being saved correctly.
 - Harvestable Tree code not working, so implemented using Blueprints, which is correctly destroying the MainTree mesh but not spawning the StumpTree mesh.
 - Harvest State of Trees are not saved properly. (It was actually not being loaded properly).
+- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 
 ## Current Bugs
-- If Hunger reduces to 0, then thirst will stop reducing.
+- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
@@ -20,6 +24,8 @@
 - Interaction Raytrace is triggered from the beginning, instead of getting close to the object.
 - Actor Transform not being saved correctly.
 - Harvestable Tree code not working, so implemented using Blueprints, which is correctly destroying the MainTree mesh but not spawning the StumpTree mesh.
+- Harvest State of Trees are not saved properly. (It was actually not being loaded properly).
+- If Hunger reduces to 0, then Thirst will stop reducing. (Fixed long ago).
 
 ### Fixed Bugs Code
 - Jumping while in the air or clicking the jump button again reduces stamina.
@@ -121,5 +127,23 @@
     `MarkComponentsRenderStateDirty()` - This is meant to update new meshes at runtime.
 
 - Harvest State of Trees are not saved properly. (It was actually not being loaded properly).
+
   - Fix Explanation:  
     Changed the load game logic in `TFGameInstance`. At first the code finds the actors which were marked as **spawned** and destroys them, it then loops through the save actor data and respawns them and also restores their transform and their state. (This was very difficult to fix—almost gave up thrice fixing this! Took help from StackOverflow and also the Unreal Enigne forums. Also, I noticed a bug that the `TFDoorBase` is not saving its state correctly).
+
+- If Hunger reduces to 0, then Thirst will stop reducing. (Fixed Long ago when this code was added).
+
+  - Fix Solution:
+    ```cpp
+    void UStatlineComponent::TickStats(const float& DeltaTime)
+    {
+        TickStamina(DeltaTime);
+        TickHunger(DeltaTime);
+        TickThirst(DeltaTime);
+        if (Thirst.GetCurrent() <= 0.0 || Hunger.GetCurrent() <= 0.0)
+        {
+            return;
+        }
+        Health.TickStat(DeltaTime);
+    }
+    ```
