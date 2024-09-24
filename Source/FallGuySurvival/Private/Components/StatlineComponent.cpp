@@ -198,7 +198,7 @@ void UStatlineComponent::SetComponentSaveData_Implementation(FSaveComponentsData
 			Thirst.UpdateFromSaveString(Parts);
 			break;
 		default:
-			//Log Error
+			Logger::GetInstance()->AddMessage("UStatlineComponent::SetComponentSaveData_Implementation called with invalid stat data", ErrorLevel::EL_WARNING);
 			break;
 		}
 	}
