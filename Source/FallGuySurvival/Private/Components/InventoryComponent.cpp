@@ -98,3 +98,13 @@ bool UInventoryComponent::AddItemToStackAtIndex(TSubclassOf<UItemBase> Item, con
 	return true;
 }
 
+TArray<FItemUIData> UInventoryComponent::GetInventoryUIData() const
+{
+	TArray<FItemUIData> Ret;
+	for (int Index = 0; Index < InventoryContents.Num(); Index++)
+	{
+		Ret.Add(InventoryContents[Index].GetDefaultObject()->GetUIData(Index));
+	}
+	return 
+}
+
