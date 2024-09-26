@@ -2,6 +2,9 @@
 
 
 #include "BaseClass/TFPickupActorBase.h"
+#include "Components/InventoryComponent.h"
+#include "BaseClass/TFCharacter.h"
+#include "Items/ItemBase.h"
 
 ATFPickupActorBase::ATFPickupActorBase()
 {
@@ -16,6 +19,27 @@ FText ATFPickupActorBase::GetInteractionText_Implementation()
 
 void ATFPickupActorBase::Interact_Implementation(ATFCharacter* Caller)
 {
+	if (!IsValid(InventoryItem))
+	{
+		// TODO: Error Logging
+		return;
+	}
+
+	UInventoryComponent* Inventory = Caller->GetInventory();
+	int Remain = ItemCount;
+	while (Remain > 0 && Inventory->AddItemToTop(InventoryItem))
+	{
+		Remain--;
+	}
+	if (Remain == 0)
+	{
+		this->Destroy();
+		// this->SetAutoDestroyWhenFinished(true);
+		return;
+	}
+	ItemCount = Remain;
+	return;
+
 	/* 
 		UInventoryComponent* InvetComp = Caller->GetInventory();
 		int rem = -1;

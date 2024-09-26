@@ -210,12 +210,16 @@ void UStatlineComponent::AdjustStat(const ECoreStat& Stat, const float& Amount)
 	{
 	case ECoreStat::CS_HEALTH:
 		Health.Adjust(Amount);
+		return;
 	case ECoreStat::CS_STAMINA:
 		Stamina.Adjust(Amount);
+		return;
 	case ECoreStat::CS_HUNGER:
 		Hunger.Adjust(Amount);
+		return;
 	case ECoreStat::CS_THIRST:
 		Thirst.Adjust(Amount);
+		return;
 	default:
 		Logger::GetInstance()->AddMessage("UStatlineComponent::AdjustStat called with invalid stat type", ErrorLevel::EL_WARNING);
 		break;
