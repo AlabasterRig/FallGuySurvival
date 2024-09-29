@@ -58,6 +58,8 @@ private:
 	UInputAction* SneakAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* InventoryAction;
 
 
 #pragma endregion
@@ -70,8 +72,13 @@ private:
 	float InteractionTraceLength = 200; 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = DEBUG, meta = (AllowPrivateAccess = "true"))
 	bool DEBUG_SHOW_INTERACTION_TRACE = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bInventoryIsShown = false;
 
 	void TraceForInteraction();
+
+	 // Helper Function
+	bool BlockCharacterInput() const;
 
 protected:
 	/** Called for movement input */
@@ -109,4 +116,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void UpdateInteractionText();
 	void UpdateInteractionText_Implementation();
+	UFUNCTION(BlueprintNativeEvent)
+	void TogglePlayerInventory();
+	void TogglePlayerInventory_Implementation();
 };

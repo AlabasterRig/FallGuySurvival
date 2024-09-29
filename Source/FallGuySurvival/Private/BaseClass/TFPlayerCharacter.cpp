@@ -17,6 +17,10 @@
 
 void ATFPlayerCharacter::TraceForInteraction()
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	FCollisionQueryParams LTParams = FCollisionQueryParams(FName(TEXT("InteractionTrace")), true, this);
 	LTParams.bReturnPhysicalMaterial = false;
 	LTParams.bReturnFaceIndex = false;
@@ -37,8 +41,17 @@ void ATFPlayerCharacter::TraceForInteraction()
 	InteractionActor = LTHit.GetActor();
 }
 
+bool ATFPlayerCharacter::BlockCharacterInput() const
+{
+	return bInventoryIsShown;
+}
+
 void ATFPlayerCharacter::Move(const FInputActionValue& Value)
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
 	if (Controller != nullptr)
@@ -54,6 +67,10 @@ void ATFPlayerCharacter::Move(const FInputActionValue& Value)
 
 void ATFPlayerCharacter::Look(const FInputActionValue& Value)
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
 	if (Controller != nullptr)
@@ -65,6 +82,10 @@ void ATFPlayerCharacter::Look(const FInputActionValue& Value)
 
 void ATFPlayerCharacter::Playerjump()
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	if (ATFCharacter::CanJump() && !GetMovementComponent()->IsFalling())
 	{
 		ATFCharacter::HasJumped();
@@ -73,26 +94,46 @@ void ATFPlayerCharacter::Playerjump()
 
 void ATFPlayerCharacter::SprintOn()
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	SetSprinting(true);
 }
 
 void ATFPlayerCharacter::SprintOff()
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	SetSprinting(false);
 }
 
 void ATFPlayerCharacter::SneakOn()
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	SetSneaking(true);
 }
 
 void ATFPlayerCharacter::SneakOff()
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	SetSneaking(false);
 }
 
 void ATFPlayerCharacter::OnInteract()
 {
+	if (BlockCharacterInput())
+	{
+		return;
+	}
 	if (InteractionActor == nullptr)
 	{
 		return;
@@ -127,6 +168,7 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Started, this, &ATFPlayerCharacter::SneakOn);
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::SneakOff);
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::OnInteract);
+		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::TogglePlayerInventory_Implementation);
 	}
 }
 
@@ -193,9 +235,20 @@ void ATFPlayerCharacter::OnInteractionTriggerOverlapEnd(UPrimitiveComponent* Ove
 	}
 	InteractableActors.Remove(OtherActor);
 	bEnableRayTrace = InteractableActors.Num() > 0;
+	if (!bEnableRayTrace)
+	{
+		TraceForInteraction();
+		UpdateInteractionText_Implementation();
+	}
 }
 
 void ATFPlayerCharacter::UpdateInteractionText_Implementation()
 {
 	UpdateInteractionText();
+}
+
+void ATFPlayerCharacter::TogglePlayerInventory_Implementation()
+{
+	bInventoryIsShown = !bInventoryIsShown;
+	TogglePlayerInventory();
 }
