@@ -15,7 +15,6 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
 - Inventory not opening if no items added beforehand. It also doesn't open even after picking up an item after initially opening an empty inventory. (Fixed in previous commits).
 
 ## Current Bugs
-- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
@@ -28,6 +27,7 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
 - Harvest State of Trees are not saved properly. (It was actually not being loaded properly).
 - If Hunger reduces to 0, then Thirst will stop reducing. (Fixed long ago).
 - Inventory not opening if no items added beforehand. It also doesn't open even after picking up an item after initially opening an empty inventory. (Fixed in previous commits).
+- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 
 ### Fixed Bugs Code
 - Jumping while in the air or clicking the jump button again reduces stamina.
@@ -154,3 +154,7 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
   - Fix Explanation:  
     Made blueprint changes to the UI aspect and also to the `BP_ThirdPersonCharacter` graph to fix this issue.
     
+- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
+
+  - Fix Explanation:   
+    I again forgot that items imported from quixel do not have a collision mesh. Now after adding collision its working pefectly fine as intended.
