@@ -32,6 +32,10 @@ Might explain the additions or changes done in the project (or might not lol), w
 - Added Icon Generator BP.
     - I was taking screenshots of the assets to get an image for my icons tab which was getting extremely frustrating and time-consuming, so I went on `youtube.com` to find a solution to my problem and to make it much easier and quicker. Fortunately, I found a video showcasing how to generate icons using a `ScreenCaptureComponent2D` component in blueprints. This is the video by [Unreal University](https://www.youtube.com/watch?v=EpthBJJ9S-o).
 
+- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
+    - Update: 29/09/2024 - Still haven't found a fix, I know that the mushroom is not added to the `InteractionActors` though it does implement `IInteractionInterface`, the RayTrace is not being drawn when logs are triggered to spwan. I don't understand what function is being missed. Will try to fix in future and not worry about it now.
+    - Update: 29/09/2024 (20:25) - Added a collision mesh on the mushroom and its working perfectly fine now.
+
 # FYI
 I realize my mistake of committing too many times unnecessarily in a single day, and what I mean by that is I change `.md` files on GitHub instead of the editor I'm using. The reason being is that I am not confident to add stuff to `.md` files without previewing it first, hence the bloated number of commits. So, if you do see a high number of commits, please do check their content and the changes done to them.
 
