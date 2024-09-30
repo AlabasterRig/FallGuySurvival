@@ -12,6 +12,8 @@ struct FTimeData
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Time")
+	int DayOfYear = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Time")
 	int Year = 2024;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Time")
 	int Month = 9;

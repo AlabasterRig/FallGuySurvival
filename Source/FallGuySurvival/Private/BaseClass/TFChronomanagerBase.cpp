@@ -2,6 +2,12 @@
 
 
 #include "BaseClass/TFChronomanagerBase.h"
+#include "Engine/DirectionalLight.h"
+#include "Engine/SkyLight.h"
+#include "Curves/CurveFloat.h"
+#include "Curves/CurveLinearColor.h"
+//#include "Components/DirectionalLightComponent.h"
+//#include "Components/SkyLightComponent.h"
 
 void ATFChronomanagerBase::UpdateTime(const float& DeltaTime)
 {
@@ -109,6 +115,26 @@ void ATFChronomanagerBase::CalculateDayLength()
 	TimeDecay = MinuteLength;
 }
 
+void ATFChronomanagerBase::UpdateTimeOfDayRef()
+{
+	CurrentTimeOfDay = (CurrentTime.Hour * 60) + CurrentTime.Minute;
+}
+
+void ATFChronomanagerBase::UpdateLighting()
+{
+	if (!IsValid(SunLight))
+	{
+		// TODO: Log Error for missing Light
+		return;
+	}
+	float NewLightIntensity = DailySunIntensity->GetFloatValue(CurrentTimeOfDay);
+	NewLightIntensity -= AnnualSunIntensity->GetFloatValue(CurrentTime.Month);
+}
+
+void ATFChronomanagerBase::UpdateLightRotation(const float& DeltaTime)
+{
+}
+
 void ATFChronomanagerBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -118,5 +144,10 @@ void ATFChronomanagerBase::BeginPlay()
 void ATFChronomanagerBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (!bUseDayNightCycle)
+	{
+		return;
+	}
 	UpdateTime(DeltaTime);
+	UpdateTimeOfDayRef();
 }
