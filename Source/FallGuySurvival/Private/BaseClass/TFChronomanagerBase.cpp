@@ -1,0 +1,122 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "BaseClass/TFChronomanagerBase.h"
+
+void ATFChronomanagerBase::UpdateTime(const float& DeltaTime)
+{
+	TimeDecay -= DeltaTime;
+	if (TimeDecay <=0)
+	{
+		TimeDecay += MinuteLength;
+		AdvanceMinute();
+	}
+}
+
+void ATFChronomanagerBase::AdvanceMinute()
+{
+	bTimeWasUpdated = true;
+	CurrentTime.Minute++;
+	if (CurrentTime.Minute >= 60)
+	{
+		CurrentTime.Minute = 0;
+		AdvanceHour();
+	}
+}
+
+void ATFChronomanagerBase::AdvanceHour()
+{
+	bTimeWasUpdated = true;
+	CurrentTime.Hour++;
+	if (CurrentTime.Hour >= 24)
+	{
+		CurrentTime.Hour = 0;
+		AdvanceDay();
+	}
+}
+
+void ATFChronomanagerBase::AdvanceDay()  // Like a typical real world calendar, we have 30 days in a month or 31 days in a month
+{
+	bTimeWasUpdated = true;
+	CurrentTime.Day++;
+	switch (CurrentTime.Month)
+	{
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 8:
+	case 10:
+	case 12:
+		if (CurrentTime.Day > 31)
+		{
+			CurrentTime.Day = 1;
+			AdvanceMonth();
+		}
+		break;
+	case 2:
+		if (CurrentTime.Year % 4 == 0)
+		{
+			if (CurrentTime.Day > 29)
+			{
+				CurrentTime.Day = 1;
+				AdvanceMonth();
+			}
+			break;
+		}
+		if (CurrentTime.Day > 28)
+		{
+			CurrentTime.Day = 1;
+			AdvanceMonth();
+		}
+		break;
+	case 4:
+	case 6:
+	case 9:
+	case 11:
+		if (CurrentTime.Day > 30)
+		{
+			CurrentTime.Day = 1;
+			AdvanceMonth();
+		}
+		break;
+	default:
+		// TODO: Log Invalid Month
+		break;
+	}
+}
+
+void ATFChronomanagerBase::AdvanceMonth()
+{
+	bTimeWasUpdated = true;
+	CurrentTime.Month++;
+	if (CurrentTime.Month > 12)
+	{
+		CurrentTime.Month = 1;
+		AdvanceYear();
+	}
+}
+
+void ATFChronomanagerBase::AdvanceYear()
+{
+	bTimeWasUpdated = true;
+	CurrentTime.Year++;
+}
+
+void ATFChronomanagerBase::CalculateDayLength()
+{
+	MinuteLength = (DayLengthInMinutes * 60) / 1440;
+	TimeDecay = MinuteLength;
+}
+
+void ATFChronomanagerBase::BeginPlay()
+{
+	Super::BeginPlay();
+	CalculateDayLength();
+}
+
+void ATFChronomanagerBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	UpdateTime(DeltaTime);
+}

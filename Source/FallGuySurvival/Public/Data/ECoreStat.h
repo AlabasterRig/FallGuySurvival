@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ECoreStat.generated.h"
 
 UENUM(BlueprintType)
 enum class ECoreStat : uint8
