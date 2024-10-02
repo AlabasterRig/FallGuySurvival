@@ -44,6 +44,7 @@ void ATFChronomanagerBase::AdvanceHour()
 void ATFChronomanagerBase::AdvanceDay()  // Like a typical real world calendar, we have 30 days in a month or 31 days in a month
 {
 	bTimeWasUpdated = true;
+	SetDayOfYear();
 	CurrentTime.Day++;
 	switch (CurrentTime.Month)
 	{
@@ -107,6 +108,40 @@ void ATFChronomanagerBase::AdvanceYear()
 {
 	bTimeWasUpdated = true;
 	CurrentTime.Year++;
+}
+
+void ATFChronomanagerBase::SetDayOfYear()
+{
+	switch (CurrentTime.Month)
+	{
+	case 12:
+		CurrentTimeOfDay += 30;
+	case 11:
+		CurrentTimeOfDay += 31;
+	case 10:
+		CurrentTimeOfDay += 30;
+	case 9:
+		CurrentTimeOfDay += 31;
+	case 8:
+		CurrentTimeOfDay += 31;
+	case 7:
+		CurrentTimeOfDay += 30;
+	case 6:
+		CurrentTimeOfDay += 31;
+	case 5:
+		CurrentTimeOfDay += 30;
+	case 4:
+		CurrentTimeOfDay += 31;
+	case 3:
+		CurrentTimeOfDay += CurrentTime.Year % 4 == 0 ? 29 : 28;
+	case 2:
+		CurrentTimeOfDay += 31;
+	case 1:
+		CurrentTime.DayOfYear = CurrentTime.Day;
+	default:
+		// TODO: Log Invalid Month
+		break;
+	}
 }
 
 void ATFChronomanagerBase::CalculateDayLength()
