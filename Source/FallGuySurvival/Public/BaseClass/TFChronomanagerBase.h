@@ -45,8 +45,11 @@ private:
 	class ASkyLight* SkyLight;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveFloat* SkylightIntensity;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	float MaxSunIntensity = 10;
 
 #pragma endregion
+
 
 	bool bTimeWasUpdated = false;
 	float TimeDecay = 0;
