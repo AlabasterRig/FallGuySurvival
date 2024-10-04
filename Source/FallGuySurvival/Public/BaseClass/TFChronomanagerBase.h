@@ -66,7 +66,7 @@ private:
 	void CalculateDayLength();
 	void UpdateTimeOfDayRef();
 	void UpdateLighting();
-	void UpdateLightRotation(const float& DeltaTime);
+	void UpdateLightRotation();
 
 protected:
 	virtual void BeginPlay() override;

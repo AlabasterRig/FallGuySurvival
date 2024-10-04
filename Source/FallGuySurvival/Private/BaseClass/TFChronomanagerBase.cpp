@@ -6,8 +6,8 @@
 #include "Engine/SkyLight.h"
 #include "Curves/CurveFloat.h"
 #include "Curves/CurveLinearColor.h"
-//#include "Components/DirectionalLightComponent.h"
-//#include "Components/SkyLightComponent.h"
+#include "Components/DirectionalLightComponent.h"
+#include "Components/SkyLightComponent.h"
 
 void ATFChronomanagerBase::UpdateTime(const float& DeltaTime)
 {
@@ -157,17 +157,38 @@ void ATFChronomanagerBase::UpdateTimeOfDayRef()
 
 void ATFChronomanagerBase::UpdateLighting()
 {
-	if (!IsValid(SunLight))
+	if (!IsValid(SunLight) || !IsValid(DailySunIntensity))
 	{
 		// TODO: Log Error for missing Light
 		return;
 	}
 	float NewLightIntensity = DailySunIntensity->GetFloatValue(CurrentTimeOfDay);
-	NewLightIntensity -= AnnualSunIntensity->GetFloatValue(CurrentTime.Month);
+	if (IsValid(AnnualSunIntensity))
+	{
+		NewLightIntensity += AnnualSunIntensity->GetFloatValue(CurrentTime.DayOfYear);
+	}
+	NewLightIntensity = FMath::Clamp(NewLightIntensity, 0, MaxSunIntensity);
+	
+	SunLight->GetLightComponent()->Intensity = NewLightIntensity;
+	SunLight->GetLightComponent()->UpdateColorAndBrightness();  // Update Intensity, Colour and forces it to be re-rendered.
+	// TODO: Add in SkyLight update.
 }
 
-void ATFChronomanagerBase::UpdateLightRotation(const float& DeltaTime)
+void ATFChronomanagerBase::UpdateLightRotation()
 {
+	if (!IsValid(SunLight) || !IsValid(DailySunRotation))
+	{
+		// TODO: Log Error for missing light
+		return;
+	}
+	FLinearColor ColourRotation = DailySunRotation->GetUnadjustedLinearColorValue(CurrentTimeOfDay);
+	if (IsValid(AnnualSunRotation))
+	{
+		ColourRotation += AnnualSunRotation->GetUnadjustedLinearColorValue(CurrentTime.DayOfYear);
+	}
+
+	FRotator NewRotation(ColourRotation.G, ColourRotation.B, ColourRotation.R);
+	SunLight->SetActorRotation(NewRotation);
 }
 
 void ATFChronomanagerBase::BeginPlay()
@@ -185,4 +206,6 @@ void ATFChronomanagerBase::Tick(float DeltaTime)
 	}
 	UpdateTime(DeltaTime);
 	UpdateTimeOfDayRef();
+	UpdateLightRotation();
+	UpdateLighting();
 }
