@@ -172,7 +172,20 @@ void ATFChronomanagerBase::UpdateLighting()
 	
 	SunLight->GetLightComponent()->Intensity = NewLightIntensity;
 	SunLight->GetLightComponent()->UpdateColorAndBrightness();  // Update Intensity, Colour and forces it to be re-rendered.
-	// TODO: Add in SkyLight update.
+
+	if (!IsValid(SkyLight) || !IsValid(SkylightIntensity))
+	{
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLighting - SkyLight or SkylightIntensity is not valid", EL_ERROR);
+		return;
+	}
+
+	float NewSkyLightIntensity = SkylightIntensity->GetFloatValue(CurrentTimeOfDay);
+	SkyLight->GetLightComponent()->SetIntensity(NewSkyLightIntensity);
+	if (IsValid(SkyLightDailyColour))
+	{
+		FLinearColor NewSkyLightColour = SkyLightDailyColour->GetUnadjustedLinearColorValue(CurrentTimeOfDay);
+		SkyLight->GetLightComponent()->SetLightColor(NewSkyLightColour);
+	}
 }
 
 void ATFChronomanagerBase::UpdateLightRotation()

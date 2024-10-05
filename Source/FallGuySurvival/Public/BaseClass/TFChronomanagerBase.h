@@ -42,6 +42,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveLinearColor* AnnualSunRotation;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	class UCurveLinearColor* SkyLightDailyColour;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class ASkyLight* SkyLight;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveFloat* SkylightIntensity;
