@@ -3,6 +3,7 @@
 
 #include "Components/InventoryComponent.h"
 #include "Items/ItemBase.h"
+#include "Logger.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -46,7 +47,7 @@ bool UInventoryComponent::AddItemToTop(TSubclassOf<UItemBase> Item)
 {
 	if (!IsValid(Item))
 	{
-		// TODO: Add Error Logging 
+		Logger::GetInstance()->AddMessage("UInventoryComponent::AddItemToTop - Invalid Item", EL_ERROR);
 		return false;
 	}
 	float ItemWeight = Item.GetDefaultObject()->GetStackWeight();
@@ -84,7 +85,7 @@ bool UInventoryComponent::AddItemToStackAtIndex(TSubclassOf<UItemBase> Item, con
 	}
 	if (Index > InventoryContents.Num())
 	{
-		// TODO: Add Error logging
+		Logger::GetInstance()->AddMessage("UInventoryComponent::AddItemToStackAtIndex - Invalid Index", EL_ERROR);
 		return false;
 	}
 	UItemBase* TargetItem = Cast<UItemBase>(InventoryContents[Index]);

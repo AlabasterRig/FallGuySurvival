@@ -8,6 +8,7 @@
 #include "Curves/CurveLinearColor.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Components/SkyLightComponent.h"
+#include "Logger.h"
 
 void ATFChronomanagerBase::UpdateTime(const float& DeltaTime)
 {
@@ -88,7 +89,7 @@ void ATFChronomanagerBase::AdvanceDay()  // Like a typical real world calendar, 
 		}
 		break;
 	default:
-		// TODO: Log Invalid Month
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::AdvanceDay - Invalid Month, cannot advance day", EL_ERROR);
 		break;
 	}
 }
@@ -139,7 +140,7 @@ void ATFChronomanagerBase::SetDayOfYear()
 	case 1:
 		CurrentTime.DayOfYear = CurrentTime.Day;
 	default:
-		// TODO: Log Invalid Month
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::SetDayOfYear - Invalid Month", EL_ERROR);
 		break;
 	}
 }
@@ -159,7 +160,7 @@ void ATFChronomanagerBase::UpdateLighting()
 {
 	if (!IsValid(SunLight) || !IsValid(DailySunIntensity))
 	{
-		// TODO: Log Error for missing Light
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLighting - SunLight or DailySunIntensity is not valid", EL_ERROR);
 		return;
 	}
 	float NewLightIntensity = DailySunIntensity->GetFloatValue(CurrentTimeOfDay);
@@ -178,7 +179,7 @@ void ATFChronomanagerBase::UpdateLightRotation()
 {
 	if (!IsValid(SunLight) || !IsValid(DailySunRotation))
 	{
-		// TODO: Log Error for missing light
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLightRotation - SunLight or DailySunRotation is not valid", EL_ERROR);
 		return;
 	}
 	FLinearColor ColourRotation = DailySunRotation->GetUnadjustedLinearColorValue(CurrentTimeOfDay);

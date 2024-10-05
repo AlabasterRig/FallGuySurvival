@@ -208,7 +208,7 @@ void UTFGameInstance::GatherPlayerData()
 	ISaveActorInterface* Inter = Cast<ISaveActorInterface>(PlayerCharacter);
 	if (Inter == nullptr)
 	{
-		// TODO: Log Error
+		Logger::GetInstance()->AddMessage("UTFGameInstance::GatherPlayerData - Player Character does not implement ISaveActorInterface", ErrorLevel::EL_WARNING);
 		return;
 	}
 	FSaveActorData SaveAD = Inter->GetSaveData_Implementation();

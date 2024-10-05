@@ -5,6 +5,7 @@
 #include "Components/InventoryComponent.h"
 #include "BaseClass/TFCharacter.h"
 #include "Items/ItemBase.h"
+#include "Logger.h"
 
 ATFPickupActorBase::ATFPickupActorBase()
 {
@@ -21,7 +22,7 @@ void ATFPickupActorBase::Interact_Implementation(ATFCharacter* Caller)
 {
 	if (!IsValid(InventoryItem))
 	{
-		// TODO: Error Logging
+		Logger::GetInstance()->AddMessage("ATFPickupActorBase::Interact_Implementation - Invalid Inventory Item", EL_ERROR);
 		return;
 	}
 
@@ -34,23 +35,10 @@ void ATFPickupActorBase::Interact_Implementation(ATFCharacter* Caller)
 	if (Remain == 0)
 	{
 		this->Destroy();
-		// this->SetAutoDestroyWhenFinished(true);
 		return;
 	}
 	ItemCount = Remain;
 	return;
-
-	/* 
-		UInventoryComponent* InvetComp = Caller->GetInventory();
-		int rem = -1;
-		if(rem = InvetComp->AddItem(InvetoryItem, ItemCount) == 0) 
-		{
-			this->Destroy();
-			return;
-		}
-		ItemCount = rem;
-		return;
-	*/
 }
 
 bool ATFPickupActorBase::IsInteractable_Implementation() const
