@@ -1,11 +1,11 @@
 # Ideas for future iterations
 This markdown file is for future ideas to be implemented - may or may not implement but will try. Mostly by seeing a video or something.
 
-- Add an Inventory System. ✔️/✅
+- Add an Inventory System. ✅
 - Add harvestable trees. ✅
 - Save Actor transform and their states. ✅
 - Add a Grass painting tool (Have to learn from scratch).
-- Day/Night Cycle. - (Do from blueprints maybe).
+- Day/Night Cycle. - (Do from blueprints maybe). ✅
 - Weather Effects (Sunny, Rainy, etc) - (Have to learn this as well lol).
 - Basic Weather Effects on character (heat, cold) - (Even this I gotta learn).
 - Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current).
@@ -32,9 +32,11 @@ Might explain the additions or changes done in the project (or might not lol), w
 - Added Icon Generator BP.
     - I was taking screenshots of the assets to get an image for my icons tab which was getting extremely frustrating and time-consuming, so I went on `youtube.com` to find a solution to my problem and to make it much easier and quicker. Fortunately, I found a video showcasing how to generate icons using a `ScreenCaptureComponent2D` component in blueprints. This is the video by [Unreal University](https://www.youtube.com/watch?v=EpthBJJ9S-o).
 
-- Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
+- Interaction Raytrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
     - Update: 29/09/2024 - Still haven't found a fix, I know that the mushroom is not added to the `InteractionActors` though it does implement `IInteractionInterface`, the RayTrace is not being drawn when logs are triggered to spwan. I don't understand what function is being missed. Will try to fix in future and not worry about it now.
     - Update: 29/09/2024 (20:25) - Added a collision mesh on the mushroom and its working perfectly fine now.
+
+- Added Day Night Cycle - Utlized mainly `cpp`, but also enigne for creating Float Curves for Rotation and Intensity.
 
 # FYI
 I realize my mistake of committing too many times unnecessarily in a single day, and what I mean by that is I change `.md` files on GitHub instead of the editor I'm using. The reason being is that I am not confident to add stuff to `.md` files without previewing it first, hence the bloated number of commits. So, if you do see a high number of commits, please do check their content and the changes done to them.
