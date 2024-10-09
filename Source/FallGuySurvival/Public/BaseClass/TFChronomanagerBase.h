@@ -8,9 +8,8 @@
 #include "Data/FTimeData.h"
 #include "TFChronomanagerBase.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTimeChangeDelegate, FTimeData, TimeData);
+
 UCLASS()
 class FALLGUYSURVIVAL_API ATFChronomanagerBase : public ATFActor
 {
@@ -31,23 +30,23 @@ private:
 
 #pragma region Lighting
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Lighting")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Lighting")
 	class ADirectionalLight* SunLight;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveFloat* DailySunIntensity;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveFloat* AnnualSunIntensity;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveLinearColor* DailySunRotation;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveLinearColor* AnnualSunRotation;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveLinearColor* SkyLightDailyColour;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class ASkyLight* SkyLight;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	class UCurveFloat* SkylightIntensity;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
 	float MaxSunIntensity = 10;
 
 #pragma endregion
@@ -75,4 +74,8 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+	virtual void UpdateFromSave_Implementation() override;
+
+	UPROPERTY(BlueprintAssignable)
+	FTimeChangeDelegate OnTimeChange;
 };

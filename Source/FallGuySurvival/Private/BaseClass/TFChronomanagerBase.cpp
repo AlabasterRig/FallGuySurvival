@@ -222,4 +222,16 @@ void ATFChronomanagerBase::Tick(float DeltaTime)
 	UpdateTimeOfDayRef();
 	UpdateLightRotation();
 	UpdateLighting();
+	if (bTimeWasUpdated)
+	{
+		OnTimeChange.Broadcast(CurrentTime);
+	}
+}
+
+void ATFChronomanagerBase::UpdateFromSave_Implementation()
+{
+	CalculateDayLength();
+	UpdateTimeOfDayRef();
+	UpdateLightRotation();
+	UpdateLighting();
 }
