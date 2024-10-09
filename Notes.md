@@ -5,12 +5,15 @@ This markdown file is for future ideas to be implemented - may or may not implem
 - Add harvestable trees. ✅
 - Save Actor transform and their states. ✅
 - Add a Grass painting tool (Have to learn from scratch).
+- Add tree regrowth with time (preferably, 1 week in game time).
 - Day/Night Cycle. - (Do from blueprints maybe). Update: Implemented using C++. ✅
 - Weather Effects (Sunny, Rainy, etc) - (Have to learn this as well lol).
 - Basic Weather Effects on character (heat, cold) - (Even this I gotta learn).
-- Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current).
-- Camera Adjustments
-- Will create new header file/files to add all the structs and enums which are required multiple times in different files.
+- Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current). Update: Did not see vid. ✅
+- Camera Adjustments ✅
+- Will create new header file/files to add all the structs and enums which are required multiple times in different files. ✅
+- Add Enemies (like zombies maybe and even human attackers).
+- Add Enemy AI (Behaviour trees?) (Have to learn this). 
 
 .
 
