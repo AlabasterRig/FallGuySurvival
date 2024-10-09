@@ -5,7 +5,7 @@ This markdown file is for future ideas to be implemented - may or may not implem
 - Add harvestable trees. ✅
 - Save Actor transform and their states. ✅
 - Add a Grass painting tool (Have to learn from scratch).
-- Day/Night Cycle. - (Do from blueprints maybe). ✅
+- Day/Night Cycle. - (Do from blueprints maybe). Update: Implemented using C++. ✅
 - Weather Effects (Sunny, Rainy, etc) - (Have to learn this as well lol).
 - Basic Weather Effects on character (heat, cold) - (Even this I gotta learn).
 - Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current).
