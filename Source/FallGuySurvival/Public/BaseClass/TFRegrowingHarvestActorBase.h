@@ -31,4 +31,7 @@ protected:
 
 public:
 	void OnDayChange();
+
+	UFUNCTION()
+	void OnTimeChange(struct FTimeData TimeData);
 };

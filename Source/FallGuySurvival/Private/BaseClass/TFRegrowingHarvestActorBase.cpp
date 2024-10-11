@@ -2,6 +2,9 @@
 
 
 #include "BaseClass/TFRegrowingHarvestActorBase.h"
+#include "BaseClass/TFChronomanagerBase.h"
+#include "Data/FTimeData.h"
+#include "Kismet/GameplayStatics.h"
 
 ATFRegrowingHarvestActorBase::ATFRegrowingHarvestActorBase()
 {
@@ -18,7 +21,15 @@ void ATFRegrowingHarvestActorBase::ResetHarvest()
 
 void ATFRegrowingHarvestActorBase::BeginPlay()
 {
-	// TODO: Add Day-Change Delegate.
+	Super::BeginPlay();
+	ATFChronomanagerBase* TimeManager = Cast<ATFChronomanagerBase>(UGameplayStatics::GetActorOfClass(GetWorld(), ATFChronomanagerBase::StaticClass()));
+	if (!IsValid(TimeManager))
+	{
+		// TODO: Log Error
+		return;
+	}
+	TimeManager->OnTimeChange.AddUniqueDynamic(this, &ATFRegrowingHarvestActorBase::OnTimeChange);
+
 }
 
 void ATFRegrowingHarvestActorBase::OnDayChange()
@@ -29,4 +40,9 @@ void ATFRegrowingHarvestActorBase::OnDayChange()
 		return;
 	}
 	ResetHarvest();
+}
+
+void ATFRegrowingHarvestActorBase::OnTimeChange(FTimeData TimeData)
+{
+
 }
