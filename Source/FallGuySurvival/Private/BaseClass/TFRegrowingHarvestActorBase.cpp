@@ -3,7 +3,6 @@
 
 #include "BaseClass/TFRegrowingHarvestActorBase.h"
 #include "BaseClass/TFChronomanagerBase.h"
-#include "Data/FTimeData.h"
 #include "Kismet/GameplayStatics.h"
 
 ATFRegrowingHarvestActorBase::ATFRegrowingHarvestActorBase()
@@ -22,7 +21,7 @@ void ATFRegrowingHarvestActorBase::ResetHarvest()
 void ATFRegrowingHarvestActorBase::BeginPlay()
 {
 	Super::BeginPlay();
-	ATFChronomanagerBase* TimeManager = Cast<ATFChronomanagerBase>(UGameplayStatics::GetActorOfClass(GetWorld(), ATFChronomanagerBase::StaticClass()));
+	TimeManager = Cast<ATFChronomanagerBase>(UGameplayStatics::GetActorOfClass(GetWorld(), ATFChronomanagerBase::StaticClass()));
 	if (!IsValid(TimeManager))
 	{
 		// TODO: Log Error
@@ -44,5 +43,31 @@ void ATFRegrowingHarvestActorBase::OnDayChange()
 
 void ATFRegrowingHarvestActorBase::OnTimeChange(FTimeData TimeData)
 {
+	if (!bIsHarvested)
+	{
+		return;
+	}
 
+	if (TimeData.Day == TrackHarvest.Day)
+	{
+		return;
+	}
+	OnDayChange();
+	TrackHarvest = TimeData;
 }
+
+void ATFRegrowingHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
+{
+	ATFHarvestActorBase::Interact_Implementation(Caller);
+	if (!IsValid(TimeManager))
+	{
+		// TODO: Log Error for no time manager
+		return;
+	}
+	if (!bIsHarvested)
+	{
+		return;
+	}
+	TrackHarvest = TimeManager->GetCurrentTime();
+}
+

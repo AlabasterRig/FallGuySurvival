@@ -78,4 +78,5 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FTimeChangeDelegate OnTimeChange;
+	FTimeData GetCurrentTime() const { return CurrentTime; }
 };

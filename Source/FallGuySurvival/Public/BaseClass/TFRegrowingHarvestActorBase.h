@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BaseClass/TFHarvestActorBase.h"
+#include "Data/FTimeData.h"
 #include "TFRegrowingHarvestActorBase.generated.h"
 
 /**
@@ -17,12 +18,16 @@ class FALLGUYSURVIVAL_API ATFRegrowingHarvestActorBase : public ATFHarvestActorB
 private:
 	ATFRegrowingHarvestActorBase();
 
+	class ATFChronomanagerBase* TimeManager;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int NumberOfDaysToRegrow = 1;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
 	int DaysSinceLastHarvest = 0;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int ItemRegrowthAmount = 1; 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	FTimeData TrackHarvest;
 
 	void ResetHarvest();
 
@@ -33,5 +38,7 @@ public:
 	void OnDayChange();
 
 	UFUNCTION()
-	void OnTimeChange(struct FTimeData TimeData);
+	void OnTimeChange(FTimeData TimeData);
+	void Interact_Implementation(class ATFCharacter* Caller) override;
+
 };

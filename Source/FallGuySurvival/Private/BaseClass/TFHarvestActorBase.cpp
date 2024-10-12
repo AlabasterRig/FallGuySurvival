@@ -16,8 +16,8 @@ ATFHarvestActorBase::ATFHarvestActorBase()
 
 void ATFHarvestActorBase::UpdateHarvestState()
 {
-	HarvestMesh->bHiddenInGame = true;
-	HarvestMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	HarvestMesh->bHiddenInGame = bIsHarvested;
+	HarvestMesh->SetCollisionEnabled(bIsHarvested ? ECollisionEnabled::NoCollision : ECollisionEnabled::QueryAndPhysics);
 	MarkComponentsRenderStateDirty();
 }
 
