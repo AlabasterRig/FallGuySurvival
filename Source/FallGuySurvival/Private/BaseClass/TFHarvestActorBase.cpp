@@ -34,29 +34,14 @@ void ATFHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 	{
 		Remain--;
 	}
+	ItemCount = Remain;
 	if (Remain == 0)
 	{
-		UpdateHarvestState();
 		bIsHarvested = true;
-		return;
+		UpdateHarvestState();
+		return; 
 	}
-	ItemCount = Remain;
 	return;
-	
-	/*
-		UInventoryComponent* InvetComp = Caller->GetInventory();
-		int rem = -1;
-		if(rem = InvetComp->AddItem(InvetoryItem, ItemCount) == 0)
-		{
-	*/
-	//UpdateHarvestState();
-	//bIsHarvested = true;
-	/*
-			return;
-		}
-		ItemCount = rem;
-		return;
-	*/
 }
 
 bool ATFHarvestActorBase::IsInteractable_Implementation() const
