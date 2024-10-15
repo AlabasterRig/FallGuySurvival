@@ -71,3 +71,14 @@ void ATFRegrowingHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 	TrackHarvest = TimeManager->GetCurrentTime();
 }
 
+FSaveActorData ATFRegrowingHarvestActorBase::GetSaveData_Implementation()
+{
+	return FSaveActorData(GetActorTransform(), bWasSpawned, ATFRegrowingHarvestActorBase::StaticClass());
+}
+
+void ATFRegrowingHarvestActorBase::UpdateFromSave_Implementation()
+{
+	TrackHarvest.DayOfYear = TrackHarvest.Day;
+	UpdateHarvestState();
+}
+

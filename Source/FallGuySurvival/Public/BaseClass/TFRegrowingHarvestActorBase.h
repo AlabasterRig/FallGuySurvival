@@ -40,5 +40,7 @@ public:
 	UFUNCTION()
 	void OnTimeChange(FTimeData TimeData);
 	void Interact_Implementation(class ATFCharacter* Caller) override;
+	virtual FSaveActorData GetSaveData_Implementation() override;
+	virtual void UpdateFromSave_Implementation() override;
 
 };
