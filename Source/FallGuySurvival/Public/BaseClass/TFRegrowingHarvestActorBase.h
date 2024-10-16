@@ -42,5 +42,5 @@ public:
 	void Interact_Implementation(class ATFCharacter* Caller) override;
 	virtual FSaveActorData GetSaveData_Implementation() override;
 	virtual void UpdateFromSave_Implementation() override;
-
+	void SetActorRawSaveData_Implementation(const TArray<FString>& Data) override;
 };

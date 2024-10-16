@@ -3,6 +3,7 @@
 
 #include "BaseClass/TFRegrowingHarvestActorBase.h"
 #include "BaseClass/TFChronomanagerBase.h"
+#include "TF_Utils.h"
 #include "Kismet/GameplayStatics.h"
 
 ATFRegrowingHarvestActorBase::ATFRegrowingHarvestActorBase()
@@ -73,12 +74,31 @@ void ATFRegrowingHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 
 FSaveActorData ATFRegrowingHarvestActorBase::GetSaveData_Implementation()
 {
-	return FSaveActorData(GetActorTransform(), bWasSpawned, ATFRegrowingHarvestActorBase::StaticClass());
+	TArray<FString> RawData;
+	RawData.Add(TrackHarvest.GetSaveString());
+	return FSaveActorData(GetActorTransform(), bWasSpawned, ATFRegrowingHarvestActorBase::StaticClass(), RawData);
 }
 
 void ATFRegrowingHarvestActorBase::UpdateFromSave_Implementation()
 {
 	TrackHarvest.DayOfYear = TrackHarvest.Day;
 	UpdateHarvestState();
+}
+
+void ATFRegrowingHarvestActorBase::SetActorRawSaveData_Implementation(const TArray<FString>& Data)
+{
+	int i = 0;
+	for (auto d : Data)
+	{
+		switch (i)
+		{
+		case 0:
+			TrackHarvest.UpdateFromSaveString(StringChop(d));
+			break;
+		default:
+			// TODO: Error Logging for out of expected index
+			break;
+		}
+	}
 }
 

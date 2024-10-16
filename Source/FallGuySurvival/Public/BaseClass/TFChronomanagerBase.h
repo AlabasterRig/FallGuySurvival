@@ -79,4 +79,5 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FTimeChangeDelegate OnTimeChange;
 	FTimeData GetCurrentTime() const { return CurrentTime; }
+	void SetActorRawSaveData_Implementation(const TArray<FString>& Data) override;
 };

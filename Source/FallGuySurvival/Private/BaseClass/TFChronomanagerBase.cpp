@@ -235,3 +235,7 @@ void ATFChronomanagerBase::UpdateFromSave_Implementation()
 	UpdateLightRotation();
 	UpdateLighting();
 }
+
+void ATFChronomanagerBase::SetActorRawSaveData_Implementation(const TArray<FString>& Data)
+{
+}

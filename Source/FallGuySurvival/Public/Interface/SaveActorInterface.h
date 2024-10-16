@@ -41,4 +41,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void SetComponentSaveData(FSaveComponentsData Data);
 	virtual void SetComponentSaveData_Implementation(FSaveComponentsData Data);
+	UFUNCTION(BlueprintNativeEvent)
+	void SetActorRawSaveData(const TArray<FString>& Data);
+	virtual void SetActorRawSaveData_Implementation(const TArray<FString>& Data);
 };
