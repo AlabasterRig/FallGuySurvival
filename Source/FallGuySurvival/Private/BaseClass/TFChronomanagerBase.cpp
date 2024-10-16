@@ -247,12 +247,15 @@ FSaveActorData ATFChronomanagerBase::GetSaveData_Implementation()
 void ATFChronomanagerBase::SetActorRawSaveData_Implementation(const TArray<FString>& Data)
 {
 	int i = 0;
+	TArray<FString> StringChunks;
 	for (auto d : Data)
 	{
+		StringChunks.Empty();
 		switch (i)
 		{
 		case 0:
-			CurrentTime.UpdateFromSaveString(StringChop(d));
+			StringChunks = StringChop(d);
+			CurrentTime.UpdateFromSaveString(StringChunks);
 			break;
 		default:
 			// TODO: Error Logging for out of expected index range
