@@ -17,6 +17,7 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
 
 ## Current Bugs
 - Cannot pickup actor again after regrowth and `OnDayChange` breakpoint not hitting.
+- Time not updating correctly as the day change does not get loaded once saved.
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
