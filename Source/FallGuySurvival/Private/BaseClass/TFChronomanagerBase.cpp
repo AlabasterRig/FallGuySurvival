@@ -9,6 +9,7 @@
 #include "Components/DirectionalLightComponent.h"
 #include "Components/SkyLightComponent.h"
 #include "Logger.h"
+#include "TF_Utils.h"
 
 void ATFChronomanagerBase::UpdateTime(const float& DeltaTime)
 {
@@ -236,6 +237,26 @@ void ATFChronomanagerBase::UpdateFromSave_Implementation()
 	UpdateLighting();
 }
 
+FSaveActorData ATFChronomanagerBase::GetSaveData_Implementation()
+{
+	TArray<FString> RawData;
+	RawData.Add(CurrentTime.GetSaveString());
+	return FSaveActorData(GetActorTransform(), bWasSpawned, GetClass()->StaticClass(), RawData);
+}
+
 void ATFChronomanagerBase::SetActorRawSaveData_Implementation(const TArray<FString>& Data)
 {
+	int i = 0;
+	for (auto d : Data)
+	{
+		switch (i)
+		{
+		case 0:
+			CurrentTime.UpdateFromSaveString(StringChop(d));
+			break;
+		default:
+			// TODO: Error Logging for out of expected index range
+			break;
+		}
+	}
 }

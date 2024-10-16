@@ -69,7 +69,7 @@ void ATFRegrowingHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 	{
 		return;
 	}
-	TrackHarvest = TimeManager->GetCurrentTime();
+	TrackHarvest = TimeManager->GetCurrentGameTime();
 }
 
 FSaveActorData ATFRegrowingHarvestActorBase::GetSaveData_Implementation()
