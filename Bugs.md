@@ -14,9 +14,11 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
 - Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 - Inventory not opening if no items added beforehand. It also doesn't open even after picking up an item after initially opening an empty inventory. (Fixed in previous commits).
 - Cannot pickup actor again after regrowth and `OnDayChange` breakpoint not hitting.
+- Time not updating correctly as the day change does not get loaded once saved.
 
 ## Current Bugs
 - Cannot pickup actor again after regrowth and `OnDayChange` breakpoint not hitting.
+- Time not updating correctly as the day change does not get loaded once saved.
 
 ## Fixed Bugs
 - Stamina does not reduce even after reaching 0 while holding Left Shift.
