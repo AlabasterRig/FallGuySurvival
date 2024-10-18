@@ -95,7 +95,7 @@ void ATFRegrowingHarvestActorBase::SetActorRawSaveData_Implementation(const TArr
 		switch (i)
 		{
 		case 0:
-			StringChunks = StringChop(d);
+			StringChunks = StringChop(d, '|');
 			TrackHarvest.UpdateFromSaveString(StringChunks);
 			break;
 		default:

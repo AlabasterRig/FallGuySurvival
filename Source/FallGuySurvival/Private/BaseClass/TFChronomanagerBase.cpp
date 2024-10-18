@@ -159,15 +159,15 @@ void ATFChronomanagerBase::UpdateTimeOfDayRef()
 
 void ATFChronomanagerBase::UpdateLighting()
 {
-	if (!IsValid(SunLight) || !IsValid(DailySunIntensity))
+	if (!IsValid(SunLight) || !IsValid(DailySunRotation))
 	{
 		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLighting - SunLight or DailySunIntensity is not valid", EL_ERROR);
 		return;
 	}
-	float NewLightIntensity = DailySunIntensity->GetFloatValue(CurrentTimeOfDay);
-	if (IsValid(AnnualSunIntensity))
+	float NewLightIntensity = DailySunRotation->GetUnadjustedLinearColorValue(CurrentTimeOfDay).A;
+	if (IsValid(AnnualSunRotation))
 	{
-		NewLightIntensity += AnnualSunIntensity->GetFloatValue(CurrentTime.DayOfYear);
+		NewLightIntensity += AnnualSunRotation->GetUnadjustedLinearColorValue(CurrentTimeOfDay).A;
 	}
 	NewLightIntensity = FMath::Clamp(NewLightIntensity, 0, MaxSunIntensity);
 	
@@ -180,7 +180,7 @@ void ATFChronomanagerBase::UpdateLighting()
 		return;
 	}
 
-	float NewSkyLightIntensity = SkylightIntensity->GetFloatValue(CurrentTimeOfDay);
+	float NewSkyLightIntensity = SkyLightDailyColour->GetUnadjustedLinearColorValue(CurrentTimeOfDay).A;
 	SkyLight->GetLightComponent()->SetIntensity(NewSkyLightIntensity);
 	if (IsValid(SkyLightDailyColour))
 	{
@@ -254,7 +254,7 @@ void ATFChronomanagerBase::SetActorRawSaveData_Implementation(const TArray<FStri
 		switch (i)
 		{
 		case 0:
-			StringChunks = StringChop(d);
+			StringChunks = StringChop(d, '|');
 			CurrentTime.UpdateFromSaveString(StringChunks);
 			break;
 		default:
