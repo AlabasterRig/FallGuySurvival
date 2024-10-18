@@ -258,8 +258,9 @@ void ATFChronomanagerBase::SetActorRawSaveData_Implementation(const TArray<FStri
 			CurrentTime.UpdateFromSaveString(StringChunks);
 			break;
 		default:
-			// TODO: Error Logging for out of expected index range
+			Logger::GetInstance()->AddMessage("ATFChronomanagerBase::SetActorRawSaveData_Implementation - Out of bounds index operator", ErrorLevel::EL_ERROR);
 			break;
 		}
+		i++
 	}
 }

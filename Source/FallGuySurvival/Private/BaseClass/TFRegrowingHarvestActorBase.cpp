@@ -5,6 +5,7 @@
 #include "BaseClass/TFChronomanagerBase.h"
 #include "TF_Utils.h"
 #include "Kismet/GameplayStatics.h"
+#include "Logger.h"
 
 ATFRegrowingHarvestActorBase::ATFRegrowingHarvestActorBase()
 {
@@ -25,7 +26,7 @@ void ATFRegrowingHarvestActorBase::BeginPlay()
 	TimeManager = Cast<ATFChronomanagerBase>(UGameplayStatics::GetActorOfClass(GetWorld(), ATFChronomanagerBase::StaticClass()));
 	if (!IsValid(TimeManager))
 	{
-		// TODO: Log Error
+		Logger::GetInstance()->AddMessage("ATFRegrowingHarvestActorBase::BeginPlay - No Valid TimeManager", ErrorLevel::EL_CRITICAL);
 		return;
 	}
 	TimeManager->OnTimeChange.AddUniqueDynamic(this, &ATFRegrowingHarvestActorBase::OnTimeChange);
@@ -62,7 +63,7 @@ void ATFRegrowingHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 	ATFHarvestActorBase::Interact_Implementation(Caller);
 	if (!IsValid(TimeManager))
 	{
-		// TODO: Log Error for no time manager
+		Logger::GetInstance()->AddMessage("ATFRegrowingHarvestActorBase::Interact_Implementation - No Valid TimeManager", ErrorLevel::EL_CRITICAL);
 		return;
 	}
 	if (!bIsHarvested)
@@ -99,9 +100,10 @@ void ATFRegrowingHarvestActorBase::SetActorRawSaveData_Implementation(const TArr
 			TrackHarvest.UpdateFromSaveString(StringChunks);
 			break;
 		default:
-			// TODO: Error Logging for out of expected index
+			Logger::GetInstance()->AddMessage("ATFRegrowingHarvestActorBase::SetActorRawSaveData_Implementation - Out of bounds index operator", ErrorLevel::EL_ERROR);
 			break;
 		}
+		i++; // Currently one case but i++ for future proofing
 	}
 }
 

@@ -19,7 +19,7 @@ private:
 	float MaxWeight = 100;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
 	float CurrentWeight = 0;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true")) // TODO: Change back to EditDefaultsOnly
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true")) // TODO: Change back to EditDefaultsOnly
 	TArray<TSubclassOf<class UItemBase>> InventoryContents;
 
 	// Helper Function
