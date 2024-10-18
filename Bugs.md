@@ -14,6 +14,7 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
 - Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 - Inventory not opening if no items added beforehand. It also doesn't open even after picking up an item after initially opening an empty inventory. (Fixed in previous commits).
 - Cannot pickup actor again after regrowth and `OnDayChange` breakpoint not hitting.
+- Time not updating correctly as the day change does not get loaded once saved.
 
 ## Current Bugs
 - Cannot pickup actor again after regrowth and `OnDayChange` breakpoint not hitting.
@@ -160,3 +161,32 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
 
   - Fix Explanation:   
     I again forgot that items imported from quixel do not have a collision mesh. Now after adding collision its working pefectly fine as intended.
+
+- Time not updating correctly as the day change does not get loaded once saved.
+
+  - Fix Explanation:   
+    Changed StringChop function while keeping the same logic behind. The issue was that the split char `|` was not being seperated by the code (but somehow works correctly on different uses such as `StatlineComponent`?). So now this is correctly reading and seperating the different inputs in `Source`.   
+    - Solution Code:
+    ```cpp
+    TArray<FString> StringChop(FString Source, char split)
+    {
+	    TArray<FString> Ret;
+	    FString Push;
+	    for (int i = 0; i < (int)Source.Len(); i++)
+	    {
+		    if (Source[i] == split)
+		    {
+			    Ret.Add(Push);
+			    Push.Empty();
+		    }
+		    else
+		    {
+			    Push += Source[i];
+			    if (i == ((int)Source.Len() - 1))
+			    {
+				    Ret.Add(Push);
+			    }
+		    }
+	    }
+	    return Ret;
+    }
