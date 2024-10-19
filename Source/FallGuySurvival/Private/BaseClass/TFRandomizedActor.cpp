@@ -26,6 +26,12 @@ void ATFRandomizedActor::OnConstruction(const FTransform& Transform)
 		// TODO: Log Error
 		return;
 	}
+
+	if (OverrideRandomization && OverrideIndex <= ActorOptions.Num() - 1)
+	{
+		WorldMesh->SetStaticMesh(ActorOptions[OverrideIndex]);
+		return;
+	}
 	
 	int RandSeed = 0;
 	switch (RandomizationVector)

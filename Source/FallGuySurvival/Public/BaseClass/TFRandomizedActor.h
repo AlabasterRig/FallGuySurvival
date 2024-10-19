@@ -19,6 +19,10 @@ private:
 	UStaticMeshComponent* WorldMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Randomize", meta = (AllowPrivateAccess = "true"))
 	ERandomizedVector RandomizationVector;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Randomize", meta = (AllowPrivateAccess = "true"))
+	bool OverrideRandomization = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Randomize", meta = (AllowPrivateAccess = "true"))
+	int OverrideIndex = 0;
 
 protected:
 	// Called when the game starts or when spawned
