@@ -174,7 +174,7 @@ void ATFChronomanagerBase::UpdateLighting()
 	SunLight->GetLightComponent()->Intensity = NewLightIntensity;
 	SunLight->GetLightComponent()->UpdateColorAndBrightness();  // Update Intensity, Colour and forces it to be re-rendered.
 
-	if (!IsValid(SkyLight) || !IsValid(SkylightIntensity))
+	if (!IsValid(SkyLight) || !IsValid(SkyLightDailyColour))
 	{
 		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLighting - SkyLight or SkylightIntensity is not valid", EL_ERROR);
 		return;
@@ -261,6 +261,6 @@ void ATFChronomanagerBase::SetActorRawSaveData_Implementation(const TArray<FStri
 			Logger::GetInstance()->AddMessage("ATFChronomanagerBase::SetActorRawSaveData_Implementation - Out of bounds index operator", ErrorLevel::EL_ERROR);
 			break;
 		}
-		i++
+		i++;
 	}
 }

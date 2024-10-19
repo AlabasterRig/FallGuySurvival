@@ -71,7 +71,7 @@ bool UInventoryComponent::AddItemAtIndex(TSubclassOf<UItemBase> Item, int& Index
 	{
 		Index = InventoryContents.Num();
 	}
-	InventoryContents.Insert(Item, Index); // TODO: Debug to find potential error
+	InventoryContents.Insert(Item, Index); // TODO: Debug to find potential error (Future)
 	CurrentWeight += ItemWeight;
 	return false;
 }
