@@ -25,3 +25,26 @@ TArray<FString> StringChop(FString Source, char split)
 	}
 	return Ret;
 }
+
+int RandomIntFromVector(const ERandomizedVector& DirectionRandomization, const FVector& Location)
+{
+	switch (DirectionRandomization)
+	{
+	case ERandomizedVector::X:
+		return floor(Location.X);
+	case ERandomizedVector::Y:
+		return floor(Location.Y);
+	case ERandomizedVector::Z:
+		return floor(Location.Z);
+	case ERandomizedVector::XY:
+		return floor(Location.X + Location.Y);
+	case ERandomizedVector::XZ:
+		return floor(Location.X + Location.Z);
+	case ERandomizedVector::YZ:
+		return floor(Location.Y + Location.Z);
+	case ERandomizedVector::XYZ:
+		return floor(Location.X + Location.Y + Location.Z);
+	default:
+		return 0;
+	}
+}

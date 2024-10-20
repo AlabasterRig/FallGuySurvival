@@ -2,6 +2,7 @@
 
 
 #include "BaseClass/TFRandomizedActor.h"
+#include "TF_Utils.h"
 
 // Sets default values
 ATFRandomizedActor::ATFRandomizedActor()
@@ -33,33 +34,7 @@ void ATFRandomizedActor::OnConstruction(const FTransform& Transform)
 		return;
 	}
 	
-	int RandSeed = 0;
-	switch (RandomizationVector)
-	{
-	case ERandomizedVector::X:
-		RandSeed = floor(Transform.GetLocation().X);
-		break;
-	case ERandomizedVector::Y:
-		RandSeed = floor(Transform.GetLocation().Y);
-		break;
-	case ERandomizedVector::Z:
-		RandSeed = floor(Transform.GetLocation().Z);
-		break;
-	case ERandomizedVector::XY:
-		RandSeed = floor(Transform.GetLocation().X + Transform.GetLocation().Y);
-		break;
-	case ERandomizedVector::XZ:
-		RandSeed = floor(Transform.GetLocation().X + Transform.GetLocation().Z);
-		break;
-	case ERandomizedVector::YZ:
-		RandSeed = floor(Transform.GetLocation().Y + Transform.GetLocation().Z);
-		break;
-	case ERandomizedVector::XYZ:
-		RandSeed = floor(Transform.GetLocation().X + Transform.GetLocation().Y + Transform.GetLocation().Z);
-		break;
-	default:
-		break;
-	}
+	int RandSeed = RandomIntFromVector(RandomizationVector, Transform.GetLocation());  // Helper Function from TF_Utils used
 
 	FRandomStream RandomStream;
 	RandomStream.Initialize(RandSeed);
