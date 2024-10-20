@@ -17,6 +17,7 @@ private:
 	TArray<UStaticMesh*> ActorOptions;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Randomize", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* WorldMesh;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Randomize", meta = (AllowPrivateAccess = "true"))
 	ERandomizedVector RandomizationVector;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Randomize", meta = (AllowPrivateAccess = "true"))
