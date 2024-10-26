@@ -39,7 +39,15 @@ Might explain the additions or changes done in the project (or might not lol), w
     - Update: 29/09/2024 - Still haven't found a fix, I know that the mushroom is not added to the `InteractionActors` though it does implement `IInteractionInterface`, the RayTrace is not being drawn when logs are triggered to spwan. I don't understand what function is being missed. Will try to fix in future and not worry about it now.
     - Update: 29/09/2024 (20:25) - Added a collision mesh on the mushroom and its working perfectly fine now.
 
-- Added Day Night Cycle - Utlized mainly `cpp`, but also enigne for creating Float Curves for Rotation and Intensity.
+- Added Day Night Cycle
+    - Utlized mainly `cpp`, but also engine for creating Float Curves for Rotation and Intensity.
+
+- Added Randomized Actor and Material placement actors.
+    - Doing this to ease the world building process which I am building as a different map which is not being commited.
+
+
+# Break Updates
+- 22/10/2024 - 26/10/2024: I took a long weekend (weekday?) off by travelling this past week. So could not work on anything in the game, I have started again on 27/10/2024, mostly I will not take a break again.
 
 # FYI
 I realize my mistake of committing too many times unnecessarily in a single day, and what I mean by that is I change `.md` files on GitHub instead of the editor I'm using. The reason being is that I am not confident to add stuff to `.md` files without previewing it first, hence the bloated number of commits. So, if you do see a high number of commits, please do check their content and the changes done to them.
