@@ -15,7 +15,7 @@ ATFRandomizedMaterialActor::ATFRandomizedMaterialActor()
 
 void ATFRandomizedMaterialActor::OnConstruction(const FTransform& Transform)
 {
-	if (RandomizedMaterials.Num() <= 0)
+	if (!bRandomize || RandomizedMaterials.Num() <= 0)
 	{
 		return;
 	}
@@ -24,9 +24,11 @@ void ATFRandomizedMaterialActor::OnConstruction(const FTransform& Transform)
 	FRandomStream RandomStream;
 	RandomStream.Initialize(RandSeed);
 
-	for (int i = 0; i < RandomizedMaterials.Num(); i++)
+	TArray<int> Keys;
+	RandomizedMaterials.GetKeys(Keys);
+	for (int i = Keys[0]; i < RandomizedMaterials.Num(); i++)
 	{
-		if (RandomizedMaterials[i].Materials.Num() <= 0)
+		if (RandomizedMaterials[i].Materials.Num() < 1)
 		{
 			continue;
 		}

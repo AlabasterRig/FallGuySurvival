@@ -30,13 +30,15 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Randomized Materials", meta = (AllowPrivateAccess = "true"))
 	ERandomizedVector RandomizationVector;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Randomized Materials", meta = (AllowPrivateAccess = "true"))
+	bool bRandomize = false;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void OnConstruction(const FTransform& Transform) override;
 
 public:
 	ATFRandomizedMaterialActor();
 
-	void OnConstruction(const FTransform& Transform) override;
 };
