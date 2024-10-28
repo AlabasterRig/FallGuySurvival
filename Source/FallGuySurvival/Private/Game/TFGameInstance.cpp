@@ -320,3 +320,9 @@ void UTFGameInstance::DEVLoadGame()
 {
 	LoadGame(); 
 }
+
+void UTFGameInstance::LoadLevel_Implementation(const FName& LevelToLoad)
+{
+	CurrentlyLoadedLevel = LevelToLoad;
+	LoadLevel(LevelToLoad);
+}
