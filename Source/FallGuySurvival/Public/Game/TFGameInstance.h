@@ -23,7 +23,7 @@ private:
 	class UTFSaveGame* SaveGameObject = nullptr;
 	UPROPERTY()
 	FString SaveGameName = TEXT("DEFAULT");
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	FName CurrentlyLoadedLevel = "NONE";
 	UPROPERTY()
 	FSaveActorData PlayerData;
@@ -36,6 +36,9 @@ private:
 
 	void GatherPlayerData();
 	void SetPlayerData();
+
+	UFUNCTION(BlueprintCallable)
+	bool KnowLevelLoaded() const { return CurrentlyLoadedLevel == "NONE"; }
 
 public:
 	UFUNCTION(BlueprintCallable)
