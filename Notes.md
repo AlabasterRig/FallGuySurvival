@@ -5,15 +5,16 @@ This markdown file is for future ideas to be implemented - may or may not implem
 - Add harvestable trees. ✅
 - Save Actor transform and their states. ✅
 - Add a Grass painting tool (Have to learn from scratch).
-- Add tree regrowth with time (preferably, 1 week in game time).
+- Add tree regrowth with time (preferably, 1 week in game time). ✅
 - Day/Night Cycle. - (Do from blueprints maybe). Update: Implemented using C++. ✅
 - Weather Effects (Sunny, Rainy, etc) - (Have to learn this as well lol).
 - Basic Weather Effects on character (heat, cold) - (Even this I gotta learn).
-- Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current). Update: Did not see vid. ✅
+- Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current). Note: Did not see vid. ✅
 - Camera Adjustments ✅
 - Will create new header file/files to add all the structs and enums which are required multiple times in different files. ✅
 - Add Enemies (like zombies maybe and even human attackers).
-- Add Enemy AI (Behaviour trees?) (Have to learn this). 
+- Add Enemy AI (Behaviour trees?) (Have to learn this).
+- Add Main Menu and Level Loading. ✅
 
 .
 
@@ -40,10 +41,13 @@ Might explain the additions or changes done in the project (or might not lol), w
     - Update: 29/09/2024 (20:25) - Added a collision mesh on the mushroom and its working perfectly fine now.
 
 - Added Day Night Cycle
-    - Utlized mainly `cpp`, but also engine for creating Float Curves for Rotation and Intensity.
+    - Utlized mainly `C++`, but also engine for creating Float Curves for Rotation and Intensity.
 
 - Added Randomized Actor and Material placement actors.
     - Doing this to ease the world building process which I am building as a different map which is not being commited.
+
+- Main Menu and Level Loading.
+    - Added a main menu screen and also implemented level loading to a different map on New game button press. A 'Persistent' map holds two levels namely `DEVMAP` and `Main_Menu` on beginplay the 'Main_Menu' is loaded first showing multple buttons, on clicking of 'New Game' button the 'DEVMAP' is loaded with the player having control over the pawn and all the mechanics implemented in the game.  
 
 
 # Break Updates
