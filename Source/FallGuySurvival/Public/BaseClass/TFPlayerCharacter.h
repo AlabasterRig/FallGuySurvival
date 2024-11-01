@@ -80,7 +80,7 @@ private:
 	bool bInventoryIsShown = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsFirstPerson = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
 	bool bUseHeadBob = true;
 
 	void TraceForInteraction();

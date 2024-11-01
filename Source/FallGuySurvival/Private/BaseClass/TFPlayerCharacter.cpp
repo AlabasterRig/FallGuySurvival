@@ -26,10 +26,21 @@ void ATFPlayerCharacter::TraceForInteraction()
 	LTParams.bReturnFaceIndex = false;
 	GetWorld()->DebugDrawTraceTag = DEBUG_SHOW_INTERACTION_TRACE ? TEXT("InteractionTrace") : TEXT("NONE");
 	FHitResult LTHit(ForceInit);
-	FVector LTStart = FollowCamera->GetComponentLocation();
-	float SearchLength = (FollowCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
-	SearchLength += InteractionTraceLength;
-	FVector LTEnd = (FollowCamera->GetForwardVector() * SearchLength) + LTStart;
+	FVector LTStart, LTEnd;
+	float SearchLength;
+	if (!bIsFirstPerson)
+	{
+		LTStart = FollowCamera->GetComponentLocation();
+		SearchLength = (FollowCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
+		SearchLength += InteractionTraceLength;
+		LTEnd = (FollowCamera->GetForwardVector() * SearchLength) + LTStart;
+	}
+	else {
+		LTStart = FirstPersonCamera->GetComponentLocation();
+		SearchLength = (FirstPersonCamera->GetComponentLocation() - CameraBoom->GetComponentLocation()).Length();
+		SearchLength += InteractionTraceLength;
+		LTEnd = (FirstPersonCamera->GetForwardVector() * SearchLength) + LTStart;
+	}
 
 	GetWorld()->LineTraceSingleByChannel(LTHit, LTStart, LTEnd, ECC_Visibility, LTParams);
 	UpdateInteractionText_Implementation();
@@ -199,13 +210,6 @@ void ATFPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	SaveActorID.Invalidate();
-	if (!bUseHeadBob)
-	{
-		FVector NewRelativeLocation = GetMesh()->GetBoneTransform("head", ERelativeTransformSpace::RTS_Actor).GetLocation();
-		NewRelativeLocation += FirstPersonCamera->GetRelativeLocation();
-		FirstPersonCamera->SetupAttachment(RootComponent);
-		FirstPersonCamera->SetRelativeLocation(NewRelativeLocation);
-	}
 }
 
 ATFPlayerCharacter::ATFPlayerCharacter()
@@ -233,8 +237,8 @@ ATFPlayerCharacter::ATFPlayerCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCamera->SetupAttachment(GetMesh(), "head");
-	FirstPersonCamera->SetRelativeRotation(FRotator(-90, 0, 90));
-	FirstPersonCamera->SetRelativeLocation(FVector(15, 0, 2.5));
+	FirstPersonCamera->SetRelativeRotation(FRotator(0, -90, 90));
+	FirstPersonCamera->SetRelativeLocation(FVector(15, 20, 2.5));
 	FirstPersonCamera->bUsePawnControlRotation = true;
 	FirstPersonCamera->Deactivate();
 	InteractionTrigger = CreateDefaultSubobject<USphereComponent>(TEXT("Interaction Trigger Volume"));
