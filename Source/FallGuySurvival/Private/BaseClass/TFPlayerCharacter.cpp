@@ -147,6 +147,28 @@ void ATFPlayerCharacter::OnInteract()
 	Inter->Execute_Interact(InteractionActor, this);
 }
 
+void ATFPlayerCharacter::TogglePerspective()
+{
+	bIsFirstPerson = !bIsFirstPerson;
+	if (!bIsFirstPerson)
+	{
+		//bIsFirstPerson = false;
+		FirstPersonCamera->Deactivate();
+		FollowCamera->Activate();
+		bUseControllerRotationPitch = false;
+		bUseControllerRotationYaw = false;
+		bUseControllerRotationRoll = false;
+		return;
+	}
+	bIsFirstPerson = true;
+	FollowCamera->Deactivate();
+	FirstPersonCamera->Activate();
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationYaw = true;
+	bUseControllerRotationRoll = true;
+	return;
+}
+
 void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
@@ -169,12 +191,21 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(SneakAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::SneakOff);
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::OnInteract);
 		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::TogglePlayerInventory_Implementation);
+		EnhancedInputComponent->BindAction(ToggleCameraPerspective, ETriggerEvent::Completed, this, &ATFPlayerCharacter::TogglePerspective);
 	}
 }
 
 void ATFPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	SaveActorID.Invalidate();
+	if (!bUseHeadBob)
+	{
+		FVector NewRelativeLocation = GetMesh()->GetBoneTransform("head", ERelativeTransformSpace::RTS_Actor).GetLocation();
+		NewRelativeLocation += FirstPersonCamera->GetRelativeLocation();
+		FirstPersonCamera->SetupAttachment(RootComponent);
+		FirstPersonCamera->SetRelativeLocation(NewRelativeLocation);
+	}
 }
 
 ATFPlayerCharacter::ATFPlayerCharacter()
@@ -200,6 +231,12 @@ ATFPlayerCharacter::ATFPlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	FirstPersonCamera->SetupAttachment(GetMesh(), "head");
+	FirstPersonCamera->SetRelativeRotation(FRotator(-90, 0, 90));
+	FirstPersonCamera->SetRelativeLocation(FVector(15, 0, 2.5));
+	FirstPersonCamera->bUsePawnControlRotation = true;
+	FirstPersonCamera->Deactivate();
 	InteractionTrigger = CreateDefaultSubobject<USphereComponent>(TEXT("Interaction Trigger Volume"));
 	InteractionTrigger->SetupAttachment(RootComponent);
 	InteractionTrigger->SetRelativeScale3D(FVector(10));
