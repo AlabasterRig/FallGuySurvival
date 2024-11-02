@@ -76,14 +76,18 @@ private:
 	float InteractionTraceLength = 200; 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = DEBUG, meta = (AllowPrivateAccess = "true"))
 	bool DEBUG_SHOW_INTERACTION_TRACE = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
 	bool bInventoryIsShown = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	bool bIsFirstPerson = false;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
 	bool bUseHeadBob = true;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Leveling, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
 	float CurrentLevel = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Leveling, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
+	float ExperiencePointsReceivedOnPickup = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Leveling, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
+	float ExperiencePointsRequired = 100;
 
 	void TraceForInteraction();
 
@@ -114,7 +118,8 @@ public:
 	ATFPlayerCharacter();
 
 	virtual void Tick(float DeltaTime) override;
-	void PlayerLevelUp(const float& Experience);
+	void PlayerLevelUp();
+	void AddExperiencePoints(const float& ExperiencePoints);
 
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

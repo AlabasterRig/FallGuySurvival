@@ -256,11 +256,32 @@ void ATFPlayerCharacter::Tick(float DeltaTime)
 	{
 		TraceForInteraction();
 	}
+	AddExperiencePoints(100); // TODO: When experience points added to assets, then enable 
 }
 
-void ATFPlayerCharacter::PlayerLevelUp(const float& Experience)
+void ATFPlayerCharacter::PlayerLevelUp()
 {
+	while (ExperiencePointsReceivedOnPickup >= ExperiencePointsRequired)
+	{
+		CurrentLevel += 1;
+		ExperiencePointsReceivedOnPickup -= ExperiencePointsRequired;
+		if (CurrentLevel >= 35)
+		{
+			float NewExperienceRequired = ExperiencePointsRequired * 0.1;
+			ExperiencePointsRequired += NewExperienceRequired;
+		}
+		else
+		{
+			float NewExperienceRequired = ExperiencePointsRequired * 0.2;
+			ExperiencePointsRequired += NewExperienceRequired;
+		}
+	}
+}
 
+void ATFPlayerCharacter::AddExperiencePoints(const float& ExperiencePoints)
+{
+	ExperiencePointsReceivedOnPickup += ExperiencePoints;
+	PlayerLevelUp();
 }
 
 void ATFPlayerCharacter::OnInteractionTriggerOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
