@@ -258,6 +258,11 @@ void ATFPlayerCharacter::Tick(float DeltaTime)
 	}
 }
 
+void ATFPlayerCharacter::PlayerLevelUp(const float& Experience)
+{
+
+}
+
 void ATFPlayerCharacter::OnInteractionTriggerOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (!OtherActor->Implements<UInteractionInterface>())

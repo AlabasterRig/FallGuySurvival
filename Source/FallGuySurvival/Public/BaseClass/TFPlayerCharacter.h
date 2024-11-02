@@ -82,6 +82,8 @@ private:
 	bool bIsFirstPerson = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
 	bool bUseHeadBob = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
+	float CurrentLevel = 0;
 
 	void TraceForInteraction();
 
@@ -112,6 +114,7 @@ public:
 	ATFPlayerCharacter();
 
 	virtual void Tick(float DeltaTime) override;
+	void PlayerLevelUp(const float& Experience);
 
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
