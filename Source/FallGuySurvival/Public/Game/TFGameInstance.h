@@ -27,9 +27,8 @@ private:
 	FName CurrentlyLoadedLevel = "NONE";
 	UPROPERTY()
 	FSaveActorData PlayerData;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	TArray<FString> SaveName;
+	TArray<FString> GameSaveNames;
 
 	UTFGameInstance();
 
@@ -59,4 +58,7 @@ public:
 	void LoadLevel(const FName& LevelToLoad);
 	UFUNCTION(BlueprintCallable)
 	void LoadLevel_Implementation(const FName& LevelToLoad);
+
+	UFUNCTION(BlueprintCallable)
+	TArray<FString> GetSaveGameNames() const;
 };

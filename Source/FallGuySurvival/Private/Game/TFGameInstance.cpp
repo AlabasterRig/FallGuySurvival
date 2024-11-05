@@ -14,7 +14,7 @@
 
 UTFGameInstance::UTFGameInstance()
 {
-	SaveName = GetAllSaveGameNames();
+	GameSaveNames = GetAllSaveGameNames();
 }
 
 void UTFGameInstance::CreateSaveSlot()
@@ -350,6 +350,7 @@ void UTFGameInstance::DEVSaveGame()
 	SaveGameObject->SetSaveActorData(SaveableActorData);
 	SaveGameObject->SetPlayerData(PlayerData);
 	UGameplayStatics::SaveGameToSlot(SaveGameObject, SaveGameName, 0);
+	GetSaveGameNames();
 }
 
 void UTFGameInstance::DEVLoadGame()
@@ -360,4 +361,9 @@ void UTFGameInstance::DEVLoadGame()
 void UTFGameInstance::LoadLevel_Implementation(const FName& LevelToLoad)
 {
 	LoadLevel(LevelToLoad);
+}
+
+TArray<FString> UTFGameInstance::GetSaveGameNames() const
+{	
+	return GameSaveNames;
 }
