@@ -10,10 +10,11 @@
 #include "GameFramework/Character.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 #include "Logger.h"
+#include "PlatformFeatures.h"
 
 UTFGameInstance::UTFGameInstance()
 {
-
+	SaveName = GetAllSaveGameNames();
 }
 
 void UTFGameInstance::CreateSaveSlot()
@@ -292,6 +293,41 @@ void UTFGameInstance::SetPlayerData()
 			break;
 		}
 	}
+}
+
+TArray<FString> UTFGameInstance::GetAllSaveGameNames()
+{
+	TArray<FString> Ret;
+	FString savePath = FPaths::ProjectSavedDir();
+	savePath += "SaveGames/*";
+	Logger::GetInstance()->AddMessage("UTFGameInstance::GetAllSaveGameNames - Found the following Save Path", EL_DEBUG);
+
+	WIN32_FIND_DATA FindData;
+	HANDLE hFindData = ::FindFirstFile(*savePath, &FindData);
+	if (hFindData == INVALID_HANDLE_VALUE)
+	{
+		Logger::GetInstance()->AddMessage("UTFGameInstance::GetAllSaveGameNames - Invalid Handle Value", EL_WARNING);
+		return Ret;
+	}
+
+	while (::FindNextFile(hFindData, &FindData))
+	{
+		if (FindData.cFileName[0] == '\0' || 
+			FindData.cFileName[0] == '.' && FindData.cFileName[1] == '\0' || 
+			FindData.cFileName[0] == '.' && FindData.cFileName[1] == '.' && FindData.cFileName[2] == '\0')
+		{
+			continue;
+		}
+		FString FileName(FindData.cFileName);
+		if (FileName.EndsWith(".sav"))
+		{
+			Ret.Add(FileName);
+		}
+
+	}
+	::FindClose(hFindData);
+
+	return Ret;
 }
 
 void UTFGameInstance::AddActorData(const FGuid& ActorID, FSaveActorData ActorData)

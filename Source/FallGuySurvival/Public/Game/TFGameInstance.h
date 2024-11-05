@@ -28,14 +28,18 @@ private:
 	UPROPERTY()
 	FSaveActorData PlayerData;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TArray<FString> SaveName;
+
 	UTFGameInstance();
 
 	void CreateSaveSlot();
 	void GatherActorDAta();
 	void LoadGame();
-
 	void GatherPlayerData();
 	void SetPlayerData();
+
+	TArray<FString> GetAllSaveGameNames();
 
 	UFUNCTION(BlueprintCallable)
 	bool KnowLevelLoaded() const { return CurrentlyLoadedLevel == "NONE"; }
