@@ -61,4 +61,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	TArray<FString> GetSaveGameNames() const;
+	UFUNCTION(BlueprintCallable)
+	void SetSaveGameName(const FString& SaveName);
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentLevel(const FName& Level);
 };

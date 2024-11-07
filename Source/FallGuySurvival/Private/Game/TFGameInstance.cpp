@@ -89,6 +89,9 @@ void UTFGameInstance::LoadGame()
 	SaveableActorData = SaveGameObject->GetSaveActorData();
 	PlayerData = SaveGameObject->GetPlayerData();
 
+	CurrentlyLoadedLevel = SaveGameObject->GetCurrentLevel();
+	LoadLevel_Implementation(CurrentlyLoadedLevel);
+
 	for (FActorIterator It(GetWorld()); It; ++It)
 	{
 		AActor* Actor = *It;
@@ -349,6 +352,7 @@ void UTFGameInstance::DEVSaveGame()
 	GatherActorDAta();
 	SaveGameObject->SetSaveActorData(SaveableActorData);
 	SaveGameObject->SetPlayerData(PlayerData);
+	SaveGameObject->SetCurrentLevel(CurrentlyLoadedLevel);
 	UGameplayStatics::SaveGameToSlot(SaveGameObject, SaveGameName, 0);
 	GetSaveGameNames();
 }
@@ -366,4 +370,14 @@ void UTFGameInstance::LoadLevel_Implementation(const FName& LevelToLoad)
 TArray<FString> UTFGameInstance::GetSaveGameNames() const
 {	
 	return GameSaveNames;
+}
+
+void UTFGameInstance::SetSaveGameName(const FString& SaveName)
+{
+	SaveGameName = SaveName;
+}
+
+void UTFGameInstance::SetCurrentLevel(const FName& Level)
+{
+	CurrentlyLoadedLevel = Level;
 }
