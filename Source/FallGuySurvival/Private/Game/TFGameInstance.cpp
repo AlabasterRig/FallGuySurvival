@@ -88,7 +88,6 @@ void UTFGameInstance::LoadGame()
 	SaveGameObject = Cast<UTFSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveGameName, 0));
 	SaveableActorData = SaveGameObject->GetSaveActorData();
 	PlayerData = SaveGameObject->GetPlayerData();
-
 	CurrentlyLoadedLevel = SaveGameObject->GetCurrentLevel();
 	LoadLevel_Implementation(CurrentlyLoadedLevel);
 
@@ -324,7 +323,7 @@ TArray<FString> UTFGameInstance::GetAllSaveGameNames()
 		FString FileName(FindData.cFileName);
 		if (FileName.EndsWith(".sav"))
 		{
-			Ret.Add(FileName);
+			Ret.Add(FileName.Mid(0, FileName.Len() - 4));
 		}
 
 	}

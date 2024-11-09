@@ -256,7 +256,7 @@ void ATFPlayerCharacter::Tick(float DeltaTime)
 	{
 		TraceForInteraction();
 	}
-	AddExperiencePoints(100); // TODO: When experience points added to assets, then enable 
+	// AddExperiencePoints(100); // TODO: When experience points added to assets, then enable 
 }
 
 void ATFPlayerCharacter::PlayerLevelUp()
