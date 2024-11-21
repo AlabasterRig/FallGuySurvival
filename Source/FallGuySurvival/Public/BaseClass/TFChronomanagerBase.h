@@ -30,21 +30,35 @@ private:
 
 #pragma region Lighting
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Lighting")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = "Chrono|Lighting")
 	class ADirectionalLight* SunLight;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = "Chrono|Time")
 	class UCurveLinearColor* DailySunRotation;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = "Chrono|Time")
 	class UCurveLinearColor* AnnualSunRotation;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = "Chrono|Time")
 	class UCurveLinearColor* SkyLightDailyColour;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = "Chrono|Time")
 	class ASkyLight* SkyLight;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = " Chrono|Time")
-	float MaxSunIntensity = 10;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Day Length in Real World minutes"), Category = "Chrono|Time")
+	float MaxSunIntensity = 10.0;
 
 #pragma endregion
 
+#pragma region Temperature
+
+	FTimerHandle WorldTemperatureHandle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", ToolTip = "Number of Seconds between Temperature Updates"), Category = "Chrono|Temperature")
+	float WorldTemperatureTickRate = 5;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Current Ambient/World Temperature in °C"), Category = "Chrono|Temperature")
+	float CurrentWorldTemperature = 27;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Daily Temperature Range"), Category = "Chrono|Temperature")
+	class UCurveFloat* DailyTemperatureRange;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Annual Temperature Range"), Category = "Chrono|Temperature")
+	class UCurveFloat* AnnualTemperatureRange;
+
+#pragma endregion
 
 	bool bTimeWasUpdated = false;
 	float TimeDecay = 0;
@@ -65,6 +79,7 @@ private:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 	virtual void Tick(float DeltaTime) override;
@@ -73,6 +88,10 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FTimeChangeDelegate OnTimeChange;
 	FTimeData GetCurrentGameTime() const { return CurrentTime; }
+
 	FSaveActorData GetSaveData_Implementation() override;
 	void SetActorRawSaveData_Implementation(const TArray<FString>& Data) override;
+
+	UFUNCTION()
+	void UpdateTemperature();
 };

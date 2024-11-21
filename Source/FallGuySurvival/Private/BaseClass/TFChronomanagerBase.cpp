@@ -11,6 +11,21 @@
 #include "Logger.h"
 #include "TF_Utils.h"
 
+void ATFChronomanagerBase::UpdateTemperature()
+{
+	// Daily Temperature Range and Annual Temperature Range
+	if (!IsValid(DailyTemperatureRange) || !IsValid(AnnualTemperatureRange))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(WorldTemperatureHandle);
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateTemperature - DailyTemperatureRange or AnnualTemperatureRange is not valid", ErrorLevel::EL_WARNING);
+		return;
+	}
+
+	float CurrentDailyTemperature = DailyTemperatureRange->GetFloatValue(CurrentTimeOfDay);
+	float CurrentAnnualTemperature = AnnualTemperatureRange->GetFloatValue(CurrentTime.DayOfYear);
+	CurrentWorldTemperature = CurrentDailyTemperature + CurrentAnnualTemperature;
+}
+
 void ATFChronomanagerBase::UpdateTime(const float& DeltaTime)
 {
 	TimeDecay -= DeltaTime;
@@ -208,8 +223,14 @@ void ATFChronomanagerBase::UpdateLightRotation()
 
 void ATFChronomanagerBase::BeginPlay()
 {
+	GetWorld()->GetTimerManager().SetTimer(WorldTemperatureHandle, this, &ATFChronomanagerBase::UpdateTemperature, WorldTemperatureTickRate, true, 0);
 	Super::BeginPlay();
 	CalculateDayLength();
+}
+
+void ATFChronomanagerBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	GetWorld()->GetTimerManager().ClearTimer(WorldTemperatureHandle);
 }
 
 void ATFChronomanagerBase::Tick(float DeltaTime)
