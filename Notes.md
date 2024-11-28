@@ -8,7 +8,7 @@ This markdown file is for future ideas to be implemented - may or may not implem
 - Add tree regrowth with time (preferably, 1 week in game time). ✅
 - Day/Night Cycle. - (Do from blueprints maybe). Update: Implemented using C++. ✅
 - Weather Effects (Sunny, Rainy, etc) - (Have to learn this as well lol).
-- Basic Weather Effects on character (heat, cold) - (Even this I gotta learn).
+- Basic Weather Effects on character (heat, cold) - (Even this I gotta learn). ✔️/✅
 - Better Logging (or maybe just adding clarity to issues in `logging.h`) - (I'll just see a video, will be better than my current). Note: Did not see vid. ✅
 - Camera Adjustments ✅
 - Will create new header file/files to add all the structs and enums which are required multiple times in different files. ✅
