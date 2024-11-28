@@ -154,7 +154,10 @@ void ATFChronomanagerBase::SetDayOfYear()
 	case 2:
 		CurrentTimeOfDay += 31;
 	case 1:
-		CurrentTime.DayOfYear += CurrentTime.Day;
+		CurrentTime.DayOfYear = CurrentTime.Day;
+	default:
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::SetDayOfYear - Invalid Month", EL_ERROR);
+		break;
 	}
 }
 
@@ -162,7 +165,6 @@ void ATFChronomanagerBase::CalculateDayLength()
 {
 	MinuteLength = (DayLengthInMinutes * 60) / 1440;
 	TimeDecay = MinuteLength;
-	WorldTemperatureTickRate = MinuteLength * 15;
 }
 
 void ATFChronomanagerBase::UpdateTimeOfDayRef()
@@ -221,10 +223,9 @@ void ATFChronomanagerBase::UpdateLightRotation()
 
 void ATFChronomanagerBase::BeginPlay()
 {
+	GetWorld()->GetTimerManager().SetTimer(WorldTemperatureHandle, this, &ATFChronomanagerBase::UpdateTemperature, WorldTemperatureTickRate, true, 0);
 	Super::BeginPlay();
 	CalculateDayLength();
-	SetDayOfYear();
-	GetWorld()->GetTimerManager().SetTimer(WorldTemperatureHandle, this, &ATFChronomanagerBase::UpdateTemperature, WorldTemperatureTickRate, true, 0);
 }
 
 void ATFChronomanagerBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
