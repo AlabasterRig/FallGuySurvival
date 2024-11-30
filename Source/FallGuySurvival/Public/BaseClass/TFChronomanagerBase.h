@@ -72,6 +72,7 @@ private:
 	void AdvanceMonth();
 	void AdvanceYear();
 	void SetDayOfYear();
+	void AddDayOfYear();
 	void CalculateDayLength();
 	void UpdateTimeOfDayRef();
 	void UpdateLighting();
