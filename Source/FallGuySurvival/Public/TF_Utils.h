@@ -8,3 +8,6 @@
 TArray<FString> StringChop(FString Source, char split = '|');
 
 int RandomIntFromVector(const ERandomizedVector& DirectionRandomization, const FVector& Location);
+
+UFUNCTION(BlueprintCallable)
+float ConvertToFahrenheit(float Celcius); 
