@@ -17,7 +17,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Time")
 	int Year = 2024;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Time")
-	int Month = 9;
+	int Month = 12;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Time")
 	int Day = 30;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Time")

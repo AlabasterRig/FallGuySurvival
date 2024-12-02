@@ -17,7 +17,6 @@ class FALLGUYSURVIVAL_API ATFChronomanagerBase : public ATFActor
 	GENERATED_BODY()
 	
 private:
-
 #pragma region TimeOfDay
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "Use Day/Night Cycle"), Category = " Chrono|Time")
@@ -98,5 +97,4 @@ public:
 
 	FSaveActorData GetSaveData_Implementation() override;
 	void SetActorRawSaveData_Implementation(const TArray<FString>& Data) override;
-
 };
