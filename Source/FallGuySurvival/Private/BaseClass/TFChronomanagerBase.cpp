@@ -24,6 +24,7 @@ void ATFChronomanagerBase::UpdateTemperature()
 	float CurrentDailyTemperature = DailyTemperatureRange->GetFloatValue(CurrentTimeOfDay);
 	float CurrentAnnualTemperature = AnnualTemperatureRange->GetFloatValue(CurrentTime.DayOfYear);
 	CurrentWorldTemperature = CurrentDailyTemperature + CurrentAnnualTemperature;
+	OnTemperatureChanged.Broadcast(CurrentWorldTemperature);
 }
 
 void ATFChronomanagerBase::UpdateTime(const float& DeltaTime)

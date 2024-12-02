@@ -9,6 +9,7 @@
 #include "TFChronomanagerBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTimeChangeDelegate, FTimeData, TimeData);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTemperatureChangeDelegate, float, CurrentTemperature);
 
 UCLASS()
 class FALLGUYSURVIVAL_API ATFChronomanagerBase : public ATFActor
@@ -90,9 +91,12 @@ public:
 	FTimeChangeDelegate OnTimeChange;
 	FTimeData GetCurrentGameTime() const { return CurrentTime; }
 
+	UPROPERTY(BlueprintAssignable)
+	FTemperatureChangeDelegate OnTemperatureChanged;
+	UFUNCTION()
+	void UpdateTemperature();
+
 	FSaveActorData GetSaveData_Implementation() override;
 	void SetActorRawSaveData_Implementation(const TArray<FString>& Data) override;
 
-	UFUNCTION()
-	void UpdateTemperature();
 };
