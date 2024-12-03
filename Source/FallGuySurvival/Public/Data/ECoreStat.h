@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "ECoreStat.generated.h"
 
-UENUM(BlueprintType)
+UENUM(BlueprintType, meta = (ScriptName = "CoreStatEnum"))
 enum class ECoreStat : uint8
 {
 	CS_HEALTH UMETA(DisplayName = "Health"),

@@ -11,7 +11,7 @@ using namespace std;
 
 #define LOGPREFACE "\\TFLog_"
 
-enum ErrorLevel
+enum ErrorLevel : uint8
 {
 	EL_DEBUG = 0,
 	EL_WARNING = 1,

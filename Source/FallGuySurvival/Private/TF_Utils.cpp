@@ -48,8 +48,3 @@ int RandomIntFromVector(const ERandomizedVector& DirectionRandomization, const F
 		return 0;
 	}
 }
-
-float ConvertToFahrenheit(float Celcius)
-{
-	return (Celcius * 9 / 5) + 32;
-}
