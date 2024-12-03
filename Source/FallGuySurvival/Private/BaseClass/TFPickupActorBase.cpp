@@ -22,7 +22,7 @@ void ATFPickupActorBase::Interact_Implementation(ATFCharacter* Caller)
 {
 	if (!IsValid(InventoryItem))
 	{
-		Logger::GetInstance()->AddMessage("ATFPickupActorBase::Interact_Implementation - Invalid Inventory Item", EL_ERROR);
+		Logger::GetInstance()->AddMessage("ATFPickupActorBase::Interact_Implementation - Invalid Inventory Item", ErrorLevel::EL_ERROR);
 		return;
 	}
 

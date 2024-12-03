@@ -302,13 +302,13 @@ TArray<FString> UTFGameInstance::GetAllSaveGameNames()
 	TArray<FString> Ret;
 	FString savePath = FPaths::ProjectSavedDir();
 	savePath += "SaveGames/*";
-	Logger::GetInstance()->AddMessage("UTFGameInstance::GetAllSaveGameNames - Found the following Save Path", EL_DEBUG);
+	Logger::GetInstance()->AddMessage("UTFGameInstance::GetAllSaveGameNames - Found the following Save Path", ErrorLevel::EL_DEBUG);
 
 	WIN32_FIND_DATA FindData;
 	HANDLE hFindData = ::FindFirstFile(*savePath, &FindData);
 	if (hFindData == INVALID_HANDLE_VALUE)
 	{
-		Logger::GetInstance()->AddMessage("UTFGameInstance::GetAllSaveGameNames - Invalid Handle Value", EL_WARNING);
+		Logger::GetInstance()->AddMessage("UTFGameInstance::GetAllSaveGameNames - Invalid Handle Value", ErrorLevel::EL_WARNING);
 		return Ret;
 	}
 

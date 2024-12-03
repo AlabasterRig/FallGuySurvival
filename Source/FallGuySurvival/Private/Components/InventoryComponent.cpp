@@ -47,7 +47,7 @@ bool UInventoryComponent::AddItemToTop(TSubclassOf<UItemBase> Item)
 {
 	if (!IsValid(Item))
 	{
-		Logger::GetInstance()->AddMessage("UInventoryComponent::AddItemToTop - Invalid Item", EL_ERROR);
+		Logger::GetInstance()->AddMessage("UInventoryComponent::AddItemToTop - Invalid Item", ErrorLevel::EL_ERROR);
 		return false;
 	}
 	float ItemWeight = Item.GetDefaultObject()->GetStackWeight();
@@ -85,7 +85,7 @@ bool UInventoryComponent::AddItemToStackAtIndex(TSubclassOf<UItemBase> Item, con
 	}
 	if (Index > InventoryContents.Num())
 	{
-		Logger::GetInstance()->AddMessage("UInventoryComponent::AddItemToStackAtIndex - Invalid Index", EL_ERROR);
+		Logger::GetInstance()->AddMessage("UInventoryComponent::AddItemToStackAtIndex - Invalid Index", ErrorLevel::EL_ERROR);
 		return false;
 	}
 	UItemBase* TargetItem = Cast<UItemBase>(InventoryContents[Index]);

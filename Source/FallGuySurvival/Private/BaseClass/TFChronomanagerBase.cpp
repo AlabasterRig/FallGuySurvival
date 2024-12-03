@@ -106,7 +106,7 @@ void ATFChronomanagerBase::AdvanceDay()  // Like a typical real world calendar, 
 		}
 		break;
 	default:
-		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::AdvanceDay - Invalid Month, cannot advance day", EL_ERROR);
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::AdvanceDay - Invalid Month, cannot advance day", ErrorLevel::EL_ERROR);
 		break;
 	}
 }
@@ -185,7 +185,7 @@ void ATFChronomanagerBase::UpdateLighting()
 {
 	if (!IsValid(SunLight) || !IsValid(DailySunRotation))
 	{
-		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLighting - SunLight or DailySunIntensity is not valid", EL_ERROR);
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLighting - SunLight or DailySunIntensity is not valid", ErrorLevel::EL_ERROR);
 		return;
 	}
 	float NewLightIntensity = DailySunRotation->GetUnadjustedLinearColorValue(CurrentTimeOfDay).A;
@@ -200,7 +200,7 @@ void ATFChronomanagerBase::UpdateLighting()
 
 	if (!IsValid(SkyLight) || !IsValid(SkyLightDailyColour))
 	{
-		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLighting - SkyLight or SkylightIntensity is not valid", EL_ERROR);
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLighting - SkyLight or SkylightIntensity is not valid", ErrorLevel::EL_ERROR);
 		return;
 	}
 
@@ -217,7 +217,7 @@ void ATFChronomanagerBase::UpdateLightRotation()
 {
 	if (!IsValid(SunLight) || !IsValid(DailySunRotation))
 	{
-		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLightRotation - SunLight or DailySunRotation is not valid", EL_ERROR);
+		Logger::GetInstance()->AddMessage("ATFChronomanagerBase::UpdateLightRotation - SunLight or DailySunRotation is not valid", ErrorLevel::EL_ERROR);
 		return;
 	}
 	FLinearColor ColourRotation = DailySunRotation->GetUnadjustedLinearColorValue(CurrentTimeOfDay);
