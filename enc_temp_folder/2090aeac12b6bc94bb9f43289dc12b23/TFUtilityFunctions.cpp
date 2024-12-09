@@ -28,5 +28,6 @@ float UTFUtilityFunctions::ConvertCelsiusToFahrenheit(const float& Celsius)
 
 void UTFUtilityFunctions::AddLogMessage(const FString& Message, const ELogLevel& Level)
 {
-	Logger::GetInstance()->AddMessage(std::string(TCHAR_TO_UTF8(*Message)), LogLevelToErrorLevel(Level));
+	std::string ConvertedMessage = std::string(TCHAR_TO_UTF8(*Message));
+	Logger::GetInstance()->AddMessage(ConvertedMessage, LogLevelToErrorLevel(Level));
 }
