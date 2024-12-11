@@ -65,6 +65,8 @@ private:
 	UInputAction* InventoryAction;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ToggleCameraPerspective;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LeanAction;
 
 #pragma endregion
 
@@ -88,6 +90,8 @@ private:
 	float ExperiencePointsReceivedOnPickup = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Leveling, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
 	float ExperiencePointsRequired = 100;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	float LeanAmount = 0;
 
 	void TraceForInteraction();
 
@@ -99,6 +103,7 @@ protected:
 	void Move(const FInputActionValue& Value);
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+	void Lean(const FInputActionValue& Value);
 
 	void Playerjump();
 	void SprintOn();

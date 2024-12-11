@@ -91,6 +91,15 @@ void ATFPlayerCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void ATFPlayerCharacter::Lean(const FInputActionValue& Value)
+{
+	if (BlockCharacterInput() || !bIsFirstPerson)
+	{
+		return;
+	}
+	LeanAmount = Value.Get<float>();
+}
+
 void ATFPlayerCharacter::Playerjump()
 {
 	if (BlockCharacterInput())
@@ -203,6 +212,7 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::OnInteract);
 		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::TogglePlayerInventory_Implementation);
 		EnhancedInputComponent->BindAction(ToggleCameraPerspective, ETriggerEvent::Completed, this, &ATFPlayerCharacter::TogglePerspective);
+		EnhancedInputComponent->BindAction(LeanAction, ETriggerEvent::Triggered, this, &ATFPlayerCharacter::Lean);
 	}
 }
 
