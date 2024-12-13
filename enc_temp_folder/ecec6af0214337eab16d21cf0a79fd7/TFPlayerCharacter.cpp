@@ -213,7 +213,6 @@ void ATFPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::TogglePlayerInventory_Implementation);
 		EnhancedInputComponent->BindAction(ToggleCameraPerspective, ETriggerEvent::Completed, this, &ATFPlayerCharacter::TogglePerspective);
 		EnhancedInputComponent->BindAction(LeanAction, ETriggerEvent::Triggered, this, &ATFPlayerCharacter::Lean);
-		EnhancedInputComponent->BindAction(LeanAction, ETriggerEvent::Completed, this, &ATFPlayerCharacter::Lean);
 	}
 }
 
