@@ -26,12 +26,17 @@ void ATFHeatSourceActor::BeginPlay()
 {
 	Super::BeginPlay();
 	SphereRadius = HeatZone->GetScaledSphereRadius();
+	if (!IsValid(HeatFalloff))
+	{
+		PrimaryActorTick.bCanEverTick = false;
+		PrimaryActorTick.SetTickFunctionEnable(false);
+	}
 }
 
 void ATFHeatSourceActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!bIsActivated)
+	if (!bIsActivated || !IsValid(HeatFalloff))
 	{
 		return;
 	}
@@ -42,11 +47,16 @@ void ATFHeatSourceActor::Tick(float DeltaTime)
 	}
 	for (const auto a : ActorsInRange)
 	{
+		if (!IsValid(a))
+		{
+			continue;
+		}
 		float ActorDistance = (a->GetActorLocation() - this->GetActorLocation()).Length();
 		ActorDistance /= SphereRadius;
 		float HeatMultiplier = HeatFalloff->GetFloatValue(ActorDistance);
 		float AppliedHeat = MaxHeatValue * HeatMultiplier;
-		// TODO: Call to statline to add to heat offset
+		
+		DEBUG_AppliedHeat = AppliedHeat;
 	}
 }
 
@@ -54,7 +64,7 @@ void ATFHeatSourceActor::OnHeatZoneOverlapBegin(UPrimitiveComponent* OverlappedC
 {
 	if (Cast<ATFCharacter>(OtherActor) != nullptr)
 	{
-		ActorsInRange.Add(OtherActor);
+		ActorsInRange.AddUnique(OtherActor);
 	}
 }
 
@@ -72,8 +82,10 @@ void ATFHeatSourceActor::Interact_Implementation(ATFCharacter* Caller)
 {
 	if (bIsActivated)
 	{
+		bIsActivated = false;
 		return;
 	}
+	bIsActivated = true;
 	return;
 }
 
