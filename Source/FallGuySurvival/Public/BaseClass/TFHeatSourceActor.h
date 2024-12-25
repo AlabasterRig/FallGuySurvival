@@ -22,23 +22,23 @@ private:
 	class UCurveFloat* HeatFalloff;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UParticleSystemComponent* ParticleEmitter;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Heat", meta = (AllowPrivateAccess = "true"))
 	float MaxHeatValue = 27;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))
 	float SphereRadius = -1;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG", meta = (AllowPrivateAccess = "true"))
 	float DEBUG_AppliedHeat = 0;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))
 	bool bInteractableHeatSource = true;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))
 	bool bIsActivated = false;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))
 	bool bUsesFuel = false;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	FText EnableText;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	FText DisableText;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))
+	FText EnableText = FText::FromString("Ignite");
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))
+	FText DisableText = FText::FromString("Extinguish");
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Heat|Actors", meta = (AllowPrivateAccess = "true"))
 	TArray<AActor*> ActorsInRange;
 	
 	ATFHeatSourceActor();
@@ -59,4 +59,6 @@ public:
 	FText GetInteractionText_Implementation() override;
 	void Interact_Implementation(class ATFCharacter* Caller) override;
 	bool IsInteractable_Implementation() const override;
+
+	virtual void UpdateFromSave_Implementation() override;
 };

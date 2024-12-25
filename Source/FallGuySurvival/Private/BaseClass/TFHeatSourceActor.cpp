@@ -28,8 +28,11 @@ void ATFHeatSourceActor::BeginPlay()
 	SphereRadius = HeatZone->GetScaledSphereRadius();
 	if (!IsValid(HeatFalloff))
 	{
-		PrimaryActorTick.bCanEverTick = false;
 		PrimaryActorTick.SetTickFunctionEnable(false);
+	}
+	if (IsValid(ParticleEmitter) && bIsActivated)
+	{
+		ParticleEmitter->Activate();
 	}
 }
 
@@ -82,8 +85,16 @@ void ATFHeatSourceActor::Interact_Implementation(ATFCharacter* Caller)
 {
 	if (bIsActivated)
 	{
+		if (IsValid(ParticleEmitter))
+		{
+			ParticleEmitter->Deactivate();
+		}
 		bIsActivated = false;
 		return;
+	}
+	if (IsValid(ParticleEmitter))	
+	{
+		ParticleEmitter->Activate();
 	}
 	bIsActivated = true;
 	return;
@@ -92,4 +103,12 @@ void ATFHeatSourceActor::Interact_Implementation(ATFCharacter* Caller)
 bool ATFHeatSourceActor::IsInteractable_Implementation() const
 {
 	return bInteractableHeatSource;
+}
+
+void ATFHeatSourceActor::UpdateFromSave_Implementation()
+{
+	if (IsValid(ParticleEmitter) && bIsActivated)
+	{
+		ParticleEmitter->Activate();
+	}
 }
