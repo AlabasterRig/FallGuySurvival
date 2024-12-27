@@ -69,8 +69,11 @@ I am not aware of any other way of providing insight into the development of thi
 
 
 # References
-1) The Save Game Functionality is a copy of and even a slight variation of Tom Looman's Tutorials.  
+1) The Save Game Functionality is a copy of and even a slight variation of Tom Looman's tutorials.  
    This is a link to [Tom Looman's Tutorial](https://www.tomlooman.com/unreal-engine-cpp-save-system/).
 
 2) The BP_IconGenerator is a copy of Unreal University tutorial.  
    This is the link to [Unreal University's Tutorial](https://www.youtube.com/watch?v=EpthBJJ9S-o).
+
+3) The Fire VFX is a direct copy of Gabriel Aguiar Prod. tutorial.  
+   This is the link to [Gabriel Aguiar Prod. Tutorial](https://www.youtube.com/watch?v=OnxiEY3Khow).
