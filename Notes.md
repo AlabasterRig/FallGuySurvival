@@ -15,6 +15,7 @@ This markdown file is for future ideas to be implemented - may or may not implem
 - Add Enemies (like zombies maybe and even human attackers).
 - Add Enemy AI (Behaviour trees?) (Have to learn this).
 - Add Main Menu and Level Loading. ✅
+- Add Custom VFX ✅
 
 .
 
@@ -52,6 +53,8 @@ Might explain the additions or changes done in the project (or might not lol), w
 
 # Break Updates
 - 22/10/2024 - 26/10/2024: I took a long weekend (weekday?) off by travelling this past week. So could not work on anything in the game, I have started again on 27/10/2024, mostly I will not take a break again.
+- 15/12/2024 - 24/12/2024: Had no new ideas on what to do (or more like how to implement the previously thought ideas). Had to go through my codebase again to understand and sort out any resuable code to its separate `data` folder.
+
 
 # FYI
 I realize my mistake of committing too many times unnecessarily in a single day, and what I mean by that is I change `.md` files on GitHub instead of the editor I'm using. The reason being is that I am not confident to add stuff to `.md` files without previewing it first, hence the bloated number of commits. So, if you do see a high number of commits, please do check their content and the changes done to them.
