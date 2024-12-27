@@ -21,7 +21,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCurveFloat* HeatFalloff;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UParticleSystemComponent* ParticleEmitter;
+	class UNiagaraComponent* ParticleEmitter;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Heat", meta = (AllowPrivateAccess = "true"))
 	float MaxHeatValue = 27;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))

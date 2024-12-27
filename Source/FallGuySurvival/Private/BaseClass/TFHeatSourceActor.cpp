@@ -5,13 +5,13 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "BaseClass/TFCharacter.h"
-#include "Particles/ParticleSystemComponent.h"
+#include "NiagaraComponent.h"
 
 ATFHeatSourceActor::ATFHeatSourceActor()
 {
 	HeatZone = CreateDefaultSubobject<USphereComponent>(TEXT("Heat Zone"));
 	WorldMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("World Mesh"));
-	ParticleEmitter = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle Emitter"));
+	ParticleEmitter = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Particle Emitter"));
 
 	WorldMesh->SetupAttachment(RootComponent);
 	HeatZone->SetupAttachment(WorldMesh);
