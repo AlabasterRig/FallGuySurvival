@@ -39,7 +39,7 @@ void ATFHeatSourceActor::BeginPlay()
 void ATFHeatSourceActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (!bIsActivated || !IsValid(HeatFalloff))
+	if (!bIsActivated)
 	{
 		return;
 	}
@@ -90,6 +90,7 @@ void ATFHeatSourceActor::Interact_Implementation(ATFCharacter* Caller)
 			ParticleEmitter->Deactivate();
 		}
 		bIsActivated = false;
+		OnInteractionBP_Implementation();
 		return;
 	}
 	if (IsValid(ParticleEmitter))	
@@ -97,6 +98,7 @@ void ATFHeatSourceActor::Interact_Implementation(ATFCharacter* Caller)
 		ParticleEmitter->Activate();
 	}
 	bIsActivated = true;
+	OnInteractionBP_Implementation();
 	return;
 }
 
@@ -111,4 +113,9 @@ void ATFHeatSourceActor::UpdateFromSave_Implementation()
 	{
 		ParticleEmitter->Activate();
 	}
+}
+
+void ATFHeatSourceActor::OnInteractionBP_Implementation()
+{
+	OnInteractionBP();
 }

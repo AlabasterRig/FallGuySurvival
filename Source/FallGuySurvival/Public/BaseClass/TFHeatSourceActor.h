@@ -61,4 +61,8 @@ public:
 	bool IsInteractable_Implementation() const override;
 
 	virtual void UpdateFromSave_Implementation() override;
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnInteractionBP();
+	void OnInteractionBP_Implementation();
 };
