@@ -50,6 +50,17 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float DehydrationHealthDamagePerSecond = 1;
 
+#pragma region Temperature
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bConcernedAboutTemperature = true;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float CurrentAmbientTemp = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float CurrentLocalTempOffset = 0;
+
+#pragma endregion
+
 	void TickStats(const float& DeltaTime);
 	void TickStamina(const float& DeltaTime);
 	void TickHunger(const float& DeltaTime);
