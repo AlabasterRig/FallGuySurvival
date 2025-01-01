@@ -39,7 +39,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))
 	FText DisableText = FText::FromString("Extinguish");
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Heat|Actors", meta = (AllowPrivateAccess = "true"))
-	TArray<AActor*> ActorsInRange;
+	TArray<ATFCharacter*> ActorsInRange;
 	
 	ATFHeatSourceActor();
 

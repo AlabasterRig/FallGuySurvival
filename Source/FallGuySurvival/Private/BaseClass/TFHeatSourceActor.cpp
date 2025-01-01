@@ -4,6 +4,7 @@
 #include "BaseClass/TFHeatSourceActor.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/StatlineComponent.h"
 #include "BaseClass/TFCharacter.h"
 #include "NiagaraComponent.h"
 
@@ -48,32 +49,46 @@ void ATFHeatSourceActor::Tick(float DeltaTime)
 	{
 		return;
 	}
-	for (const auto a : ActorsInRange)
+	for (const auto Actors : ActorsInRange)
 	{
-		if (!IsValid(a))
+		if (!IsValid(Actors))
 		{
 			continue;
 		}
-		float ActorDistance = (a->GetActorLocation() - this->GetActorLocation()).Length();
+		float ActorDistance = (Actors->GetActorLocation() - this->GetActorLocation()).Length();
 		ActorDistance /= SphereRadius;
 		float HeatMultiplier = HeatFalloff->GetFloatValue(ActorDistance);
-		float AppliedHeat = MaxHeatValue * HeatMultiplier;
-		
-		DEBUG_AppliedHeat = AppliedHeat;
+		DEBUG_AppliedHeat = MaxHeatValue * HeatMultiplier;
+		Actors->GetStatline()->AdjustLocalTempOffset(FMath::Clamp(MaxHeatValue * HeatMultiplier, 0, MaxHeatValue));
 	}
 }
 
 void ATFHeatSourceActor::OnHeatZoneOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (Cast<ATFCharacter>(OtherActor) != nullptr)
+	//NOTE: Efficiency Issue with Cast.
+	ATFCharacter* AsTFCharacter = Cast<ATFCharacter>(OtherActor);
+	if (AsTFCharacter != nullptr)
 	{
-		ActorsInRange.AddUnique(OtherActor);
+		ActorsInRange.AddUnique(AsTFCharacter);
+	}
+	if (!bIsActivated)
+	{
+		AsTFCharacter->GetStatline()->AdjustLocalTempOffset(0);
 	}
 }
 
 void ATFHeatSourceActor::OnHeatZoneOverlapEnd(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyindex)
 {
-	ActorsInRange.Remove(OtherActor);
+	//NOTE: Efficiency Issue with Cast.
+	ATFCharacter* RemovedActors = Cast<ATFCharacter>(OtherActor);
+	if (!IsValid(RemovedActors))
+	{
+		return;
+	}
+	if (ActorsInRange.Remove(RemovedActors) > 0)
+	{
+		RemovedActors->GetStatline()->AdjustLocalTempOffset(0);
+	}
 }
 
 FText ATFHeatSourceActor::GetInteractionText_Implementation()

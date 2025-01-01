@@ -100,4 +100,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AdjustStat(const ECoreStat& Stat, const float& Amount);
+	UFUNCTION(BlueprintCallable)
+	void AdjustLocalTempOffset(const float& OffsetValue);
+	UFUNCTION()
+	void OnWorldTempChange(float Temperature);
 };

@@ -4,6 +4,8 @@
 #include "Components/StatlineComponent.h"
 #include "TF_Utils.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "BaseClass/TFChronomanagerBase.h"
 
 
 void UStatlineComponent::TickStats(const float& DeltaTime)
@@ -87,7 +89,11 @@ void UStatlineComponent::BeginPlay()
 	Super::BeginPlay();
 
 	OwningCharacterMovementComp->MaxWalkSpeed = WalkSpeed;
-	
+	ATFChronomanagerBase* Chrono = Cast<ATFChronomanagerBase>(UGameplayStatics::GetActorOfClass(GetWorld(), ATFChronomanagerBase::StaticClass()));
+	if (IsValid(Chrono))
+	{
+		Chrono->OnTemperatureChanged.AddUniqueDynamic(this, &UStatlineComponent::OnWorldTempChange);
+	}
 }
 
 
@@ -225,5 +231,15 @@ void UStatlineComponent::AdjustStat(const ECoreStat& Stat, const float& Amount)
 		break;
 	}
 	return;
+}
+
+void UStatlineComponent::AdjustLocalTempOffset(const float& OffsetValue)
+{
+	CurrentLocalTempOffset = OffsetValue; 
+}
+
+void UStatlineComponent::OnWorldTempChange(float Temperature)
+{
+	CurrentAmbientTemp = Temperature;
 }
 
