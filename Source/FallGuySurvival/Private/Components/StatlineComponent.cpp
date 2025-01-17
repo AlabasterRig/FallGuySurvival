@@ -242,4 +242,3 @@ void UStatlineComponent::OnWorldTempChange(float Temperature)
 {
 	CurrentAmbientTemp = Temperature;
 }
-

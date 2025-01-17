@@ -16,58 +16,75 @@ class FALLGUYSURVIVAL_API UStatlineComponent : public UActorComponent, public IS
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+
+#pragma region Stats
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
 	FCoreStat Health;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
 	FCoreStat Stamina;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
 	FCoreStat Hunger = FCoreStat(100, 100, -0.125);
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, Category = "Statline|Stats", meta = (AllowPrivateAccess = "true"))
 	FCoreStat Thirst = FCoreStat(100, 100, -0.25);
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	bool bIsSprinting = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	bool bIsSneaking = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float SprintCostMultiplier = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float SprintRegenerationPerSecond = 7;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float JumpCost = 10;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float WalkSpeed = 175;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float SprintSpeed = 500;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float SneakSpeed = 80;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float SecondsForStaminaExhaustion = 2;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true")) 
-	float CurrentStaminaExhaustion = 0;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float StarvingHealthDamagePerSecond = 1;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float DehydrationHealthDamagePerSecond = 1;
-
-#pragma region Temperature
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	bool bConcernedAboutTemperature = true;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float CurrentAmbientTemp = 0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float CurrentLocalTempOffset = 0;
-
-#pragma endregion
 
 	void TickStats(const float& DeltaTime);
 	void TickStamina(const float& DeltaTime);
 	void TickHunger(const float& DeltaTime);
 	void TickThirst(const float& DeltaTime);
-	bool IsValidSpriting();
 
+#pragma endregion
+
+#pragma region Moving
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	bool bIsSprinting = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	bool bIsSneaking = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float SprintCostMultiplier = 2;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float SprintRegenerationPerSecond = 7;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float JumpCost = 10;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float WalkSpeed = 175;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float SprintSpeed = 500;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float SneakSpeed = 80;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float SecondsForStaminaExhaustion = 2;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float CurrentStaminaExhaustion = 0;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float StarvingHealthDamagePerSecond = 1;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
+	float DehydrationHealthDamagePerSecond = 1;
+
+	bool IsValidSpriting();
 	class UCharacterMovementComponent* OwningCharacterMovementComp;
+
+#pragma endregion
+
+#pragma region Temperature
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	bool bConcernedAboutTemperature = true;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float CurrentAmbientTemp = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float CurrentLocalTempOffset = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float CurrentBodyTemperature = 37.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float HeatInsulation = 0.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float ColdInsulation = 0.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float BodyCoverage = 0.0f;
+
+#pragma endregion
 	
 protected:
 	// Called when the game starts
