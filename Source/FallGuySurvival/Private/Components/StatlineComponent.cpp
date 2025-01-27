@@ -83,6 +83,24 @@ UStatlineComponent::UStatlineComponent()
 }
 
 
+void UStatlineComponent::UpdateBodyTemperature(const float& DeltaTime)
+{
+	float EffectiveWorldTemp = CurrentAmbientTemp + CurrentLocalTempOffset;
+	float InsulationValue = EffectiveWorldTemp <= CurrentBodyTemperature ? ColdInsulation : HeatInsulation;
+	InsulationValue /= 100;
+	float AdjustTemp = EffectiveWorldTemp - (EffectiveWorldTemp - InsulationValue);
+}
+
+void UStatlineComponent::AdjustHeatInsulation(const float& Amount)
+{
+	HeatInsulation = FMath::Clamp(HeatInsulation + Amount, 0, 100);
+}
+
+void UStatlineComponent::AdjustColdInsulation(const float& Amount)
+{
+	ColdInsulation = FMath::Clamp(ColdInsulation + Amount, 0, 100);
+}
+
 // Called when the game starts
 void UStatlineComponent::BeginPlay()
 {

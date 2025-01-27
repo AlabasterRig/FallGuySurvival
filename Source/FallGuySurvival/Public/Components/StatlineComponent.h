@@ -75,7 +75,7 @@ private:
 	float CurrentAmbientTemp = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
 	float CurrentLocalTempOffset = 0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
 	float CurrentBodyTemperature = 37.0f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
 	float HeatInsulation = 0.0f;
@@ -83,6 +83,14 @@ private:
 	float ColdInsulation = 0.0f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
 	float BodyCoverage = 0.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float AdjustmentFactoral = 500.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float TemperatureDifferenceToIgnore = 5.0f;
+
+	void UpdateBodyTemperature(const float& DeltaTime);
+	void AdjustHeatInsulation(const float& Amount);
+	void AdjustColdInsulation(const float& Amount);
 
 #pragma endregion
 	
