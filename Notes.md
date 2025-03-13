@@ -42,18 +42,18 @@ Might explain the additions or changes done in the project (or might not lol), w
     - Update: 29/09/2024 (20:25) - Added a collision mesh on the mushroom and its working perfectly fine now.
 
 - Added Day Night Cycle
-    - Utlized mainly `C++`, but also engine for creating Float Curves for Rotation and Intensity.
+    - Utilized mainly `C++`, but also engine for creating Float Curves for Rotation and Intensity.
 
 - Added Randomized Actor and Material placement actors.
-    - Doing this to ease the world building process which I am building as a different map which is not being commited.
+    - Doing this to ease the world building process which I am building as a different map which is not being committed.
 
 - Main Menu and Level Loading.
-    - Added a main menu screen and also implemented level loading to a different map on New game button press. A 'Persistent' map holds two levels namely `DEVMAP` and `Main_Menu` on beginplay the 'Main_Menu' is loaded first showing multple buttons, on clicking of 'New Game' button the 'DEVMAP' is loaded with the player having control over the pawn and all the mechanics implemented in the game.  
+    - Added a main menu screen and also implemented level loading to a different map on New game button press. A 'Persistent' map holds two levels namely `DEVMAP` and `Main_Menu` on BeginPlay the 'Main_Menu' is loaded first showing multiple buttons, on clicking of 'New Game' button the 'DEVMAP' is loaded with the player having control over the pawn and all the mechanics implemented in the game.  
 
 
 # Break Updates
 - 22/10/2024 - 26/10/2024: I took a long weekend (weekday?) off by travelling this past week. So could not work on anything in the game, I have started again on 27/10/2024, mostly I will not take a break again.
-- 15/12/2024 - 24/12/2024: Had no new ideas on what to do (or more like how to implement the previously thought ideas). Had to go through my codebase again to understand and sort out any resuable code to its separate `data` folder.
+- 15/12/2024 - 24/12/2024: Had no new ideas on what to do (or more like how to implement the previously thought ideas). Had to go through my codebase again to understand and sort out any reusable code to its separate `data` folder.
 
 
 # FYI

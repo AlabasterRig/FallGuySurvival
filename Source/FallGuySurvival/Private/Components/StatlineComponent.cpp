@@ -88,7 +88,13 @@ void UStatlineComponent::UpdateBodyTemperature(const float& DeltaTime)
 	float EffectiveWorldTemp = CurrentAmbientTemp + CurrentLocalTempOffset;
 	float InsulationValue = EffectiveWorldTemp <= CurrentBodyTemperature ? ColdInsulation : HeatInsulation;
 	InsulationValue /= 100;
-	float AdjustTemp = EffectiveWorldTemp - (EffectiveWorldTemp - InsulationValue);
+	float AdjustTemp = EffectiveWorldTemp - (EffectiveWorldTemp * InsulationValue);
+	if (AdjustTemp <= 0)
+	{
+		// TODO: Add in natural body temp balancing.
+		return;
+	}
+	float DifferenceInTemperature = CurrentAmbientTemp - AdjustTemp;
 }
 
 void UStatlineComponent::AdjustHeatInsulation(const float& Amount)
