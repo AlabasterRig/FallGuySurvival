@@ -16,17 +16,16 @@ class FALLGUYSURVIVAL_API ATFRegrowingHarvestActorBase : public ATFHarvestActorB
 	GENERATED_BODY()
 	
 private:
-	ATFRegrowingHarvestActorBase();
 
 	class ATFChronomanagerBase* TimeManager;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Harvest", meta = (AllowPrivateAccess = "true"))
 	int NumberOfDaysToRegrow = 1;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Harvest", SaveGame, meta = (AllowPrivateAccess = "true"))
 	int DaysSinceLastHarvest = 0;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Harvest", meta = (AllowPrivateAccess = "true"))
 	int ItemRegrowthAmount = 1; 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, SaveGame, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Harvest", SaveGame, meta = (AllowPrivateAccess = "true"))
 	FTimeData TrackHarvest;
 
 	void ResetHarvest();
@@ -36,7 +35,7 @@ protected:
 
 public:
 	void OnDayChange();
-
+	ATFRegrowingHarvestActorBase();
 	UFUNCTION()
 	void OnTimeChange(FTimeData TimeData);
 	void Interact_Implementation(class ATFCharacter* Caller) override;

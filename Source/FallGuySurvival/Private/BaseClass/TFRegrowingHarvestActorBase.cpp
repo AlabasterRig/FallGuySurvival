@@ -15,9 +15,9 @@ ATFRegrowingHarvestActorBase::ATFRegrowingHarvestActorBase()
 void ATFRegrowingHarvestActorBase::ResetHarvest()
 {
 	bIsHarvested = false;
+	DaysSinceLastHarvest = 0;
 	ItemCount = ItemRegrowthAmount;
-	HarvestMesh->bHiddenInGame = false;
-	MarkComponentsRenderStateDirty();
+	UpdateHarvestState();
 }
 
 void ATFRegrowingHarvestActorBase::BeginPlay()
@@ -30,7 +30,6 @@ void ATFRegrowingHarvestActorBase::BeginPlay()
 		return;
 	}
 	TimeManager->OnTimeChange.AddUniqueDynamic(this, &ATFRegrowingHarvestActorBase::OnTimeChange);
-
 }
 
 void ATFRegrowingHarvestActorBase::OnDayChange()
@@ -60,17 +59,18 @@ void ATFRegrowingHarvestActorBase::OnTimeChange(FTimeData TimeData)
 
 void ATFRegrowingHarvestActorBase::Interact_Implementation(ATFCharacter* Caller)
 {
+	bool wasHarvestedBefore = bIsHarvested;
 	ATFHarvestActorBase::Interact_Implementation(Caller);
 	if (!IsValid(TimeManager))
 	{
 		Logger::GetInstance()->AddMessage("ATFRegrowingHarvestActorBase::Interact_Implementation - No Valid TimeManager", ErrorLevel::EL_CRITICAL);
 		return;
 	}
-	if (!bIsHarvested)
+	if (!wasHarvestedBefore && bIsHarvested)
 	{
-		return;
+		DaysSinceLastHarvest = 0;
+		TrackHarvest = TimeManager->GetCurrentGameTime();
 	}
-	TrackHarvest = TimeManager->GetCurrentGameTime();
 }
 
 FSaveActorData ATFRegrowingHarvestActorBase::GetSaveData_Implementation()
