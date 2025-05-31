@@ -23,7 +23,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UNiagaraComponent* ParticleEmitter;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Heat", meta = (AllowPrivateAccess = "true"))
-	float MaxHeatValue = 27;
+	float MaxHeatValue = 60.0f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Heat", meta = (AllowPrivateAccess = "true"))
 	float SphereRadius = -1;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "DEBUG", meta = (AllowPrivateAccess = "true"))

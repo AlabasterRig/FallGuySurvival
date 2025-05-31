@@ -75,8 +75,8 @@ private:
 	float CurrentAmbientTemp = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
 	float CurrentLocalTempOffset = 0;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
-	float CurrentBodyTemperature = 37.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float CurrentBodyTemperature = 36.6f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
 	float HeatInsulation = 0.0f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
@@ -89,8 +89,6 @@ private:
 	float TemperatureDifferenceToIgnore = 5.0f;
 
 	void UpdateBodyTemperature(const float& DeltaTime);
-	void AdjustHeatInsulation(const float& Amount);
-	void AdjustColdInsulation(const float& Amount);
 
 #pragma endregion
 	
@@ -129,4 +127,12 @@ public:
 	void AdjustLocalTempOffset(const float& OffsetValue);
 	UFUNCTION()
 	void OnWorldTempChange(float Temperature);
+
+	// TODO: Remove BlueprintCallable on Below three adjust functions once debugging is completed
+	UFUNCTION(BlueprintCallable)
+	void AdjustHeatInsulation(const float& Amount);
+	UFUNCTION(BlueprintCallable)
+	void AdjustColdInsulation(const float& Amount);
+	UFUNCTION(BlueprintCallable)
+	void AdjustBodyCoverage(const float& Amount);
 };

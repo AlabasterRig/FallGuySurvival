@@ -88,13 +88,20 @@ void UStatlineComponent::UpdateBodyTemperature(const float& DeltaTime)
 	float EffectiveWorldTemp = CurrentAmbientTemp + CurrentLocalTempOffset;
 	float InsulationValue = EffectiveWorldTemp <= CurrentBodyTemperature ? ColdInsulation : HeatInsulation;
 	InsulationValue /= 100;
-	float AdjustTemp = EffectiveWorldTemp - (EffectiveWorldTemp * InsulationValue);
-	if (AdjustTemp <= 0)
+	float DifferenceInTemperature = CurrentBodyTemperature - EffectiveWorldTemp;
+	DifferenceInTemperature -= (DifferenceInTemperature * InsulationValue);
+	if (abs(DifferenceInTemperature) <= TemperatureDifferenceToIgnore)
 	{
-		// TODO: Add in natural body temp balancing.
 		return;
 	}
-	float DifferenceInTemperature = CurrentAmbientTemp - AdjustTemp;
+
+	DifferenceInTemperature /= AdjustmentFactoral;
+	if (BodyCoverage != 0)
+	{
+		DifferenceInTemperature /= BodyCoverage;
+	}
+	DifferenceInTemperature *= DeltaTime;
+	CurrentBodyTemperature -= DifferenceInTemperature;
 }
 
 void UStatlineComponent::AdjustHeatInsulation(const float& Amount)
@@ -105,6 +112,11 @@ void UStatlineComponent::AdjustHeatInsulation(const float& Amount)
 void UStatlineComponent::AdjustColdInsulation(const float& Amount)
 {
 	ColdInsulation = FMath::Clamp(ColdInsulation + Amount, 0, 100);
+}
+
+void UStatlineComponent::AdjustBodyCoverage(const float& Amount)
+{
+	BodyCoverage = FMath::Clamp(BodyCoverage + Amount, 0.0, 8.0);
 }
 
 // Called when the game starts
@@ -129,6 +141,7 @@ void UStatlineComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	if (TickType != ELevelTick::LEVELTICK_PauseTick)
 	{
 		TickStats(DeltaTime);
+		UpdateBodyTemperature(DeltaTime);
 	}
 }
 
