@@ -54,6 +54,7 @@ Might explain the additions or changes done in the project (or might not lol), w
 # Break Updates
 - 22/10/2024 - 26/10/2024: I took a long weekend (weekday?) off by travelling this past week. So could not work on anything in the game, I have started again on 27/10/2024, mostly I will not take a break again.
 - 15/12/2024 - 24/12/2024: Had no new ideas on what to do (or more like how to implement the previously thought ideas). Had to go through my codebase again to understand and sort out any reusable code to its separate `data` folder.
+- 02/02/2025 - 21/04/2025: Was working on different projects, mostly on Unity as I joined OUTSCAL for Full Stack Game Development. Was also working on a few personal projects such as my personal portfolio, which you can access here: www.utkri.st. I had to go through my codebase again as I forgot most of what I did—it took me nearly an hour to recall everything.
 
 
 # FYI

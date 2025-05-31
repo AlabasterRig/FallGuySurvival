@@ -15,6 +15,7 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
 - Inventory not opening if no items added beforehand. It also doesn't open even after picking up an item after initially opening an empty inventory. (Fixed in previous commits).
 - Cannot pickup actor again after regrowth and `OnDayChange` breakpoint not hitting.
 - Time not updating correctly as the day change does not get loaded once saved.
+- Cannot pickup actor again, issue with the boolean value not resetting.
 
 ## Current Bugs
 
@@ -33,6 +34,7 @@ This `.md` file states the bugs encountered during debugging and playtesting. Th
 - Interaction Rayrace not working on mushroom (Interaction Trace or Actor not being added to InteractionActor Array).
 - Cannot pickup actor again after regrowth and `OnDayChange` breakpoint not hitting. (Fixed long ago)
 - Time not updating correctly as the day change does not get loaded once saved. (Fixed long ago)
+- Cannot pickup actor again, issue with the boolean value not resetting.
 
 ### Fixed Bugs Code
 - Jumping while in the air or clicking the jump button again reduces stamina.
