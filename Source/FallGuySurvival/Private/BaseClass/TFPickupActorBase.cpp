@@ -14,6 +14,12 @@ ATFPickupActorBase::ATFPickupActorBase()
 	WorldMesh->SetSimulatePhysics(true);
 }
 
+void ATFPickupActorBase::BeginPlay()
+{
+	Super::BeginPlay();
+	GetWorld()->GetTimerManager().SetTimer(PhysicsTimer, this, &ATFPickupActorBase::StopPhysics, 2.0f, false);
+}
+
 FText ATFPickupActorBase::GetInteractionText_Implementation()
 {
 	return InteractionText;
@@ -56,4 +62,10 @@ void ATFPickupActorBase::SetInventoryItem(TSubclassOf<UItemBase> Item)
 {
 	InventoryItem = Item;
 	InteractionText = InventoryItem.GetDefaultObject()->GetPickupText();
+}
+
+void ATFPickupActorBase::StopPhysics()
+{
+	WorldMesh->SetSimulatePhysics(false);
+	GetWorld()->GetTimerManager().ClearTimer(PhysicsTimer);
 }

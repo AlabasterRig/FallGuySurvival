@@ -128,6 +128,7 @@ bool UInventoryComponent::UseItemAtIndex(const int& Index)
 
 	InventoryContents[Index].GetDefaultObject()->OnUse(OwnerCharacter);
 	InventoryContents[Index].GetDefaultObject()->RemoveFromStack(1);
+	CurrentWeight -= InventoryContents[Index].GetDefaultObject()->GetItemWeight();
 	if (InventoryContents[Index].GetDefaultObject()->GetCurrentStack() == 0)
 	{
 		InventoryContents.RemoveAt(Index);
@@ -150,6 +151,7 @@ bool UInventoryComponent::DropStackAtIndex(const int& Index)
 	SpawnedItem->SetWasSpawned(true);
 	TSubclassOf<UItemBase> PickupItem = InventoryContents[Index];
 	SpawnedItem->SetInventoryItem(PickupItem);
+	CurrentWeight -= PickupItem.GetDefaultObject()->GetStackWeight();
 	InventoryContents.RemoveAt(Index);
 
 	return true;

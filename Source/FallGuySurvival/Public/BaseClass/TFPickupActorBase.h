@@ -18,6 +18,9 @@ class FALLGUYSURVIVAL_API ATFPickupActorBase : public ATFActor, public IInteract
 private:
 	ATFPickupActorBase();
 
+	UPROPERTY()
+	FTimerHandle PhysicsTimer;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* WorldMesh;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -27,6 +30,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FText InteractionText = FText::FromString("DEFAULT");
 	 
+protected:
+	virtual void BeginPlay() override;
 
 public:
 	UFUNCTION(BlueprintCallable)
@@ -38,4 +43,7 @@ public:
 	void SetWorldMesh(UStaticMesh* Mesh);
 	UFUNCTION(BlueprintCallable)
 	void SetInventoryItem(TSubclassOf<class UItemBase> Item);
+
+	UFUNCTION()
+	void StopPhysics();
 };
