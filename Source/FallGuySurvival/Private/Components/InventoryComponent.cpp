@@ -2,6 +2,8 @@
 
 
 #include "Components/InventoryComponent.h"
+#include "BaseClass/TFCharacter.h"
+#include "BaseClass/TFPickupActorBase.h"
 #include "Items/ItemBase.h"
 #include "Logger.h"
 
@@ -30,8 +32,15 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	ATFCharacter* tOwner = Cast<ATFCharacter>(GetOwner());
+	if (tOwner != nullptr)
+	{
+		OwnerCharacter = tOwner;
+	}
+	else
+	{
+		Logger::GetInstance()->AddMessage("UInventoryComponent::BeginPlay - Owner is not a valid ATFCharacter", ErrorLevel::EL_ERROR);
+	}
 }
 
 
@@ -107,5 +116,43 @@ TArray<FItemUIData> UInventoryComponent::GetInventoryUIData() const
 		Ret.Add(InventoryContents[Index].GetDefaultObject()->GetUIData(Index));
 	}
 	return Ret;
+}
+
+bool UInventoryComponent::UseItemAtIndex(const int& Index)
+{
+	if (OwnerCharacter == nullptr || Index < 0 || Index >= InventoryContents.Num())
+	{
+		Logger::GetInstance()->AddMessage("UInventoryComponent::UseItemAtIndex - Invalid Index or OwnerCharacter", ErrorLevel::EL_ERROR);
+		return false;
+	}
+
+	InventoryContents[Index].GetDefaultObject()->OnUse(OwnerCharacter);
+	InventoryContents[Index].GetDefaultObject()->RemoveFromStack(1);
+	if (InventoryContents[Index].GetDefaultObject()->GetCurrentStack() == 0)
+	{
+		InventoryContents.RemoveAt(Index);
+		CurrentWeight -= InventoryContents[Index].GetDefaultObject()->GetItemWeight();
+	}
+	return true;
+}
+
+bool UInventoryComponent::DropStackAtIndex(const int& Index)
+{
+	if (OwnerCharacter == nullptr || Index < 0 || Index >= InventoryContents.Num())
+	{
+		Logger::GetInstance()->AddMessage("UInventoryComponent::DropItemAtIndex - Invalid Index or OwnerCharacter", ErrorLevel::EL_ERROR);
+		return false;
+	}
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(OwnerCharacter->GetActorLocation() + (OwnerCharacter->GetActorForwardVector() * 20.0f));
+	ATFPickupActorBase* SpawnedItem = GetWorld()->SpawnActor<ATFPickupActorBase>(ATFPickupActorBase::StaticClass(), SpawnTransform);
+	
+	SpawnedItem->SetWorldMesh(InventoryContents[Index].GetDefaultObject()->GetWorldPickupMesh());
+	SpawnedItem->SetWasSpawned(true);
+	TSubclassOf<UItemBase> PickupItem = InventoryContents[Index];
+	SpawnedItem->SetInventoryItem(PickupItem);
+	InventoryContents.RemoveAt(Index);
+
+	return true;
 }
 

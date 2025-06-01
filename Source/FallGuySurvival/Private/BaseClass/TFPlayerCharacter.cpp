@@ -165,6 +165,7 @@ void ATFPlayerCharacter::OnInteract()
 		return;
 	}
 	Inter->Execute_Interact(InteractionActor, this);
+	UpdateInteractionText_Implementation();
 }
 
 void ATFPlayerCharacter::TogglePerspective()

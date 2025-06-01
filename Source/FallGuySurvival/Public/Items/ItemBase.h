@@ -21,6 +21,12 @@ protected:
 	FText ItemName;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FText ItemDescription;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Text displayed when picking up from World"))
+	FText PickupText;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Label for the Use Button"))
+	FText UseText;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", Tooltip = "Is Item Useable?"))
+	bool bIsUsable = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UTexture2D* ItemIcon;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -43,7 +49,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetItemWeight() const { return ItemWeight; }
 	UFUNCTION(BlueprintCallable)
-	FItemUIData GetUIData(const int& Index) const { return FItemUIData(Index, ItemName, ItemDescription, ItemIcon, CurrentStackSize); }
+	FItemUIData GetUIData(const int& Index) const { return FItemUIData(Index, ItemName, ItemDescription, UseText, bIsUsable, ItemIcon, CurrentStackSize); }
 	UFUNCTION(BlueprintCallable)
 	TArray<FSalvageItem> GetSalvageData() const { return ResourceTags; }
 	UFUNCTION(BlueprintCallable)
@@ -58,4 +64,6 @@ public:
 	int RemoveFromStack(const int& Amount);
 	UFUNCTION(BlueprintCallable)
 	void SetStackSize(const int& Amount) { CurrentStackSize = Amount; }
+	UFUNCTION(BlueprintCallable)
+	FText GetPickupText() const { return PickupText; }
 };

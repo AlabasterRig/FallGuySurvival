@@ -12,7 +12,7 @@ ATFCharacter::ATFCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Statline = CreateDefaultSubobject<UStatlineComponent>(TEXT("Statline"));
-	Statline->SetMovementCompReference(GetCharacterMovement());
+	Statline->SetMovementCompReference(GetCharacterMovement()); // TODO: Refactor Statline to use GetOwner function instead
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
 	SaveActorID = FGuid::NewGuid();
 }

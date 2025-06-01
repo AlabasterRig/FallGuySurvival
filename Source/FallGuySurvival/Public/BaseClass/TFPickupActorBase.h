@@ -33,4 +33,9 @@ public:
 	FText GetInteractionText_Implementation() override;
 	void Interact_Implementation(class ATFCharacter* Caller) override;
 	bool IsInteractable_Implementation() const override;
+
+	UFUNCTION(BlueprintCallable)
+	void SetWorldMesh(UStaticMesh* Mesh);
+	UFUNCTION(BlueprintCallable)
+	void SetInventoryItem(TSubclassOf<class UItemBase> Item);
 };

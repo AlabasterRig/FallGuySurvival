@@ -11,6 +11,7 @@ ATFPickupActorBase::ATFPickupActorBase()
 {
 	WorldMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("World Mesh"));
 	WorldMesh->SetupAttachment(RootComponent);
+	WorldMesh->SetSimulatePhysics(true);
 }
 
 FText ATFPickupActorBase::GetInteractionText_Implementation()
@@ -44,4 +45,15 @@ void ATFPickupActorBase::Interact_Implementation(ATFCharacter* Caller)
 bool ATFPickupActorBase::IsInteractable_Implementation() const
 {
 	return true;
+}
+
+void ATFPickupActorBase::SetWorldMesh(UStaticMesh* Mesh)
+{
+	WorldMesh->SetStaticMesh(Mesh);
+}
+
+void ATFPickupActorBase::SetInventoryItem(TSubclassOf<UItemBase> Item)
+{
+	InventoryItem = Item;
+	InteractionText = InventoryItem.GetDefaultObject()->GetPickupText();
 }

@@ -141,7 +141,10 @@ void UStatlineComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	if (TickType != ELevelTick::LEVELTICK_PauseTick)
 	{
 		TickStats(DeltaTime);
-		UpdateBodyTemperature(DeltaTime);
+		if (bConcernedAboutTemperature)
+		{
+			UpdateBodyTemperature(DeltaTime);
+		}
 	}
 }
 
