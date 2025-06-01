@@ -81,7 +81,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = "true"))
 	bool bInventoryIsShown = false;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	bool bIsFirstPerson = true;
+	bool bIsFirstPerson = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))
 	bool bUseHeadBob = true;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Leveling, SaveGame, meta = (AllowPrivateAccess = "true", Tooltip = "NOT IN USE"))

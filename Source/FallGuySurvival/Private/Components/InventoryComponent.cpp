@@ -131,7 +131,6 @@ bool UInventoryComponent::UseItemAtIndex(const int& Index)
 	if (InventoryContents[Index].GetDefaultObject()->GetCurrentStack() == 0)
 	{
 		InventoryContents.RemoveAt(Index);
-		CurrentWeight -= InventoryContents[Index].GetDefaultObject()->GetItemWeight();
 	}
 	return true;
 }
@@ -144,7 +143,7 @@ bool UInventoryComponent::DropStackAtIndex(const int& Index)
 		return false;
 	}
 	FTransform SpawnTransform;
-	SpawnTransform.SetLocation(OwnerCharacter->GetActorLocation() + (OwnerCharacter->GetActorForwardVector() * 20.0f));
+	SpawnTransform.SetLocation(OwnerCharacter->GetActorLocation() + (OwnerCharacter->GetActorForwardVector() * 100.0f));
 	ATFPickupActorBase* SpawnedItem = GetWorld()->SpawnActor<ATFPickupActorBase>(ATFPickupActorBase::StaticClass(), SpawnTransform);
 	
 	SpawnedItem->SetWorldMesh(InventoryContents[Index].GetDefaultObject()->GetWorldPickupMesh());
