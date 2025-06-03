@@ -2,10 +2,11 @@
 
 
 #include "BaseClass/TFBuildingOpening.h"
+#include "BaseClass/TFBuildingBase.h"
 
-void ATFBuildingOpening::SetParent(const ATFBuildingBase* ParentBuilding)
+void ATFBuildingOpening::SetParent(ATFBuildingBase* Parent)
 {
-
+	ParentBuilding = Parent;
 }
 
 bool ATFBuildingOpening::GetIsClosed() const
@@ -15,5 +16,16 @@ bool ATFBuildingOpening::GetIsClosed() const
 
 FText ATFBuildingOpening::GetInteractionText_Implementation()
 {
-	return FText();
+	return bIsOpen ? FText::FromString("Close") : FText::FromString("Open");
+}
+
+void ATFBuildingOpening::Interact_Implementation(ATFCharacter* Caller)
+{
+	Execute_Interact(this, Caller);
+	ParentBuilding->RecalculateSeal();
+}
+
+bool ATFBuildingOpening::IsInteractable_Implementation() const
+{
+	return false;
 }

@@ -19,10 +19,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, SaveGame, meta = (AllowPrivateAccess = "true"))
 	bool bIsOpen = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, SaveGame, meta = (AllowPrivateAccess = "true"))
+	class ATFBuildingBase* ParentBuilding;
 
 public:
 
-	void SetParent(const class ATFBuildingBase* ParentBuilding);
+	void SetParent(class ATFBuildingBase* Parent);
 	bool GetIsClosed() const;
 
 	FText GetInteractionText_Implementation() override;
