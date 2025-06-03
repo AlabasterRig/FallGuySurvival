@@ -124,6 +124,10 @@
 		{
 			"Name": "ChangelistReview",
 			"Enabled": false
+		},
+		{
+			"Name": "StaticMeshEditorModeling",
+			"Enabled": true
 		}
 	]
 }
