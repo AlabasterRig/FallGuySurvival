@@ -71,10 +71,10 @@ void ATFHeatSourceActor::OnHeatZoneOverlapBegin(UPrimitiveComponent* OverlappedC
 	{
 		ActorsInRange.AddUnique(AsTFCharacter);
 	}
-	if (!bIsActivated)
+	/*if (!bIsActivated)
 	{
 		AsTFCharacter->GetStatline()->AdjustLocalTempOffset(0);
-	}
+	}*/
 }
 
 void ATFHeatSourceActor::OnHeatZoneOverlapEnd(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyindex)

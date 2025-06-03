@@ -35,7 +35,7 @@ private:
 
 #pragma endregion
 
-#pragma region Moving
+#pragma region Movement
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Movement", meta = (AllowPrivateAccess = "true"))
 	bool bIsSprinting = false;
@@ -87,6 +87,8 @@ private:
 	float AdjustmentFactoral = 500.0f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
 	float TemperatureDifferenceToIgnore = 5.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Statline|Temperature", meta = (AllowPrivateAccess = "true"))
+	float BuildingInsulation = 0.0f;
 
 	void UpdateBodyTemperature(const float& DeltaTime);
 
@@ -135,4 +137,6 @@ public:
 	void AdjustColdInsulation(const float& Amount);
 	UFUNCTION(BlueprintCallable)
 	void AdjustBodyCoverage(const float& Amount);
+	UFUNCTION(BlueprintCallable)
+	void SetBuildingInsulation(const float& Amount);
 };

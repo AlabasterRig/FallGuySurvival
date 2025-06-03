@@ -119,6 +119,11 @@ void UStatlineComponent::AdjustBodyCoverage(const float& Amount)
 	BodyCoverage = FMath::Clamp(BodyCoverage + Amount, 0.0, 8.0);
 }
 
+void UStatlineComponent::SetBuildingInsulation(const float& Amount)
+{
+	BuildingInsulation = Amount;
+}
+
 // Called when the game starts
 void UStatlineComponent::BeginPlay()
 {
