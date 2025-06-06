@@ -12,6 +12,8 @@ class FALLGUYSURVIVAL_API ATFBuildingBase : public AActor
 private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* Building;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* BuildingInteriorVolume;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<class ATFBuildingOpening*> ExteriorOpenings;
@@ -37,6 +39,6 @@ protected:
 public:	
 
 	ATFBuildingBase();
-
-	void RecalculateSeal();
+	UFUNCTION(BlueprintCallable)
+	void RecalculateSeal(); 
 };

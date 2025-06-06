@@ -10,11 +10,14 @@ ATFBuildingBase::ATFBuildingBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
+	Building = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Building Mesh"));
+
 	BuildingInteriorVolume = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Building Interior Volume"));
 	BuildingInteriorVolume->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	BuildingInteriorVolume->OnComponentBeginOverlap.AddDynamic(this, &ATFBuildingBase::OnInteriorZoneOverlapBegin);
 	BuildingInteriorVolume->OnComponentEndOverlap.AddDynamic(this, &ATFBuildingBase::OnInteriorZoneOverlapEnd);
 	BuildingInteriorVolume->bHiddenInGame = true;
+	BuildingInteriorVolume->SetupAttachment(Building);
 }
 
 void ATFBuildingBase::RecalculateSeal()
@@ -58,14 +61,18 @@ void ATFBuildingBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	RecalculateSeal();
 }
 
 void ATFBuildingBase::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 
+	SealValuePerPortal = 0;
 	ExteriorOpenings.Empty();
-	for (auto c : RootComponent->GetAttachChildren())
+	TArray<AActor*> LocalChildren;
+	this->GetAllChildActors(LocalChildren, true);
+	for (auto c : LocalChildren)
 	{
 		ATFBuildingOpening* Child = Cast<ATFBuildingOpening>(c);
 		if (IsValid(Child))
@@ -74,6 +81,8 @@ void ATFBuildingBase::OnConstruction(const FTransform& Transform)
 			Child->SetParent(this);
 		}
 	}
-
-	SealValuePerPortal = 1.0f / ExteriorOpenings.Num();
+	if (ExteriorOpenings.Num() != 0)
+	{
+		SealValuePerPortal = float(1.0f / ExteriorOpenings.Num());
+	}
 }

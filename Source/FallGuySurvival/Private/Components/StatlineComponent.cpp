@@ -87,6 +87,7 @@ void UStatlineComponent::UpdateBodyTemperature(const float& DeltaTime)
 {
 	float EffectiveWorldTemp = CurrentAmbientTemp + CurrentLocalTempOffset;
 	float InsulationValue = EffectiveWorldTemp <= CurrentBodyTemperature ? ColdInsulation : HeatInsulation;
+	InsulationValue = FMath::Clamp(InsulationValue + BuildingInsulation, 0, 100);
 	InsulationValue /= 100;
 	float DifferenceInTemperature = CurrentBodyTemperature - EffectiveWorldTemp;
 	DifferenceInTemperature -= (DifferenceInTemperature * InsulationValue);

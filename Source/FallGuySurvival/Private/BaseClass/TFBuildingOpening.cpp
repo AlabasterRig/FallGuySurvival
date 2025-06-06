@@ -11,7 +11,7 @@ void ATFBuildingOpening::SetParent(ATFBuildingBase* Parent)
 
 bool ATFBuildingOpening::GetIsClosed() const
 {
-	return false;
+	return !bIsOpen;
 }
 
 FText ATFBuildingOpening::GetInteractionText_Implementation()
